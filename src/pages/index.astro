@@ -1,7 +1,10 @@
 ---
+import { getCollection } from "astro:content";
 import "../styles/global.css";
 
 import { Font } from "astro:assets";
+
+const posts = await getCollection('blog');
 ---
 
 <html lang="en">
@@ -47,6 +50,26 @@ import { Font } from "astro:assets";
 			</section> -->
 
       <section>
+        <h2 class="font-mono text-sm uppercase text-gray-700 mb-2">Writing</h2>
+        <ul
+          class="border rounded-lg border-gray-300 overflow-hidden divide-y divide-gray-300 -mx-4"
+        >
+          {posts.map((post) => (
+            <li class="hover:bg-white">
+            <a
+              href={`/writing/${post.id}`}
+              class="p-4 flex flex-col"
+            >
+              <span class="font-bold">{post.data.title}</span>
+              <span class="text-sm text-gray-500"
+                >{post.data.summary}</span>
+            </a>
+          </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
         <h2 class="font-mono text-sm uppercase text-gray-700 mb-2">Projects</h2>
         <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p> -->
         <ul
@@ -60,8 +83,20 @@ import { Font } from "astro:assets";
             >
               <span class="font-bold">Starter</span>
               <span class="text-sm text-gray-500"
-                >An open-source TanStack-based starter kit for building web apps
+                >Open-source TanStack-based starter kit for building web apps
                 at speed.</span
+              >
+            </a>
+          </li>
+          <li class="hover:bg-white">
+            <a
+              href="https://github.com/jxdltd/quadratic-v2"
+              target="_blank"
+              class="p-4 flex flex-col"
+            >
+              <span class="font-bold">Quadratic</span>
+              <span class="text-sm text-gray-500"
+                >Open-source feedback widget built for Linear.</span
               >
             </a>
           </li>

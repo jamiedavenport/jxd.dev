@@ -1,0 +1,98 @@
+---
+title: "Block websites in 50 lines of code"
+summary: "Quickly build a chrome extension to block websites."
+date: 2025-05-07
+author: "Jamie Davenport"
+slug: "block-websites-in-50-lines"
+---
+
+I spend a little too much time on the computer, it's my job after all. This year I wanted the time I spend online to be more deliberate and get away from tech when not working.
+
+I had been using [BlockSite](https://blocksite.co/) for a while to hinder distractions. It's a great tool, but a lot of features are kept behind a paywall (understandably, businesses need to make money). However, given that I have the skills to build the features I need, I decided to spend a few hours building my own and save the £9 per month. _Enter Blockly_.
+
+[Blockly](https://blockly.jxd.dev/) is a browser extension that blocks distracting websites. It is free, open-source and (will soon) contain all the essential features. In the process of building it I realised that an even simpler solution could be built with ~50 lines of code and I'll shared those with you here.
+
+# The Code
+
+You can find the code and installation instructions for what I'm calling Blockly Basic on [Github](https://github.com/jxdltd/blockly/tree/main/basic).
+
+It consists of only 3 files:
+1. `manifest.json`
+1. `background.js`
+1. `blocked.html`
+
+## `manifest.json`
+
+```jsonc
+{
+  "$schema": "https://json.schemastore.org/chrome-manifest",
+  "manifest_version": 3,
+  "name": "Blockly Basic",
+  "version": "0.1.0",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": ["https://*/*", "http://*/*"]
+}
+```
+
+The manifest file contains important configuration for the extension. Most of the above here is required boilerplate such as the name, version and manifest version. However, the two important lines are `background` and `host_permissions`.
+
+The `background` property tells the browser to use `background.js` as the service worker and the `host_permissions` lists the websites that the extension can interact with. In this case we allow the extension to interact with all websites.
+
+## `background.js`
+
+```js
+const blocklist = [
+  // ...
+];
+
+async function handle(tabId) {
+  const tab = await chrome.tabs.get(tabId);
+
+  if (!tab.url) {
+    return;
+  }
+
+  const url = new URL(tab.url);
+
+  if (blocklist.includes(url.host)) {
+    chrome.tabs.update(tabId, {
+      url: `chrome-extension://${chrome.runtime.id}/blocked.html`,
+    });
+  }
+}
+
+chrome.tabs.onActivated.addListener((info) => handle(info.tabId));
+chrome.tabs.onUpdated.addListener((tabId) => handle(tabId));
+```
+
+This is where the magic happens. We first define a `blocklist` array containing all the hosts we want to block. For me that's websites like `youtube.com` and `disneyplus.com`. You can add any website you like here.
+
+We listen for two tab events: `onActivated` and `onUpdated`. Activation here just means when you navigate to the tab and updated fires when something about the tab changes such as the URL.
+
+When either of these events fire we call the `handle` function with the tab ID. If the tab host matches any of the hosts in our blocklist we navigate to our `blocked.html` page by updating the tab's URL.
+
+## `blocked.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blockly Basic</title>
+  </head>
+  <body>
+    <h1>❌ Blocked</h1>
+  </body>
+</html>
+```
+
+The last part is a simple HTML page that is displayed whenever a blocked website is opened. Feel free to customise this to whatever you like: motivational quotes, cat photos, etc.
+
+# Conclusion
+
+I hope that I've convinced some of you to try building your own solutions instead of blindly handing over your hard earned cash to a subscription service. In doing so you'll save money and learn a lot.
+
+If you find yourself also being easily distracted by things online then checkout [Blockly](https://blockly.jxd.dev/) and as I mentioned earlier it is [open-source](https://github.com/jxdltd/blockly) so feel free to contribute.

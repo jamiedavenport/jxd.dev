@@ -1,0 +1,460 @@
+---
+title: "Building interactive tutorials with WebContainers"
+summary: "See how to use WebContainers, CodeMirror and XTerm to create interactive tutorials for your documentation."
+date: 2023-10-28
+author: "Jamie Davenport"
+slug: "interactive-tutorials-web-containers"
+---
+
+> Hey, present day Jamie here. These days I'd strongly recommend using [Sandpack](https://sandpack.codesandbox.io/) to achieve the same result.
+
+In this tutorial, we will create an interactive guide akin to those found in a framework's documentation. This is beneficial for anyone looking to create an engaging user experience or those simply interested in learning about three intriguing pieces of technology.
+
+![Final solution](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kv72hhgzebjlzxrzi0y1.png)
+
+On the left, there's a guide for users to follow. The top right features an interactive editor where users can practice what they're learning. The bottom right displays test output, indicating whether the user has successfully completed the tutorial and understood the content.
+
+We'll use some innovative technologies, including [WebContainers](https://webcontainers.io/), [CodeMirror](https://codemirror.net/), and [XTerm](https://xtermjs.org/), to build this. If you're not familiar with these, don't worry, we'll cover them all during the process.
+
+You can find the completed version [here](https://github.com/jamiedavenport/live-coding-example). If you want to follow along, use the [start branch](https://github.com/jamiedavenport/live-coding-example/tree/start) as your starting point.
+
+Let's go!
+
+# Code structure
+
+In our repository, there's an `example` directory. This contains a simple Vite application that our users will interact with.
+
+- `README.md` is the tutorial content that will be displayed on the page.
+- `main.js` is the file that users will manipulate using the editor.
+- `main.test.js` contains a set of tests that the maintainer has defined to ensure the user has successfully completed the task.
+- `package.json` file lists our dependencies and commands. Note that it includes a `test` command which executes `vitest`.
+
+# Displaying the tutorial
+
+Let's begin by displaying our `README.md` file on the page. We'll utilise the typography plugin from Tailwind and the Marked library to accomplish this.
+
+## Tailwind typography
+
+The [`@tailwindcss/typography`](https://tailwindcss.com/docs/typography-plugin) plugin will enable us to style plain HTML attractively, which we'll render from our markdown file.
+
+First, let's install the package and add it to our Tailwind configuration:
+
+```bash
+npm install -D @tailwindcss/typography
+```
+
+```javascript
+// tailwind.config.js
+
+/** @type {import('tailwindcss').Config} */
+export default {
+	content: ['./src/**/*.{html,js,svelte,ts}'],
+	theme: {
+		extend: {}
+	},
+	plugins: [require('@tailwindcss/typography')]
+};
+```
+
+Finally, modify the `Tutorial` component to accept a `content` prop and display the HTML within a `prose` div.
+
+```svelte
+// src/routes/Tutorial.svelte
+
+<script lang="ts">
+	export let content: string;
+</script>
+
+<div class="bg-white rounded shadow-sm h-full w-full">
+	<div class="prose p-8 max-w-none">
+		{@html content}
+	</div>
+</div>
+```
+
+## Loading and parsing markdown
+
+Let's install `marked` and create a function to read and parse a markdown file:
+
+```bash
+npm install marked
+```
+
+```typescript
+// src/lib/server/markdown.ts
+
+import { marked } from 'marked';
+import { readFile } from 'fs/promises';
+
+export async function readMarkdownFile(filename: string): Promise<string> {
+	const file = await readFile(filename, 'utf-8');
+
+	return marked.parse(file);
+}
+```
+
+Note that we've created this file in the `lib/server` directory. This function can only be run on the server-side as that's where our markdown files are accessible.
+
+Now that we have a method for obtaining our markdown, let's load it onto the server. We can then pass it into our main route and, finally, pass the rendered HTML as a prop to `Tutorial`.
+
+```typescript
+// src/routes/+page.server.ts
+
+import { readMarkdownFile } from '$lib/server/markdown';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async () => {
+	return {
+		tutorialMd: await readMarkdownFile('example/README.md')
+	};
+};
+```
+
+```svelte
+<script lang="ts">
+	import Tutorial from './Tutorial.svelte';
+	import Editor from './Editor.svelte';
+	import Output from './Output.svelte';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+</script>
+
+<div class="flex flex-row items-stretch h-screen gap-8 p-8">
+	<div class="w-1/2"><Tutorial content={data.tutorialMd} /></div>
+	<div class="w-1/2 flex flex-col gap-8">
+		<div class="h-1/2">
+			<Editor />
+		</div>
+		<div class="h-1/2">
+			<Output />
+		</div>
+	</div>
+</div>
+```
+
+Our users can now learn about our product in detail. Next, we will discuss WebContainers.
+
+![Markdown tutorial](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z5xb8d0wmlv73x96eda5.png)
+
+# WebContainers
+
+WebContainers are an extremely effective browser-based runtime capable of executing Node commands. This makes them ideal for interactive tutorials, like running `vitest` in our case.
+
+To get started, install the `@webcontainer/api` package:
+
+```bash
+npm install @webcontainer/api
+```
+
+For WebContainers to function correctly, we need to set `Cross-Origin-Embedder-Policy` and `Cross-Origin-Opener-Policy`. We will use a SvelteKit hook to set these headers for each request.
+
+```typescript
+// src/hooks.server.ts
+
+export async function handle({ event, resolve }) {
+	const response = await resolve(event);
+
+	response.headers.set('cross-origin-opener-policy', 'same-origin');
+	response.headers.set('cross-origin-embedder-policy', 'require-corp');
+	response.headers.set('cross-origin-resource-policy', 'cross-origin');
+
+	return response;
+}
+```
+
+## Loading our example files
+
+We must load the files in a specific format, a `FileSystemTree`, before passing them to the browser. This `FileSystemTree` will then be loaded into our WebContainer. To achieve this, we'll create a `loadFileSystem` function and modify our data loader accordingly.
+
+```typescript
+// src/lib/server/files.ts
+
+import { readFile } from 'fs/promises';
+import type { FileSystemTree } from '@webcontainer/api';
+
+const files = ['package.json', 'main.js', 'main.test.js'];
+
+export function loadFileSystem(basePath: string): Promise<FileSystemTree> {
+	return files.reduce(async (acc, file) => {
+		const rest = await acc;
+		const contents = await readFile(`${basePath}/${file}`, 'utf-8');
+		return { ...rest, [file]: { file: { contents } } };
+	}, Promise.resolve({}));
+}
+```
+
+```typescript
+// src/routes/+page.server.ts
+
+import { loadFileSystem } from '$lib/server/files';
+import { readMarkdownFile } from '$lib/server/markdown';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async () => {
+	return {
+		fileSystem: await loadFileSystem('example'),
+		tutorialMd: await readMarkdownFile('example/README.md')
+	};
+};
+```
+
+## Loading the WebContainer
+
+Let's create a `loadWebcontainer` function which initialises our runtime, mounts the filesystem and installs our dependencies using `npm install`. This happens entirely in on the client-side so we’ll create this new file within `lib/client`.
+
+```typescript
+// src/lib/client/webcontainer.ts
+
+import { WebContainer, type FileSystemTree } from '@webcontainer/api';
+
+export async function loadWebcontainer(fileSystem: FileSystemTree) {
+	const webcontainer = await WebContainer.boot();
+
+	await webcontainer.mount(fileSystem);
+
+	const installProcess = await webcontainer.spawn('npm', ['install']);
+	await installProcess.exit;
+
+	return webcontainer;
+}
+```
+
+Now, we can modify our route so that it creates the container and initiates our test process when the route is mounted.
+
+```svelte
+// src/routes/+page.svelte
+
+<script lang="ts">
+	import Tutorial from './Tutorial.svelte';
+	import Editor from './Editor.svelte';
+	import Output from './Output.svelte';
+	import type { PageData } from './$types';
+	import type { WebContainer } from '@webcontainer/api';
+	import { loadWebcontainer } from '$lib/client/webcontainer';
+	import { onMount } from 'svelte';
+
+	export let data: PageData;
+
+	let webcontainer: WebContainer;
+
+	async function startTestProcess() {
+		webcontainer = await loadWebcontainer(data.fileSystem);
+
+		const testProcess = await webcontainer.spawn('npm', ['test']);
+		testProcess.output.pipeTo(
+			new WritableStream({
+				write(data) {
+					console.log(data);
+				}
+			})
+		);
+	}
+
+	onMount(startTestProcess);
+</script>
+
+<div class="flex flex-row items-stretch h-screen gap-8 p-8">
+	<div class="w-1/2"><Tutorial content={data.tutorialMd} /></div>
+	<div class="w-1/2 flex flex-col gap-8">
+		<div class="h-1/2">
+			<Editor />
+		</div>
+		<div class="h-1/2">
+			<Output />
+		</div>
+	</div>
+</div>
+```
+
+Observe how we're directing the process's output to our console. By opening the developer tools, we can see the output from Vitest.
+
+![Web Container](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rrke0y50kybg2ofr8qle.png)
+
+# CodeMirror
+
+So far, we've displayed our tutorial content and executed our example in a WebContainer. Although this is quite useful, it doesn't allow the user to interact with the example. To address this, we'll add CodeMirror, a web-based code editor.
+
+```bash
+npm install codemirror @codemirror/lang-javascript @codemirror/state
+```
+
+Update your `Editor` component to include the following:
+
+```svelte
+// src/routes/Editor.svelte
+
+<script lang="ts">
+	import { basicSetup, EditorView } from 'codemirror';
+	import { EditorState } from '@codemirror/state';
+	import { javascript } from '@codemirror/lang-javascript';
+	import { createEventDispatcher, onMount } from 'svelte';
+
+	export let doc: string;
+
+	let container: HTMLDivElement;
+	let view: EditorView;
+
+	const dispatch = createEventDispatcher();
+
+	onMount(() => {
+		view = new EditorView({
+			state: EditorState.create({
+				doc,
+				extensions: [basicSetup, javascript()]
+			}),
+			parent: container,
+			dispatch: async (transaction) => {
+				view.update([transaction]);
+
+				if (transaction.docChanged) {
+					dispatch('change', transaction.newDoc.toString());
+				}
+			}
+		});
+
+		() => {
+			view.destroy();
+		};
+	});
+</script>
+
+<div class="bg-white rounded shadow-sm h-full w-full">
+	<div bind:this={container} />
+</div>
+```
+
+In this process, we create a new CodeMirror editor and initialize the document with JavaScript features when the component mounts. The initial code is passed as a property and change events are dispatched every time the user interacts with the editor.
+
+But, if you were to type anything into the editor now, our test process wouldn't update. We need to write the changes to the filesystem within the container. Once this is done, Vitest will detect the changes and re-run the tests.
+
+```svelte
+// src/routes/+page.svelte
+<script lang="ts">
+	// ...
+
+	function handleChange(e: { detail: string }) {
+		if (!webcontainer) return;
+
+		webcontainer.fs.writeFile('main.js', e.detail);
+	}
+
+	// ...
+</script>
+
+<div class="flex flex-row items-stretch h-screen gap-8 p-8">
+	<div class="w-1/2"><Tutorial content={data.tutorialMd} /></div>
+	<div class="w-1/2 flex flex-col gap-8">
+		<div class="h-1/2">
+			<Editor doc={data.fileSystem['main.js'].file.contents} on:change={handleChange} />
+		</div>
+		<div class="h-1/2">
+			<Output />
+		</div>
+	</div>
+</div>
+```
+
+Now, our tests are re-run whenever we change the code.
+
+![CodeMirror](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cu9nsxbf3jnok2zr6uvy.png)
+
+# XTerm
+
+We want to avoid requiring users to open the developer tools to see the output. Instead, let's use XTerm, a browser-based tool, that enables us to display a terminal.
+
+```bash
+npm install xterm
+```
+
+Create a new file named `src/lib/client/terminal.ts`. This file should contain the following code, which creates a new terminal instance in the browser.
+
+```typescript
+// src/lib/client/terminal.ts
+import { browser } from '$app/environment';
+import type { Terminal } from 'xterm';
+
+export let loaded = false;
+export let terminal: Promise<Terminal> = new Promise(() => {});
+
+async function load() {
+	terminal = new Promise((resolve) => {
+		import('xterm').then(({ Terminal }) => {
+			loaded = true;
+			resolve(
+				new Terminal({
+					convertEol: true,
+					fontSize: 16,
+					theme: {
+						foreground: '#000',
+						background: '#fff'
+					}
+				})
+			);
+		});
+	});
+}
+
+if (browser && !loaded) {
+	load();
+}
+```
+
+Let's display our terminal within the `Output` component:
+
+```svelte
+// src/routes/Output.svelte
+
+<script lang="ts">
+	import { terminal } from '$lib/client/terminal';
+	import { onMount } from 'svelte';
+	import 'xterm/css/xterm.css';
+
+	let container: HTMLDivElement;
+
+	onMount(async () => {
+		(await terminal).open(container);
+	});
+</script>
+
+<div class="bg-white rounded shadow-sm h-full w-full">
+	<div class="p-8" bind:this={container} />
+</div>
+```
+
+Finally, direct our output to the terminal rather than the console.
+
+```typescript
+// src/routes/+page.svelte
+
+async function startTestProcess() {
+  webcontainer = await loadWebcontainer(data.fileSystem);
+  const term = await terminal;
+
+  const testProcess = await webcontainer.spawn("npm", ["test"]);
+  testProcess.output.pipeTo(
+    new WritableStream({
+      write(data) {
+        term.write(data);
+      },
+    })
+  );
+}
+```
+
+And that's everything needed to display terminal output within the browser.
+
+![XTerm](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8r5fwfhfwsodujx11y3c.png)
+
+# Conclusion
+
+I hope this tutorial has provided a helpful guide on creating interactive experiences for your users. But there's more that can be done:
+
+- File tree navigation for multi-file examples
+- Web outputs for UI frameworks
+- Code-highlighting within the tutorial
+- And much more
+
+If you want to achieve something similar for your product without the tedious task of building a production-ready version, consider the Interactive-Tutorial-as-a-Service product by [DocLabs](https://www.doclabs.dev).
+
+See you soon 👋

@@ -7,6 +7,8 @@ import vercel from "@astrojs/vercel";
 
 import sitemap from "@astrojs/sitemap";
 
+import mdx from "@astrojs/mdx";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -14,7 +16,7 @@ export default defineConfig({
   },
 
   adapter: vercel(),
-  integrations: [sitemap()],
+  integrations: [sitemap(), mdx()],
 
   experimental: {
     fonts: [
