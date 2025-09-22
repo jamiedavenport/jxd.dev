@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Departure";
+  src: url("/fonts/departure.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist);
+  --font-mono: "Departure", monospace;
+}
