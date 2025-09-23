@@ -24,8 +24,18 @@ const posts = await getCollection("blog");
           <span>Jamie</span>
           <span>Davenport</span>
         </h1>
-        <p class="flex items-center gap-2 text-sm text-gray-500 font-mono [&>svg]:size-4">
-          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M7 2h10v2H7V2zM5 6V4h2v2H5zm0 8H3V6h2v8zm2 2H5v-2h2v2zm2 2H7v-2h2v2zm2 2H9v-2h2v2zm2 0v2h-2v-2h2zm2-2v2h-2v-2h2zm2-2v2h-2v-2h2zm2-2v2h-2v-2h2zm0-8h2v8h-2V6zm0 0V4h-2v2h2zm-5 2h-4v4h4V8z" fill="currentColor"/> </svg>
+        <p
+          class="flex items-center gap-2 text-sm text-gray-500 font-mono [&>svg]:size-4"
+        >
+          <svg
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 2h10v2H7V2zM5 6V4h2v2H5zm0 8H3V6h2v8zm2 2H5v-2h2v2zm2 2H7v-2h2v2zm2 2H9v-2h2v2zm2 0v2h-2v-2h2zm2-2v2h-2v-2h2zm2-2v2h-2v-2h2zm2-2v2h-2v-2h2zm0-8h2v8h-2V6zm0 0V4h-2v2h2zm-5 2h-4v4h4V8z"
+              fill="currentColor"></path>
+          </svg>
           <span>Leeds, UK</span>
         </p>
         <p>Software engineer, entrepreneur, and investor based from the UK.</p>
@@ -79,13 +89,12 @@ const posts = await getCollection("blog");
               target="_blank"
               class="p-4 flex flex-col"
             >
-            <p class="flex items-center gap-2">
-              <span class="font-bold">Starter</span>
-              <span class="text-xs text-gray-500 font-mono">Open Source</span>
-            </p>
+              <p class="flex items-center gap-2">
+                <span class="font-bold">Starter</span>
+                <span class="text-xs text-gray-500 font-mono">Open Source</span>
+              </p>
               <span class="text-sm text-gray-700"
-                >TanStack-based starter kit for building web apps at
-                speed.</span
+                >TanStack-based starter kit for building web apps at speed.</span
               >
             </a>
           </li>
@@ -95,10 +104,10 @@ const posts = await getCollection("blog");
               target="_blank"
               class="p-4 flex flex-col"
             >
-            <p class="flex items-center gap-2">
-              <span class="font-bold">Quadratic</span>
-              <span class="text-xs text-gray-500 font-mono">Open Source</span>
-            </p>
+              <p class="flex items-center gap-2">
+                <span class="font-bold">Quadratic</span>
+                <span class="text-xs text-gray-500 font-mono">Open Source</span>
+              </p>
               <span class="text-sm text-gray-700"
                 >Feedback widget built for Linear.</span
               >
@@ -107,15 +116,20 @@ const posts = await getCollection("blog");
         </ul>
       </section>
 
-      <!-- <section>
-				<h2>Work With Me</h2>
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
-				<ul>
-					<li>Todo</li>
-					<li>Todo</li>
-					<li>Todo</li>
-				</ul>
-			</section> -->
+      <section class="flex flex-col gap-2">
+        <h2 class="font-mono text-sm uppercase text-gray-700">
+          Work With Me
+        </h2>
+        <p>Got an idea for a startup? Recently raised funding? Need to ship quickly? I'm available for new projects. Let's chat.</p>
+        <a
+          href="https://cal.com/jamie-davenport/consultation"
+          target="_blank"
+          class="text-sm [&>svg]:size-4 bg-white rounded-xl flex items-center justify-center gap-2 shadow-sm border border-gray-300 w-full px-3 py-2"
+          >
+          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M2 5h14v4h2V7h2V5h2v14h-2v-2h-2v-2h-2v4H2V5zm2 12h10V7H4v10z" fill="currentColor"/> </svg>
+          Book a call</a
+        >
+      </section>
 
       <footer class="flex items-center gap-4">
         <a
