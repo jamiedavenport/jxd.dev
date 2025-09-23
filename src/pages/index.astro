@@ -1,23 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 import "../styles/global.css";
+import BaseLayout from "../layouts/base.astro";
 
 import { Font } from "astro:assets";
 
 const posts = await getCollection("blog");
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Jamie Davenport</title>
-
-    <Font cssVariable="--font-geist" preload />
-  </head>
-  <body class="bg-gray-50">
+<BaseLayout>
     <div class="flex flex-col gap-10 p-16 mx-auto max-w-xl">
       <div class="flex flex-col gap-2">
         <h1 class="text-4xl leading-none font-black mb-3">
@@ -164,5 +155,4 @@ const posts = await getCollection("blog");
         >
       </footer>
     </div>
-  </body>
-</html>
+</BaseLayout>
