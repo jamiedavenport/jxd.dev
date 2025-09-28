@@ -7,6 +7,7 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
+    ranking: z.number().optional().default(50),
   }),
 });
 
