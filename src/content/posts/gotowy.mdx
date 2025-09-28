@@ -5,10 +5,7 @@ slug: "gotowy"
 ranking: -1
 ---
 {/* 
-import Insights from "../../components/insights.astro";
-import Insight from "../../components/insight.astro";
-import Link from "../../components/link.astro";
-import Links from "../../components/links.astro";
+
 
 I've been building software for a long time. During that time a lot has changed but not always for the better.
 
@@ -209,15 +206,32 @@ Going forward I'm moving away from cross-platform frameworks and focusing entire
 import { Image } from 'astro:assets';
 import gotowy from '../../assets/gotowy.jpeg';
 
+import Insights from "../../components/insights.astro";
+import Insight from "../../components/insight.astro";
+import Link from "../../components/link.astro";
+import Links from "../../components/links.astro";
+
 <Image src={gotowy} alt="Gotowy" class="border border-gray-200" />
 
-- Replace Todoist.
-- Save money.
-- Simpler. No bloat.
-- AI-first.
-- Portable.
+[Gotowy](https://gotowy.jxd.dev) is my AI-first, minimalist task manager designed to replace Todoist. In this article I'll share the product and technical details around the build.
 
 # Features
+
+Gotowy was designed to be simple, fast and affordable. As I wrote in my [Thoughts on Software](/writing/thoughts-on-software) article, I believe that software should be both accessible and single-purpose.
+
+AI is making it easier than ever to build incredibly simple interfaces because most of the work can happen in the background. This is in stark contrast to the software of the past where complex and tedious forms dominated.
+
+With that in mind these are the features I decided to focus on.
+
+<Insights>
+  <Insight>AI Organisation</Insight>
+  <Insight>Natural Language</Insight>
+  <Insight>Voice Input</Insight>
+  <Insight>Due Dates</Insight>
+  <Insight>Repeating Tasks</Insight>
+  <Insight>Keyboard Control</Insight>
+  <Insight>Web, Desktop and Mobile</Insight>
+</Insights>
 
 - Tasks.
 - Tagging. Organisation.
@@ -225,7 +239,7 @@ import gotowy from '../../assets/gotowy.jpeg';
 - Repeating tasks.
 - Fast.
 
-# Tech Stack
+# Technology
 
 - TanStack Start.
 - Biome.
