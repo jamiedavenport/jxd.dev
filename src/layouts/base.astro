@@ -46,6 +46,9 @@ const {
     <!-- Meta Tags Generated with https://metatags.io -->
 
     <Font cssVariable="--font-geist" preload />
+  </head>
+  <body class="bg-gray-50">
+    <slot />
 
     <!-- Data Buddy -->
     <script
@@ -54,8 +57,5 @@ const {
       data-enable-batching="true"
       crossorigin="anonymous"
       async></script>
-  </head>
-  <body class="bg-gray-50">
-    <slot />
   </body>
 </html>
