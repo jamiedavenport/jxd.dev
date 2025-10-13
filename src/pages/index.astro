@@ -8,6 +8,11 @@ const posts = await getCollection("blog");
 const sortedPosts = posts.filter((post) => post.data.ranking > 0).sort((a, b) => b.data.ranking - a.data.ranking);
 
 const projects = [
+{
+  title: "Big Journal",
+  href: "https://bigjournal.app",
+  description: "Beautiful, AI-powered journaling.",
+},
   {
     title: "Forgotten",
     href: "https://forgotten.app",
