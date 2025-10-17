@@ -2,52 +2,11 @@
 import { getCollection } from "astro:content";
 import "../styles/global.css";
 import BaseLayout from "../layouts/base.astro";
+import { products } from "../data/products";
 
 const posts = await getCollection("blog");
 
 const sortedPosts = posts.filter((post) => post.data.ranking > 0).sort((a, b) => b.data.ranking - a.data.ranking);
-
-const projects = [
-{
-  title: "Big Journal",
-  href: "https://bigjournal.app",
-  description: "Beautiful, AI-powered journaling.",
-},
-{
-  title: "Feedback",
-  href: "https://github.com/jamiedavenport/feedback",
-  description: "Headless customer feedback platform.",
-  openSource: true,
-},
-  {
-    title: "Forgotten",
-    href: "https://forgotten.app",
-    description: "Bookmark manager for developers.",
-  },
-  {
-    title: "Gotowy",
-    href: "https://gotowy.jxd.dev",
-    description: "AI-native, minimalist task management.",
-  },
-  {
-    "title": "Hype",
-    href: "https://buildhype.dev",
-    description: "Open-source toolkit for building waitlists.",
-    openSource: true,
-  },
-  {
-    title: "Starter",
-    href: "https://github.com/jxdltd/holistic-starter",
-    description: "TanStack-based starter kit for building web apps at speed.",
-    openSource: true,
-  },
-  {
-    title: "Quadratic",
-    href: "https://github.com/jxdltd/quadratic-v2",
-    description: "Feedback widget built for Linear.",
-    openSource: true,
-  }
-]
 ---
 
 <BaseLayout>
@@ -95,7 +54,7 @@ const projects = [
           class="border rounded-lg border-gray-300 overflow-hidden divide-y divide-gray-300 -mx-4 [&_li]:hover:bg-white"
         >
           {
-            projects.map((project) => (
+            products.map((project) => (
               <li>
                 <a
                   href={project.href}

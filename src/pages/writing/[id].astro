@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/base.astro";
+import Products from "../../components/products.astro";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("blog");
@@ -16,6 +17,10 @@ const { Content } = await render(post);
 
 <BaseLayout title={`${post.data.title} by Jamie Davenport`} description={post.data.summary}>
   <div class="flex flex-col gap-10 p-16 mx-auto max-w-xl">
+    <a href="/" class="text-2xl leading-none font-black text-gray-900 hover:text-gray-700 transition-colors w-fit">
+      Jamie Davenport
+    </a>
+    
     <h1 class="text-4xl leading-none font-black mb-3">
       {post.data.title}
     </h1>
@@ -23,5 +28,7 @@ const { Content } = await render(post);
     <div class="prose prose-h1:my-10">
       <Content />
     </div>
+
+    <Products />
   </div>
 </BaseLayout>
