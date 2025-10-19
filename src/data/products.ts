@@ -7,6 +7,12 @@ export interface Product {
 
 export const products: Product[] = [
   {
+    title: "Vox",
+    href: "https://www.getvox.dev",
+    description: "Simple, lightweight customer feedback tool.",
+    openSource: true,
+  },
+  {
     title: "Big Journal",
     href: "https://bigjournal.app",
     description: "Beautiful, AI-powered journaling.",
