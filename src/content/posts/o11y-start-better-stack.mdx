@@ -5,40 +5,35 @@ date: 2025-10-20
 slug: "tracing-tanstack-betterstack"
 ---
 
-Modern web apps are distributed systems, even when they look simple on the surface. When a single user action fans out into server functions, database calls, and third‑party APIs, you need end‑to‑end visibility to understand where time is spent and why errors occur. That’s exactly what tracing provides.
+Modern web apps are distributed systems, even when they look simple on the surface. When a single user action fans out into server functions, database calls, and third‑party APIs, you need end‑to‑end visibility to understand where time is spent and why errors occur. That's exactly what tracing provides.
 
-In this post we’ll add tracing to a TanStack Start application using OpenTelemetry and export those traces to Better Stack via OTLP. We’ll keep the scope intentionally tight: this guide focuses only on tracing. No metrics, no logs—just high‑signal spans that tell the story of each request from start to finish.
+In this post we'll add tracing to a TanStack Start application using OpenTelemetry and export those traces to Better Stack via OTLP. We'll keep the scope intentionally tight: this guide focuses only on tracing. No metrics, no logs—just high‑signal spans that tell the story of each request from start to finish.
 
 # Instrumentation
 
-To capture spans from your server and common libraries, you’ll install the OpenTelemetry Node SDK, the auto‑instrumentations bundle, and the OTLP HTTP trace exporter. This gives you a foundation of automatic spans (HTTP, fetch, database drivers where supported) plus the ability to create your own custom spans around important business logic.
+We first need to install the OpenTelemetry dependencies.
 
 ```sh
-bun add @opentelemetry/sdk-node @opentelemetry/api @opentelemetry/auto-instrumentations-node @opentelemetry/sdk-metrics @opentelemetry/sdk-trace-node
+bun add @opentelemetry/sdk-node @opentelemetry/api @opentelemetry/sdk-trace-node
 ```
 
-Next, create an `instrumentation.ts` file that initializes the OpenTelemetry SDK as early as possible. In this file you’ll:
-
-- Declare service metadata (for example `service.name` and `deployment.environment`) so spans are grouped correctly in Better Stack.
-- Configure the OTLP trace exporter with the endpoint and auth headers provided by Better Stack’s Traces Source.
-- Enable Node auto-instrumentations so common libraries are traced out of the box.
-- Start the SDK on boot and register a clean shutdown handler to flush spans on process exit.
+Next, create an `instrumentation.ts` file where we'll configure the OpenTelemetry SDK. To begin with we'll use the `ConsoleSpanExporter` to output the spans to the console but later on we'll configure the OTLP trace exporter to send the spans to Better Stack.
 
 ```ts
 // src/instrumentation.ts
 
 import { NodeSDK } from "@opentelemetry/sdk-node";
-import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-node";;
+import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-node";
 
 const sdk = new NodeSDK({
-	serviceName: "big-journal",
+	serviceName: "example",
 	traceExporter: new ConsoleSpanExporter(), // Temporary
 });
 
 sdk.start();
 ```
 
-With the SDK ready, ensure it runs before any application code that you care to trace. Import `instrumentation.ts` at the very top of your TanStack Start server entry so the tracer is active before routes and server functions load. In serverless or edge environments, make sure the import path and initialization happen exactly once per runtime instance.
+With the SDK ready, ensure it runs before any application code that you care to trace. Import `instrumentation.ts` at the very top of your TanStack Start server entry so the tracer is active before routes and server functions load.
 
 ```ts
 // src/server.ts
@@ -54,7 +49,7 @@ export default {
 };
 ```
 
-Finally, add manual spans in your high‑value server functions. Use the active context to start child spans, set attributes like route ID, user ID (if appropriate), input sizes, and downstream dependency names, and record exceptions when things go wrong. These targeted spans complement the automatic ones and make investigations much faster in practice.
+Finally, we can add spans to our server functions. Later on we'll configure global middleware to automatically instrument requests and server functions.
 
 ```ts
 // src/routes/example.tsx
@@ -94,13 +89,14 @@ function RouteComponent() {
 
 # Better Stack
 
-In Better Stack, create a Traces Source for your application. This will generate an OTLP HTTP endpoint and the necessary authentication details. Point your OpenTelemetry trace exporter at that endpoint and include the provided headers or token—this keeps the setup simple without needing a custom exporter.
+In Better Stack, create a Traces Source for your application. Make sure to use the OpenTelemetry platform instead of the Better Stack collector. Copy and save the ingesting host and source token to your `.env` file.
 
-Deploy your changes and exercise a traced route. Within moments you should see spans flowing into Better Stack. Use the traces view to:
+import betterstack from "../../assets/better-stack.png";
+import { Image } from "astro:assets";
 
-- Filter by `service.name` and environment to isolate deployments.
-- Expand a trace to see each span’s timing and attributes.
-- Identify the slowest segments and drill into the exact server function or outbound call responsible.
+<Image src={betterstack} alt="Better Stack" class="border border-gray-200" />
+
+Next, install `@opentelemetry/exporter-trace-otlp-proto` and replace the `ConsoleSpanExporter` with the `OTLPTraceExporter` in our `instrumentation.ts` file.
 
 ```ts
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
@@ -108,11 +104,11 @@ import { NodeSDK } from "@opentelemetry/sdk-node";
 import { env } from "./env";
 
 const sdk = new NodeSDK({
-	serviceName: "big-journal",
+	serviceName: "example",
 	traceExporter: new OTLPTraceExporter({
-		url: env.BETTERSTACK_TRACE_URL,
+		url: env.BETTERSTACK_TRACE_URL, // https://<ingesting-host>/v1/traces
 		headers: {
-			Authorization: `Bearer ${env.BETTERSTACK_SOURCE_TOKEN}`,
+			Authorization: `Bearer ${env.BETTERSTACK_SOURCE_TOKEN}`, // <source-token>
 		},
 	}),
 });
@@ -120,17 +116,90 @@ const sdk = new NodeSDK({
 sdk.start();
 ```
 
+Now you should be able to run your application and see traces populated from the Better Stack dashboard.
+
 # Global Middleware
 
-To get consistent, top‑level spans across every request, add a global tracing middleware. Create a span per incoming request, attach attributes such as HTTP method, path pattern/route ID, and response status, then end the span in a `finally` block so it always closes—even on errors. This establishes a clear parent span for any work done downstream, making entire traces easier to read.
+We can configure global middleware to automatically instrument requests and server functions. To do so we need to update the `start.ts` file like so:
 
-CODE BLOCK
+```ts
+// src/start.ts
+import { SpanStatusCode, trace } from "@opentelemetry/api";
+import { createMiddleware, createStart } from "@tanstack/react-start";
+
+const tracer = trace.getTracer("example");
+
+const tracing = createMiddleware().server(async ({ next, request }) => {
+	return tracer.startActiveSpan(
+		`${request.method} ${url.pathname}`,
+		async (span) => {
+			span.setAttributes({
+				"http.method": request.method,
+				"http.route": url.pathname,
+			});
+
+			try {
+				const response = await next();
+				span.setStatus({ code: SpanStatusCode.OK });
+				return response;
+			} catch (error) {
+				span.recordException(error);
+				span.setStatus({
+					code: SpanStatusCode.ERROR,
+					message: error.message,
+				});
+				throw error;
+			} finally {
+				span.end();
+			}
+		},
+	);
+});
+
+export const startInstance = createStart(() => {
+	return {
+		requestMiddleware: [tracing],
+		functionMiddleware: [tracing],
+	};
+});
+```
 
 ## Server Function Names
 
-Out of the box, server functions can appear with hashed or implementation‑derived names, which aren’t very helpful when skimming traces. You have two practical options:
+In production TanStack Start uses a hash as the server function name. This can make it difficult to identify the function in the Better Stack UI.
 
-- Start spans with descriptive names that reflect intent, like `users.create`, `billing.charge`, or `checkout.placeOrder`. You can also rename an active span to something clearer once inputs are known.
-- Wrap server functions in a small helper that creates a span using a meaningful, fixed operation name, then runs the underlying logic within that span’s context.
+> By default, IDs are SHA256 hashes of the same seed to keep bundles compact and avoid leaking file paths.
 
-Either approach ensures the Better Stack UI shows human‑readable operation names, making it faster to spot slow or failing parts of a request.
+We can configure TanStack to produce more descriptive function names. Be careful as this API is still experimental.
+
+```ts
+// vite.config.ts
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import tsConfigPaths from "vite-tsconfig-paths";
+
+export default defineConfig({
+	server: {
+		port: 3000,
+	},
+	plugins: [
+		tsConfigPaths(),
+		tanstackStart({
+			serverFns: {
+				generateFunctionId: ({ functionName }) => {
+                    // Configure the function IDs to be something more descriptive
+					return `${functionName}`;
+				},
+			},
+		}),
+		viteReact(),
+	],
+});
+```
+
+# Next Steps
+
+This guide has shown you how to add tracing to a TanStack Start application using OpenTelemetry and export those traces to Better Stack. We've also configured global middleware to automatically instrument requests and server functions.
+
+The implementation is very minimal and you'll likely want to add more spans and attributes to your server functions. You can also add metrics and logs to your application to get a more complete picture of your application's performance.
