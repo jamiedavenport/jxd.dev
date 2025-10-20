@@ -17,7 +17,7 @@ We first need to install the OpenTelemetry dependencies.
 bun add @opentelemetry/sdk-node @opentelemetry/api @opentelemetry/sdk-trace-node
 ```
 
-Next, create an `instrumentation.ts` file where we'll configure the OpenTelemetry SDK. To begin with we'll use the `ConsoleSpanExporter` to output the spans to the console but later on we'll configure the OTLP trace exporter to send the spans to Better Stack.
+Next, create an `instrumentation.ts` file where we'll configure the OpenTelemetry SDK. To begin with we'll use the `ConsoleSpanExporter`. The `ConsoleSpanExporter` outputs trace data to the console, allowing you to verify that tracing is working correctly before configuring the OTLP exporter that will send the spans to Better Stack.
 
 ```ts
 // src/instrumentation.ts
@@ -89,7 +89,7 @@ function RouteComponent() {
 
 # Better Stack
 
-In Better Stack, create a Traces Source for your application. Make sure to use the OpenTelemetry platform instead of the Better Stack collector. Copy and save the ingesting host and source token to your `.env` file.
+In Better Stack, navigate to the 'Sources' section and connect a new traces source for your application. Ensure that you select the 'OpenTelemetry' platform as the source type, as this will allow you to send trace data using the OTLP protocol.
 
 import betterstack from "../../assets/better-stack.png";
 import { Image } from "astro:assets";
