@@ -74,3 +74,31 @@ Modify your `package.json` file to include the following:
 
 Then you can run your production server with `bun run build && bun start`.
 
+# Caching
+
+We can optimise the delivery of static assets by adding a cache-control header to the response.
+
+```ts
+async function getStaticRoutes(): Promise<Record<string, () => Response>> {
+	const paths = await Array.fromAsync(
+		new Glob(`${CONSTANTS.CLIENT_PATH}/**/*`).scan("."),
+	);
+	return Object.fromEntries(
+		paths.map((path) => {
+			const file = Bun.file(path);
+
+            const isBundledAsset = path.includes("assets");
+            // Cache bundled assets for a year, cache other assets for an hour
+            const cacheControl = isBundledAsset ? "max-age=31536000" : "max-age=3600";
+
+			return [
+				path.replace(CONSTANTS.CLIENT_PATH, ""),
+				() => new Response(file, { headers: { "Content-Type": file.type, "Cache-Control": cacheControl } }),
+			];
+		}),
+	) as Record<string, () => Response>;
+```
+
+For bundled assets, those created by the Vite build process, we'll safely cache them for a year. Any changes to the source code will result in new asset bundles being generated and therefore fresh versions will be served to the client.
+
+For other assets, those from the `public` directory, we'll cache them for an hour. This is a safe bet for most assets as they are unlikely to change frequently but still allows for some flexibility in case of changes.
