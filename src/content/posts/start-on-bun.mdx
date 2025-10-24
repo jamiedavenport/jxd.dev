@@ -102,3 +102,30 @@ async function getStaticRoutes(): Promise<Record<string, () => Response>> {
 For bundled assets, those created by the Vite build process, we'll safely cache them for a year. Any changes to the source code will result in new asset bundles being generated and therefore fresh versions will be served to the client.
 
 For other assets, those from the `public` directory, we'll cache them for an hour. This is a safe bet for most assets as they are unlikely to change frequently but still allows for some flexibility in case of changes.
+
+# Brotli Compression
+
+We can further improve performance by enabling Brotli compression to shrink the size of the response body.
+
+```ts
+import { brotliCompressSync } from "node:zlib";
+
+async (request) => {
+	const acceptEncoding = request.headers.get("Accept-Encoding") || "";
+	const acceptsBrotli = acceptEncoding.includes("br");
+
+	if (file.size > 5120 && acceptsBrotli) { // 5kb = 5120 bytes
+		const buffer = await file.arrayBuffer();
+
+		const encoded = brotliCompressSync(buffer);
+		return new Response(encoded, { headers: { 
+			"Content-Type": file.type, 
+			"Cache-Control": cacheControl, 
+			"Content-Encoding": "br", 
+			"Content-Length": buffer.byteLength.toString() 
+		} });
+	}
+
+	return new Response(file, { headers: { "Content-Type": file.type, "Cache-Control": cacheControl } });
+},
+```
