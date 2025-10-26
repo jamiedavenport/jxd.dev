@@ -18,20 +18,9 @@ export const products: Product[] = [
     description: "Beautiful, AI-powered journaling.",
   },
   {
-    title: "Feedback",
-    href: "https://github.com/jamiedavenport/feedback",
-    description: "Headless customer feedback platform.",
-    openSource: true,
-  },
-  {
     title: "Forgotten",
     href: "https://forgotten.app",
     description: "Bookmark manager for developers.",
-  },
-  {
-    title: "Gotowy",
-    href: "https://gotowy.jxd.dev",
-    description: "AI-native, minimalist task management.",
   },
   {
     title: "Hype",
