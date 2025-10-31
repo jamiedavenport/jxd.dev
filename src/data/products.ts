@@ -7,6 +7,12 @@ export interface Product {
 
 export const products: Product[] = [
   {
+    title: "Propellant",
+    href: "https://github.com/jamiedavenport/propellant",
+    description: "Modern task management.",
+    openSource: true,
+  },
+  {
     title: "Vox",
     href: "https://www.getvox.dev",
     description: "Simple, lightweight customer feedback tool.",
