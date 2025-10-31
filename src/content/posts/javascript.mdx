@@ -1,0 +1,51 @@
+---
+title: Javascript
+summary: Notes on all things Javascript.
+date: 2025-10-31
+slug: "javascript"
+ranking: 100
+---
+
+This is a working document for all my notes on Javascript. Mostly it covers the niche and weird parts of the language.
+
+# `use strict`
+
+This directive provides a way to opt-in to modern Javascript (post-ES5). It can be enabled at the script level or at the function level and must be the first statement except for comments.
+
+Adding this directive isn't strictly necessary for code that uses modern features such as **modules** and **classes**.
+
+# `var`, `let` and `const`
+
+`let` and `const` create block-scoped variables and constants respectively.
+
+`var`, similar to `let`, is either function-scoped or global-scoped. It should be avoided in modern code.
+
+```js
+{
+	var a = 1; // global-scoped
+	let b = 1; // block-scoped
+}
+
+console.log(a); // 1
+console.log(b); // ReferenceError: b is not defined
+```
+
+`var` declarations are hoisted to the top of the scope but are not initialised. They can also be redeclared unlike `let` and `const`.
+
+```js
+console.log(a); // undefined
+
+var a = 1;
+
+console.log(a); // 1
+```
+
+`var` also becomes a member of the global object (`window` in the browser).
+
+```js
+var a = 1;
+
+console.log(window.a); // 1
+```
+
+> Most people recommend using `const` over `let` unless reassignment is absolutely necessary. Most linters will include a rule to prefer `const` by default. Dan Abramov wrote an interesting [article](https://overreacted.io/on-let-vs-const/) on the topic. I personally don't care too much and lately tend towards using `let`.
