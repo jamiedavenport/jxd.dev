@@ -51,3 +51,35 @@ console.log(window.a); // 1
 ```
 
 > Most people recommend using `const` over `let` unless reassignment is absolutely necessary. Most linters will include a rule to prefer `const` by default. Dan Abramov wrote an interesting [article](https://overreacted.io/on-let-vs-const/) on the topic. I personally don't care too much and lately tend towards using `let`.
+
+# Data Types
+
+Javascript has the following primative data types: `number`, `string`, `boolean`, `null`, `undefined`, `symbol` and `bigint`.
+
+Numbers can represent both integers and floating point numbers. There are 3 special values: `Infinity`, `-Infinity` and `NaN`.
+
+`undefined` represents a variable that has been declared but not assigned a value. `null` represents a deliberate absence of any object value.
+
+The `typeof` operator can be used to get a string representation of the type of a variable. There are a few oddities to be aware of:
+
+```js
+typeof null // "object"
+typeof function() {} // "function"
+```
+
+Here `null` is not an object, while functions are actually objects. Both of these are kept in the language for backwards compatibility.
+
+## Numeric Conversion
+
+Data types can be cast into numbers using the `Number()` function.
+
+```js
+Number("1"); // 1
+Number(""); // 0
+Number("hello"); // NaN
+Number(true); // 1
+Number(false); // 0
+Number(null); // 0
+Number(undefined); // NaN
+Number(Symbol("symbol")); // TypeError: Cannot convert a Symbol value to a number
+```
