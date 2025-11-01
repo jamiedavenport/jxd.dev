@@ -173,6 +173,29 @@ const id2 = Symbol.for("id");
 console.log(id === id2); // true
 ```
 
+### Primative Conversion
+
+One common symbol is `Symbol.toPrimative` which Javascript uses to convert ojects to primatives. The hint argument can be `string`, `number` or `default`.
+
+```js
+const obj = {
+	[Symbol.toPrimative](hint) {
+		switch (hint) {
+			case "string":
+				return "Hello";
+			case "number":
+				return 123;
+			default:
+				return null;
+		}
+	}
+}
+
+console.log(String(obj)); // "Hello"
+console.log(Number(obj)); // 123
+console.log(obj + ""); // "null"
+```
+
 ## `this` keyword
 
 The `this` keyword is bound to the object that the function is called on. It does not exist when using arrow functions.
@@ -236,6 +259,7 @@ function Person(name) {
 Person("John"); // Logs: undefined. Returns 10.
 new Person("John"); // Logs: [Function: Person]. Returns the new object.
 ```
+
 
 ## Garbage Collection
 
