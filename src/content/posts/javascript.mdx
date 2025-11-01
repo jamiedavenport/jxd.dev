@@ -83,3 +83,44 @@ Number(null); // 0
 Number(undefined); // NaN
 Number(Symbol("symbol")); // TypeError: Cannot convert a Symbol value to a number
 ```
+
+# Comparisons
+
+In Javascript we use `===` for strict equality (same type and value).
+
+Equality and comparisons are implemented differently leading to the following peculiarities:
+
+```js
+null == 0; // false
+null >= 0; // true
+undefined == 0; // false
+undefined >= 0; // false
+```
+
+Comparisons cast values to numbers e.g. `null` becomes `0` and `undefined` becomes `NaN`. However, equality is treated differently such that `null == undefined` is `true`.
+
+# Functions
+
+Functions in Javascript are values, they are actually objects and can be passed around like any other value.
+
+Function arguments are mutable.
+
+```js
+function f(a) {
+	a = 2; // Works!
+}
+```
+
+Function declarations are hoisted to the top of the scope whereas function expressions are not.
+
+```js
+f(); // Works!
+g(); // ReferenceError: g is not a function
+h(); // ReferenceError: h is not a function
+
+function f() {}
+
+let g = function() {};
+
+let h = () => {};
+```
