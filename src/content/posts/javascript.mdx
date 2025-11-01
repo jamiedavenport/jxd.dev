@@ -164,10 +164,7 @@ console.log(obj[id]); // "123"
 There also exists a global symbol registry that can be used to create symbols that are globally unique.
 
 ```js
-// a.js
 const id = Symbol.for("id");
-
-// b.js
 const id2 = Symbol.for("id");
 
 console.log(id === id2); // true
