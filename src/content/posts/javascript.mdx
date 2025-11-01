@@ -124,3 +124,62 @@ let g = function() {};
 
 let h = () => {};
 ```
+
+# Objects
+
+The `in` operator can be used to check if a property exists on an object. `for ... in` can be used to iterate over all keys in an object. Number keys are ordered.
+
+```js
+const obj = {
+	a: 1,
+	b: 2,
+	c: 3,
+};
+
+for (const key in obj) {
+	console.log(key);
+}
+```
+
+Objects are passed by reference. Object equality determines if two objects point to the same reference.
+
+We can clone objects in a few ways: shallow copy via `Object.assign()` or the spread operator and deep copy via `structuredClone()`.
+
+> Note that function properties are not supported by `structuredClone()`. Trying to clone an object with a function property will throw an error.
+
+## `this` keyword
+
+The `this` keyword is bound to the object that the function is called on. It does not exist when using arrow functions.
+
+```js
+const o = {
+	x: 10,
+	f: function() {
+		console.log(this.x); // 10
+	},
+	g: () => {
+		console.log(this.x); // undefined
+	}
+};
+
+o.f(); // 10
+o.g(); // undefined
+```
+
+We can use the function `bind()` method to create a new function where `this` is bound to a specific value we provide.
+
+```js
+function f() {
+	console.log(this);
+}
+
+f(); // undefined
+f.bind("Hello")(); // "Hello"
+```
+
+We can also use the `call()` and `apply()` methods to call a function with a specific `this` value.
+
+
+## Garbage Collection
+
+Javascript uses a generational, incremental mark-and-sweep garbage collection algorithm.
