@@ -179,6 +179,37 @@ f.bind("Hello")(); // "Hello"
 
 We can also use the `call()` and `apply()` methods to call a function with a specific `this` value.
 
+## Function Constructors
+
+We can use function constructors to create multiple similar objects. We use the `new` keyword which implicitly sets `this` to a new object and returns `this`.
+
+```js
+function Person(name) {
+	// this = {}
+	this.name = name;
+	// return this
+}
+
+const p1 = new Person("John");
+const p2 = new Person("Jane");
+
+console.log(p1.name); // "John"
+console.log(p2.name); // "Jane"
+```
+
+We can use `new.target` inside the constructor function to determine if it was called with the `new` keyword. If called with the `new` keyword, `new.target` will be the constructor function. If called without the `new` keyword, `new.target` will be `undefined`.
+
+Note that when using the `new` keyword, primative returns are ignored and object returns replace the implicit return of `this`.
+
+```js
+function Person(name) {
+	console.log(new.target);
+	return 10;
+}
+
+Person("John"); // Logs: undefined. Returns 10.
+new Person("John"); // Logs: [Function: Person]. Returns the new object.
+```
 
 ## Garbage Collection
 
