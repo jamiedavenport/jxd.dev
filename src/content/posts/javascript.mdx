@@ -127,7 +127,7 @@ let h = () => {};
 
 # Objects
 
-The `in` operator can be used to check if a property exists on an object. `for ... in` can be used to iterate over all keys in an object. Number keys are ordered.
+The `in` operator can be used to check if a property exists on an object. `for ... in` can be used to iterate over all string keys in an object. Number keys are ordered.
 
 ```js
 const obj = {
@@ -146,6 +146,32 @@ Objects are passed by reference. Object equality determines if two objects point
 We can clone objects in a few ways: shallow copy via `Object.assign()` or the spread operator and deep copy via `structuredClone()`.
 
 > Note that function properties are not supported by `structuredClone()`. Trying to clone an object with a function property will throw an error.
+
+## Symbols
+
+Symbols are unique primative values that can be used as object keys. Mostly used for object internals as they can't be accessed without the symbol itself.
+
+```js
+const id = Symbol("id");
+
+const obj = {
+	[id]: "123",
+};
+
+console.log(obj[id]); // "123"
+```
+
+There also exists a global symbol registry that can be used to create symbols that are globally unique.
+
+```js
+// a.js
+const id = Symbol.for("id");
+
+// b.js
+const id2 = Symbol.for("id");
+
+console.log(id === id2); // true
+```
 
 ## `this` keyword
 
