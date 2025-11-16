@@ -1,126 +1,94 @@
 ---
-import { getCollection } from "astro:content";
 import "../styles/global.css";
 import BaseLayout from "../layouts/base.astro";
-import { products } from "../data/products";
-
-const posts = await getCollection("blog");
-
-const sortedPosts = posts.filter((post) => post.data.ranking > 0).sort((a, b) => b.data.ranking - a.data.ranking);
+import { Image } from "astro:assets";
+import me from "../assets/me.jpeg";
+import Docbot from "../assets/docbot.svg";
 ---
 
 <BaseLayout>
-    <div class="flex flex-col gap-10 p-16 mx-auto max-w-xl">
-      <div class="flex flex-col gap-2">
-        <h1 class="text-4xl leading-none font-black mb-3">
-          <span>Jamie</span>
-          <span>Davenport</span>
-        </h1>
-        <p
-          class="flex items-center gap-2 text-sm text-gray-500 font-mono [&>svg]:size-4"
-        >
-          <svg
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M7 2h10v2H7V2zM5 6V4h2v2H5zm0 8H3V6h2v8zm2 2H5v-2h2v2zm2 2H7v-2h2v2zm2 2H9v-2h2v2zm2 0v2h-2v-2h2zm2-2v2h-2v-2h2zm2-2v2h-2v-2h2zm2-2v2h-2v-2h2zm0-8h2v8h-2V6zm0 0V4h-2v2h2zm-5 2h-4v4h4V8z"
-              fill="currentColor"></path>
-          </svg>
-          <span>London, UK</span>
-        </p>
-        <p>Software engineer, entrepreneur, and investor based from the UK.</p>
-        <p>I am the founder of <a href="https://shipwright.sh" target="_blank" class="border-b border-dashed border-gray-500 hover:border-gray-700">Shipwright</a>, the ecosystem parity platform.</p>
-        <p>
-          Previously the founder of <a
-            href="https://www.uktech.news/saas/docbot-labs-pre-seed-20221102"
-            target="_blank"
-            class="border-b border-dashed border-gray-500 hover:border-gray-700"
-            >Docbot Labs</a
-          >. I've helped a number of startups go from 0 to 1.
-        </p>
+  <div class="min-h-screen flex flex-col justify-center items-center p-10">
+    <div class="max-w-sm w-full text-sm flex flex-col gap-5">
+      <div class="flex items-center gap-3">
+        <Image src={me} alt="Jamie" class="size-8 rounded-full inline-block" />
+        <h1 class="text-lg font-bold">Jamie Davenport</h1>
       </div>
 
-      <section>
-        <h2 class="font-mono text-sm uppercase text-gray-700 mb-2">Projects</h2>
-        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p> -->
-        <ul
-          class="border rounded-lg border-gray-300 overflow-hidden divide-y divide-gray-300 -mx-4 [&_li]:hover:bg-white"
-        >
-          {
-            products.map((project) => (
-              <li>
-                <a
-                  href={project.href}
-                  target="_blank"
-                  class="p-4 flex flex-col"
-                >
-                  {project.openSource ? (
-                    <p class="flex items-center gap-2">
-                      <span class="font-bold">{project.title}</span>
-                      <span class="text-xs text-gray-500 font-mono">Open Source</span>
-                    </p>
-                  ) : (
-                    <span class="font-bold">{project.title}</span>
-                  )}
-                  <span class="text-sm text-gray-700">{project.description}</span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section>
-        <h2 class="font-mono text-sm uppercase text-gray-700 mb-2">Writing</h2>
-        <ul
-          class="border rounded-lg border-gray-300 overflow-hidden divide-y divide-gray-300 -mx-4"
-        >
-          {
-            sortedPosts.map((post) => (
-              <li class="hover:bg-white">
-                <a href={`/writing/${post.id}`} class="p-4 flex flex-col">
-                  <span class="font-bold">{post.data.title}</span>
-                  <span class="text-sm text-gray-700">{post.data.summary}</span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <footer class="flex items-center gap-4">
-        <a
-          href="https://github.com/jamiedavenport"
-          target="_blank"
-          class="text-gray-500 hover:text-gray-700 [&>svg]:size-5"
-        >
-          <svg
-            role="img"
-            viewBox="0 0 24 24"
+      <p>
+        I'm a software engineer, entrepreneur and investor from <span
+          class="whitespace-nowrap inline-flex items-center gap-1 h-[1em] font-bold"
+          ><svg
             xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            ><title>GitHub</title><path
-              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-            ></path></svg
-          ></a
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            class="size-4"
+            ><rect
+              x="1"
+              y="4"
+              width="30"
+              height="24"
+              rx="4"
+              ry="4"
+              fill="#071b65"></rect><path
+              d="M5.101,4h-.101c-1.981,0-3.615,1.444-3.933,3.334L26.899,28h.101c1.981,0,3.615-1.444,3.933-3.334L5.101,4Z"
+              fill="#fff"></path><path
+              d="M22.25,19h-2.5l9.934,7.947c.387-.353,.704-.777,.929-1.257l-8.363-6.691Z"
+              fill="#b92932"></path><path
+              d="M1.387,6.309l8.363,6.691h2.5L2.316,5.053c-.387,.353-.704,.777-.929,1.257Z"
+              fill="#b92932"></path><path
+              d="M5,28h.101L30.933,7.334c-.318-1.891-1.952-3.334-3.933-3.334h-.101L1.067,24.666c.318,1.891,1.952,3.334,3.933,3.334Z"
+              fill="#fff"></path><rect
+              x="13"
+              y="4"
+              width="6"
+              height="24"
+              fill="#fff"></rect><rect
+              x="1"
+              y="13"
+              width="30"
+              height="6"
+              fill="#fff"></rect><rect
+              x="14"
+              y="4"
+              width="4"
+              height="24"
+              fill="#b92932"></rect><rect
+              x="14"
+              y="1"
+              width="4"
+              height="30"
+              transform="translate(32) rotate(90)"
+              fill="#b92932"></rect><path
+              d="M28.222,4.21l-9.222,7.376v1.414h.75l9.943-7.94c-.419-.384-.918-.671-1.471-.85Z"
+              fill="#b92932"></path><path
+              d="M2.328,26.957c.414,.374,.904,.656,1.447,.832l9.225-7.38v-1.408h-.75L2.328,26.957Z"
+              fill="#b92932"></path><path
+              d="M27,4H5c-2.209,0-4,1.791-4,4V24c0,2.209,1.791,4,4,4H27c2.209,0,4-1.791,4-4V8c0-2.209-1.791-4-4-4Zm3,20c0,1.654-1.346,3-3,3H5c-1.654,0-3-1.346-3-3V8c0-1.654,1.346-3,3-3H27c1.654,0,3,1.346,3,3V24Z"
+              opacity=".15"></path><path
+              d="M27,5H5c-1.657,0-3,1.343-3,3v1c0-1.657,1.343-3,3-3H27c1.657,0,3,1.343,3,3v-1c0-1.657-1.343-3-3-3Z"
+              fill="#fff"
+              opacity=".2"></path></svg
+          >Leeds, UK</span
         >
-        <a
-          href="https://x.com/jxd_dev"
-          target="_blank"
-          class="text-gray-500 hover:text-gray-700 [&>svg]:size-5"
-        >
-          <svg
-            fill="currentColor"
-            role="img"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            ><title>X</title><path
-              d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"
-            ></path></svg
-          ></a
-        >
-      </footer>
+      </p>
+
+      <p>
+        I previously founded <a href="https://www.uktech.news/saas/docbot-labs-pre-seed-20221102" target="_blank" class="inline-flex items-center gap-1 font-bold">
+          <Docbot class="h-3 w-auto" />
+          Docbot Labs
+        </a> where I raised $600k in <span
+          class="whitespace-nowrap">pre-seed</span
+        > funding, but ultimately didn't find product-market fit.
+      </p>
+
+      <p>You can find me online at <a href="https://x.com/jxd_dev" target="_blank" class="inline-flex items-center gap-1 font-bold">
+        <svg class="h-3" fill="none" viewBox="0 0 1200 1227"><path fill="#000" d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284h.026ZM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854v-.026Z"/></svg>
+        jxd_dev
+      </a> or <a href="https://github.com/jamiedavenport" target="_blank" class="inline-flex items-center gap-1 font-bold">
+        <svg class="h-3" viewBox="0 0 1024 1024" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)" fill="#1B1F23"/></svg>
+        jamiedavenport
+      </a></p>
     </div>
+  </div>
 </BaseLayout>
