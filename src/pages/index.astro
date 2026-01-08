@@ -1,10 +1,8 @@
 ---
 import "../styles/global.css";
 import BaseLayout from "../layouts/base.astro";
-import { Image } from "astro:assets";
-import me from "../assets/me.jpeg";
-import Docbot from "../assets/docbot.svg";
-import Propellant from '../assets/propellant.svg';
+import Docbot from '../assets/docbot.svg';
+import Bait from '../assets/bait.svg';
 ---
 
 <BaseLayout>
@@ -69,6 +67,13 @@ import Propellant from '../assets/propellant.svg';
               opacity=".2"></path></svg
           >London, UK</span
         >
+      </p>
+
+      <p>
+        Currently building <a href="https://bait.jxd.dev" target="_blank" class="inline-flex items-center gap-1 font-bold">
+          <Bait class="h-3 w-auto" />
+          Bait
+        </a> to help organisations respond better to phishing attacks.
       </p>
 
       <p>
