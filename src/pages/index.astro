@@ -3,11 +3,14 @@ import "../styles/global.css";
 import BaseLayout from "../layouts/base.astro";
 import Docbot from '../assets/docbot.svg';
 import Bait from '../assets/bait.svg';
+import me from '../assets/me.jpeg?url';
 ---
 
 <BaseLayout>
   <div class="min-h-screen flex flex-col justify-center items-center p-10">
     <div class="max-w-sm w-full text-sm flex flex-col gap-5">
+      <img src={me} alt="Jamie Davenport" class="size-10 rounded-full" />
+
         <h1 class="text-lg font-bold">Jamie Davenport</h1>
 
       <p>
@@ -67,13 +70,6 @@ import Bait from '../assets/bait.svg';
               opacity=".2"></path></svg
           >London, UK</span
         >
-      </p>
-
-      <p>
-        Currently building <a href="https://bait.jxd.dev" target="_blank" class="inline-flex items-center gap-1 font-bold">
-          <Bait class="h-3 w-auto" />
-          Bait
-        </a> to help organisations respond better to phishing attacks.
       </p>
 
       <p>
