@@ -2,8 +2,8 @@
 import "../styles/global.css";
 import BaseLayout from "../layouts/base.astro";
 import Docbot from '../assets/docbot.svg';
-import Bait from '../assets/bait.svg';
 import me from '../assets/me.jpeg?url';
+import Lucid from '../assets/lucid.svg';
 ---
 
 <BaseLayout>
@@ -12,6 +12,10 @@ import me from '../assets/me.jpeg?url';
       <img src={me} alt="Jamie Davenport" class="size-10 rounded-full" />
 
         <h1 class="text-lg font-bold">Jamie Davenport</h1>
+
+        <p>
+          Currently building <a href="https://lucid.jxd.dev" target="_blank" class="inline-flex items-center gap-1 font-bold"><Lucid class="h-3 w-auto" /></a> - a productivity platform for those who struggle to stay focused.
+        </p>
 
       <p>
         I'm a software engineer, entrepreneur and investor from <span
