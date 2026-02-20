@@ -5,6 +5,7 @@ import { getCollection } from "astro:content";
 import Docbot from '../assets/docbot.svg';
 import me from '../assets/me.jpeg?url';
 import Lucid from '../assets/lucid.svg';
+import Bait from '../assets/bait.svg';
 
 const articles = (await getCollection("blog")).sort(
   (a, b) => (a.data.ranking ?? 50) - (b.data.ranking ?? 50)
@@ -19,7 +20,7 @@ const articles = (await getCollection("blog")).sort(
         <h1 class="text-lg font-bold">Jamie Davenport</h1>
 
         <p>
-          Currently building <a href="https://lucid.jxd.dev" target="_blank" class="inline-flex items-center gap-1 font-bold"><Lucid class="h-3 w-auto" /></a> - a productivity platform for those who struggle to stay focused.
+          Currently building <a href="https://lucid.jxd.dev" target="_blank" class="inline-flex items-center gap-1 font-bold"><Lucid class="h-3 w-auto" /></a> - a productivity platform for those who struggle to stay focused and <a href="https://bait.jxd.dev" target="_blank" class="inline-flex items-center gap-1 font-bold"><Bait class="h-3 w-auto" /> Bait</a> - a phishing simulaton platform for human risk analysis.
         </p>
 
       <p>
