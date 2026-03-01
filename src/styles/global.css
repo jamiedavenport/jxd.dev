@@ -12,4 +12,5 @@
 @theme inline {
   --font-sans: var(--font-geist);
   --font-mono: "Departure", monospace;
+  --font-geist-mono: "Geist Mono", monospace;
 }
