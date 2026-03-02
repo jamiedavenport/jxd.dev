@@ -5,7 +5,6 @@ import { getCollection } from "astro:content";
 import Docbot from '../assets/docbot.svg';
 import me from '../assets/me.jpeg?url';
 import Lucid from '../assets/lucid.svg';
-import Bait from '../assets/bait.svg';
 
 const articles = (await getCollection("blog")).sort(
   (a, b) => (a.data.ranking ?? 50) - (b.data.ranking ?? 50)
@@ -78,14 +77,6 @@ const articles = (await getCollection("blog")).sort(
           >
         </p>
 
-        <p>
-          Currently building <a href="https://lucid.jxd.dev" target="_blank" class="inline-flex items-center gap-1 font-bold"><Lucid class="h-3 w-auto" /></a> - a productivity platform for those who struggle to stay focused and <a href="https://bait.jxd.dev" target="_blank" class="inline-flex items-center gap-1 font-bold"><Bait class="h-3 w-auto" /> Bait</a> - a phishing simulaton platform for human risk analysis.
-        </p>
-
-        <p>
-          Register to get early access to my TanStack-based starter kit, <a href="https://catalyst.jxd.dev" target="_blank" class="inline-flex items-center gap-1 font-bold font-geist-mono">(Catalyst)</a>. Early adopters will get a significant lifetime discount.
-        </p>
-
       <p>
         I previously founded <a href="https://www.uktech.news/saas/docbot-labs-pre-seed-20221102" target="_blank" class="inline-flex items-center gap-1 font-bold">
           <Docbot class="h-3 w-auto" />
@@ -106,7 +97,33 @@ const articles = (await getCollection("blog")).sort(
         jamiedavenport
       </a></p>
 
+      <div class="flex flex-col gap-6">
+        <p class="font-geist-mono font-bold text-xs text-gray-400">PROJECTS.md</p>
+        <ul class="flex flex-col gap-6">
+          <li>
+            <a href="https://openpolicy.sh" target="_blank" class="group flex flex-col rounded-md relative">
+              <span class="font-bold group-hover:underline font-geist-mono">OpenPolicy()</span>
+              <p class="mt-1 text-gray-600">Legal docs as code. Define your privacy policy and terms of service in TypeScript, generated at build time.</p>
+            </a>
+          </li>
+          <li>
+            <a href="https://catalyst.jxd.dev" target="_blank" class="group flex flex-col rounded-md relative">
+              <span class="font-bold group-hover:underline font-geist-mono">(Catalyst)</span>
+              <p class="mt-1 text-gray-600">TanStack-based starter kit for building web apps at speed.</p>
+            </a>
+          </li>
+          <li>
+            <a href="https://lucid.jxd.dev" target="_blank" class="group flex flex-col rounded-md relative">
+              <span class="font-bold group-hover:underline"><Lucid class="h-3 w-auto" /></span>
+              <p class="mt-1 text-gray-600">Productivity platform for those who struggle to stay focused.</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+
       {articles.length > 0 && (
+        <div class="flex flex-col gap-6">
+          <p class="font-geist-mono font-bold text-xs text-gray-400">WRITING.md</p>
           <ul class="flex flex-col gap-6">
             {articles.map((article) => (
               <li>
@@ -124,6 +141,7 @@ const articles = (await getCollection("blog")).sort(
               </li>
             ))}
           </ul>
+        </div>
       )}
     </div>
   </div>
