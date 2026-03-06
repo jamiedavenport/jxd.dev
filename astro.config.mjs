@@ -1,27 +1,20 @@
 // @ts-check
-import { defineConfig, envField, fontProviders } from "astro/config";
-import tailwindcss from "@tailwindcss/vite";
+
 import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 import cloudflare from "@astrojs/cloudflare";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, fontProviders } from "astro/config";
+import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://www.jxd.dev",
+  site: "https://jxd.dev",
 
-  vite: {
-    plugins: [tailwindcss()],
-  },
-
-  integrations: [sitemap(), mdx()],
+  integrations: [icon(), sitemap(), mdx()],
 
   experimental: {
     fonts: [
-      {
-        provider: fontProviders.fontsource(),
-        name: "Geist",
-        cssVariable: "--font-geist",
-      },
       {
         provider: fontProviders.fontsource(),
         name: "Geist Mono",
@@ -34,9 +27,7 @@ export default defineConfig({
     imageService: "compile",
   }),
 
-  env: {
-    schema: {
-      LOOPS_API_KEY: envField.string({ context: "server", access: "secret" }),
-    },
+  vite: {
+    plugins: [tailwindcss()],
   },
 });

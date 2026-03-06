@@ -1,16 +1,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@font-face {
-  font-family: "Departure";
-  src: url("/fonts/departure.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+@theme inline {
+    --font-mono: var(--font-geist-mono);
 }
 
-@theme inline {
-  --font-sans: var(--font-geist);
-  --font-mono: "Departure", monospace;
-  --font-geist-mono: "Geist Mono", monospace;
+code {
+    font-size: inherit;
 }
