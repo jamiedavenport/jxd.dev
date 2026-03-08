@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { Font } from "astro:assets";
 import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
+import Nav from "../components/nav.astro";
 
 interface Props {
   title: string;
@@ -51,9 +52,12 @@ const {
           <p class="text-xl font-medium">Software engineer, entrepreneur, and investor based in the UK.</p>
         </div>
       </div>
-      <div class="md:col-span-2 overflow-y-auto bg-white flex flex-col gap-10 md:gap-20 p-10 md:p-14 lg:p-20">
+      <div class="md:col-span-2 overflow-y-auto bg-white">
+        <Nav />
+        <div class="flex flex-col gap-10 md:gap-20 p-10 md:p-14 lg:p-20">
           <slot />
           <Footer />
+        </div>
       </div>
     </div>
     <script

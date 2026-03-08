@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ogs from "open-graph-scraper";
+
+const directoryUrls = [
+  {
+    name: "Tech Stack",
+    urls: [
+      "https://react.dev",
+      "https://tanstack.com",
+      "https://tailwindcss.com/",
+      "https://ui.shadcn.com/",
+      "https://bun.com/",
+      "https://astro.build/"
+    ]
+  },
+  {
+    name: "Design",
+    urls: [
+      "https://www.figma.com/",
+      "https://www.thiings.co/things",
+      "https://vercel.com/font"
+    ]
+  },
+  {
+    name: "AI",
+    urls: [
+      "https://claude.com/product/claude-code",
+      "https://impeccable.style",
+      "https://agent-experience.dev/"
+    ]
+  }
+];
+
+const directory = await Promise.all(
+  directoryUrls.map(async (group) => ({
+    name: group.name,
+    items: await Promise.all(
+      group.urls.map(async (url) => {
+        const domain = new URL(url).hostname;
+        try {
+          const { result } = await ogs({ url });
+          return {
+            url,
+            title: result.ogTitle || result.twitterTitle || domain,
+            description: result.ogDescription || result.twitterDescription || "",
+            favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=32`,
+          };
+        } catch {
+          return {
+            url,
+            title: domain,
+            description: "",
+            favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=32`,
+          };
+        }
+      })
+    ),
+  }))
+);
+---
+
+<BaseLayout
+  title="Directory — JXD"
+  description="A collection of things I love"
+  ogUrl="https://jxd.dev/directory"
+>
+  <section>
+    <h2 class="font-mono font-medium text-xs text-gray-500 mb-4">
+      DIRECTORY.md
+    </h2>
+    {directory.map((group) => (
+      <div class="mb-8">
+        <h3 class="font-mono font-medium text-xs text-gray-400 mb-2">{group.name}</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-gray-200 border border-gray-200">
+          {group.items.map((item) => (
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-white p-4 hover:bg-gray-50 transition-colors flex flex-col gap-2"
+            >
+              <div class="flex items-center gap-2">
+                <img src={item.favicon} alt="" class="w-4 h-4 rounded-sm" loading="lazy" />
+                <p class="font-mono font-medium text-xs truncate">{item.title}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+</BaseLayout>
