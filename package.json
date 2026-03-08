@@ -6,14 +6,12 @@
 		"dev": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
-		"astro": "astro",
-		"deploy": "astro build && wrangler deploy",
-		"types": "wrangler types"
+		"astro": "astro"
 	},
 	"dependencies": {
-		"@astrojs/cloudflare": "^12.6.9",
 		"@astrojs/mdx": "^4.3.5",
 		"@astrojs/sitemap": "^3.7.0",
+		"@astrojs/vercel": "^9.0.4",
 		"@iconify-json/simple-icons": "^1.2.72",
 		"@tailwindcss/vite": "^4.2.1",
 		"astro": "^5.17.1",
