@@ -1,0 +1,63 @@
+---
+import { actions } from "astro:actions";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export const prerender = false;
+
+const result = Astro.getActionResult(actions.contact);
+if (result?.data?.success) {
+  return Astro.redirect("/contact?sent=1");
+}
+const sent = Astro.url.searchParams.get("sent") === "1";
+---
+
+<BaseLayout
+  title="Contact — JXD"
+  description="Get in touch with Jamie Davenport"
+  ogUrl="https://jxd.dev/contact"
+>
+  <section>
+    <h2 class="font-mono font-medium text-xs text-gray-500 mb-3">CONTACT.md</h2>
+    <p class="text-sm mb-6">
+      Have a project in mind, a question, or just want to say hello? Drop me a
+      line below or email me directly at
+      <a href="mailto:contact@jxd.dev" class="underline hover:text-gray-500 transition-colors">contact@jxd.dev</a>.
+    </p>
+
+    {result?.error && (
+      <div class="border border-red-200 bg-red-50 text-red-700 font-mono text-xs p-4 mb-6">
+        {result.error.message ?? "Something went wrong. Please try again."}
+      </div>
+    )}
+
+    {sent ? (
+      <div class="border border-gray-200 font-mono text-xs p-4 text-gray-500">
+        Thanks — I'll be in touch.
+      </div>
+    ) : (
+      <form method="POST" action={actions.contact} class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <label for="name" class="font-mono text-xs text-gray-500">Name</label>
+          <input id="name" name="name" type="text" required autocomplete="name"
+            class="w-full font-mono text-sm border border-gray-200 px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors" />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="email" class="font-mono text-xs text-gray-500">Email</label>
+          <input id="email" name="email" type="email" required autocomplete="email"
+            class="w-full font-mono text-sm border border-gray-200 px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors" />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="message" class="font-mono text-xs text-gray-500">Message</label>
+          <textarea id="message" name="message" required minlength="10" rows="5"
+            class="w-full font-mono text-sm border border-gray-200 px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors resize-none"></textarea>
+        </div>
+        <div>
+          <button type="submit"
+            class="font-mono text-xs bg-gray-900 text-white px-4 py-2 hover:bg-gray-700 active:bg-gray-800 transition-colors cursor-pointer">
+            Send
+          </button>
+        </div>
+      </form>
+    )}
+  </section>
+</BaseLayout>
