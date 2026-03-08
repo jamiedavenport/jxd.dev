@@ -5,9 +5,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 export const prerender = false;
 
 const result = Astro.getActionResult(actions.contact);
+
 if (result?.data?.success) {
   return Astro.redirect("/contact?sent=1");
 }
+
 const sent = Astro.url.searchParams.get("sent") === "1";
 ---
 
