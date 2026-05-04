@@ -26,16 +26,32 @@ const posts = (await getCollection("blog")).sort(
       PROJECTS.md
     </h2>
     <div class="grid grid-cols-3 gap-px bg-gray-200 border border-gray-200">
-      <a class="bg-white p-4 hover:bg-gray-50 transition-colors" href="https://openpolicy.sh" target="_blank">
-        <p class="font-mono font-medium text-xs mb-1">OpenPolicy</p>
-        <p class="text-xs text-gray-500">Developer-first privacy policy and terms generation</p>
+      <a class="group col-span-2 bg-white p-6 hover:bg-gray-50 flex flex-col gap-3" href="https://policystack.dev" target="_blank">
+        <div class="flex items-center justify-between">
+          <span class="font-mono text-[0.625rem] text-gray-400 uppercase tracking-wide">Featured</span>
+          <span class="font-mono text-xs text-gray-400 group-hover:translate-x-0.5 transition-transform">↗</span>
+        </div>
+        <div>
+          <p class="font-mono font-medium text-sm mb-1">PolicyStack</p>
+          <p class="text-xs text-gray-500 max-w-[42ch]">Privacy and consent as code — open building blocks for policies, banners, and developer-first compliance.</p>
+        </div>
       </a>
-      <a class="bg-white p-4 hover:bg-gray-50 transition-colors" href="https://lucid.jxd.dev" target="_blank">
+      <a class="bg-white p-4 hover:bg-gray-50 flex flex-col" href="https://github.com/jamiedavenport/openpolicy" target="_blank">
+        <p class="font-mono font-medium text-xs mb-1">OpenPolicy</p>
+        <p class="text-xs text-gray-500">Privacy-first primitives for React</p>
+      </a>
+      <a class="bg-white p-4 hover:bg-gray-50 flex flex-col" href="https://github.com/jamiedavenport/opencookies" target="_blank">
+        <p class="font-mono font-medium text-xs mb-1">OpenCookies</p>
+        <p class="text-xs text-gray-500">Headless cookie consent primitives</p>
+      </a>
+      <a class="bg-white p-4 hover:bg-gray-50 flex flex-col" href="https://offstage.sh" target="_blank">
+        <p class="font-mono font-medium text-xs mb-1">Offstage</p>
+        <p class="text-xs text-gray-500">Conversational analytics for coding agents</p>
+      </a>
+      <a class="bg-white p-4 hover:bg-gray-50 flex flex-col" href="https://lucid.jxd.dev" target="_blank">
         <p class="font-mono font-medium text-xs mb-1">Lucid</p>
         <p class="text-xs text-gray-500">Productivity platform for distracted minds</p>
       </a>
-      <div class="bg-white p-4">
-      </div>
     </div>
   </section>
 
