@@ -2,44 +2,68 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Repo origin
+
+This repo was forked from `policystack.dev` (TanStack Start landing page) and stripped down to bare infra. All product/blog content was removed; the MDX, Shiki, OG-generation, and SEO pipelines were kept intact for re-use. If you find empty manifests or `content/blog/` with no posts, that's expected — the wiring is there, the content isn't.
+
 ## Commands
 
-Package manager is Bun (see `bun.lock`).
+```bash
+pnpm dev          # vite dev on http://localhost:3000
+pnpm build        # runs `pnpm og` then `vite build` (client + SSR + nitro)
+pnpm preview      # serve the .output/ build
+pnpm og           # regenerate OG images only
+```
 
-- `bun install` — install dependencies
-- `bun run dev` — start Astro dev server
-- `bun run build` — production build (output goes to `dist/`, deployed via Vercel adapter)
-- `bun run preview` — preview the production build locally
+There is no test runner and no lint command configured. Type checking happens implicitly via `vite build` (`tsc --noEmit` is not wired separately).
 
-There is no test runner, linter, or formatter configured. TypeScript uses `astro/tsconfigs/strict` — type checking happens via `astro check` / editor integration, not a script.
+## Stack
 
-## Architecture
+TanStack Start (Vite + Nitro + React 19), Tailwind v4, content-collections for MDX, Shiki for syntax highlighting, satori + resvg for OG image generation. File-based routing under `src/routes/`.
 
-Astro 5 static-mostly site for `jxd.dev` (personal site of Jamie Davenport), deployed to Vercel via `@astrojs/vercel`. Tailwind v4 is wired in through the Vite plugin (`@tailwindcss/vite`), not a PostCSS config — global styles and the `@plugin "@tailwindcss/typography"` directive live in `src/styles/global.css`.
+## Path aliases
 
-### Pages and rendering modes
+- `#/*` and `@/*` both resolve to `./src/*` (defined in both `tsconfig.json` and `package.json#imports`).
+- `content-collections` resolves to `./.content-collections/generated` — the build artifact produced by the `@content-collections/vite` plugin.
 
-Pages live in `src/pages/`. Most pages are statically generated. Two things to know:
+## MDX + Shiki codeblock chrome (non-obvious)
 
-- `src/pages/contact.astro` opts out of prerendering (`export const prerender = false`) because it handles a POST from an Astro Action. If you change that page, keep that flag — without it the form submission won't work on Vercel.
-- `src/pages/blog/[slug].astro` uses `getStaticPaths` against the `blog` content collection, so adding/removing an MDX file under `src/content/blog/` is enough to add/remove a route — no manual route table.
+Code fences in MDX support `file=` and `tag=` meta strings, e.g.:
 
-### Content collection
+````mdx
+```ts file="example.ts" tag="server"
+const x = 1
+```
+````
 
-Defined in `src/content.config.ts`. The `blog` collection globs `./src/content/blog/*.mdx` with a Zod schema requiring `title`, `summary`, `date` (coerced), `slug`, and an optional `ranking` (default 50). Posts must include all required frontmatter or the build fails.
+Pipeline:
+1. `parseChromeMeta` (`src/lib/rehype-codeblock-chrome.ts`) parses the meta string.
+2. `shikiChromeTransformer` writes `data-file` / `data-tag` attributes onto the `<pre>` element.
+3. The MDX `pre` component override (`src/components/mdx-components.tsx`) reads those attributes and wraps the block in `WindowFrame` (`src/components/CodeBlock.tsx`) — giving you the macOS-style window chrome with the file name as the title.
 
-### Server-side bits at build time
+For non-MDX usage (e.g. a route loader), call `highlight()` from `src/lib/shiki.ts` — it's a `createServerFn` that returns pre-rendered HTML strings. The highlighter instance is created lazily and cached for the process lifetime. Then pass the HTML to `<CodeBlock html={...} />`.
 
-A few pages do real network work during the build — be aware before assuming the build is purely local:
+The custom theme lives at `src/lib/shiki-mono-theme.json` and is used in both the route-loader path and the MDX rehype path.
 
-- `src/components/nav.astro` paginates `api.github.com/users/jamiedavenport/repos` to compute total star count. Wrapped in try/catch so a failure renders without the count rather than breaking the build.
-- `src/pages/directory.astro` runs `open-graph-scraper` against a hardcoded list of external URLs to render link cards. Each fetch is try/caught individually.
-- `src/actions/index.ts` defines a `contact` Astro Action that sends mail via Resend (`RESEND_API_KEY` env var). This runs on the Vercel serverless adapter, not at build.
+## OG image generation
 
-### Layout
+`pnpm build` runs `scripts/og/generate.ts` first. It:
 
-Every page wraps `src/layouts/BaseLayout.astro`, which owns the two-column shell, header/footer/nav, OG/Twitter meta, the Geist Mono font (loaded via Astro's experimental `fontProviders.fontsource()`), and a third-party analytics script (`databuddy.cc`). New pages should pass `title`, `description`, and `ogUrl` so meta stays accurate.
+- Loads Geist Mono TTFs from `node_modules/geist/dist/fonts/geist-mono` (so `geist` must stay in devDependencies).
+- Renders each entry in `scripts/og/manifest.ts` (`staticEntries`) plus one card per `.mdx` file in `content/blog/`.
+- Writes PNGs to `public/og/...` and skips re-rendering when the input's content hash (stored in a sibling `.hash` file) is unchanged.
+- Templates live in `scripts/og/template.tsx` (`pageCard`, `postCard`).
 
-### Visual conventions
+To add a new static OG image, append to `staticEntries` and rerun `pnpm og`.
 
-The look is deliberate — monospaced section headings styled like filenames (`PROJECTS.md`, `BLOG.md`, `CONTACT.md`, etc.), gray-on-white, hairline `border-gray-200` dividers, no rounded corners on cards/grids. When adding sections, follow the existing pattern (`<h2 class="font-mono font-medium text-xs text-gray-500 mb-4">SOMETHING.md</h2>`) rather than introducing a new heading style.
+## SEO helper
+
+`src/lib/seo.ts` exports `pageMeta({ title, description, path, image?, type?, publishedTime? })` — call it from a route's `head:` to get a consistent set of `<title>`, `description`, OpenGraph, Twitter, and canonical-link tags. Update `SITE_URL` / `SITE_NAME` there when the brand is finalized.
+
+## Content collections
+
+`content-collections.ts` defines a single `posts` collection reading `content/blog/*.mdx`. The schema is intentionally loose (`tag` and `author` are optional `z.string()`) so adding posts doesn't require schema migration. Each post gets `slug`, `body` (compiled MDX), and `readingTime` injected by the transform. Import via `import { allPosts } from "content-collections"`.
+
+## Devtools
+
+`src/routes/__root.tsx` mounts `TanStackDevtools` unconditionally — `@tanstack/devtools-vite` strips it from production bundles automatically. Don't gate it manually.

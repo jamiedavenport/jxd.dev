@@ -1,0 +1,288 @@
+---
+title: "TanStack Form components that play well with Playwright"
+excerpt: TanStack Form is a powerful library for building forms in React. It provides a set of components that are easy to use and integrate with other libraries. However, when it comes to testing with Playwright, there are a few things that you need to know.
+date: "2026-02-28"
+author: "Jamie Davenport"
+---
+
+When I was recently setting up end-to-end tests for [Lucid](https://lucid.jxd.dev), I started running into an unexpected issue with form submissions.
+
+As part of my `auth.setup.ts` file, the test suite walks through an OTP-based login flow and establishes a session for the rest of the tests. Simple enough.
+
+Except it wasn't.
+
+Occasionally, the tests would fail because Playwright was interacting with the form before React had fully hydrated the page. Inputs weren't ready yet, buttons weren't interactive, and the test would crash before it even got started.
+
+Let's walk through how I fixed this—and how I ended up with more reusable, resilient form components along the way.
+
+---
+
+## The Initial Solution: Waiting It Out
+
+My first instinct was to wait for the page to finish loading and then add a small buffer for hydration.
+
+```ts
+await page.goto("/sign/in", { waitUntil: "networkidle" });
+await page.waitForTimeout(1000);
+```
+
+This helped most of the time. The tests became more stable, and failures were less frequent.
+
+But there were two big problems:
+
+* It still failed occasionally.
+* Arbitrary timeouts are brittle and ugly.
+
+Any solution that depends on “waiting long enough” is eventually going to break.
+
+So I kept looking.
+
+---
+
+## The Improved Solution: Disable Until Ready
+
+Playwright already does something useful for us: commands like `page.fill()` automatically wait for elements to be visible and interactive.
+
+So instead of slowing down the tests, I flipped the problem around:
+
+> What if the form simply wasn't interactive until hydration finished?
+
+If inputs and buttons are disabled until React is ready, Playwright will naturally wait.
+
+Here's what that looked like at first:
+
+```tsx
+const [hydrated, setHydrated] = useState(false);
+
+useEffect(() => {
+  setHydrated(true);
+}, []);
+
+<Button type="submit" disabled={!hydrated}>
+  Continue with email
+</Button>
+```
+
+Once the component mounts, `hydrated` becomes `true`, and the form becomes usable.
+
+This worked beautifully. I could remove the timeout entirely, and test stability improved immediately.
+
+But there was another problem…
+
+I didn't want to repeat this logic in every form.
+
+---
+
+## The Final Solution: Abstracting with TanStack Form
+
+TanStack Form has excellent support for composition and custom components. That made it the perfect place to centralise this hydration logic.
+
+Instead of sprinkling `useEffect` everywhere, I built reusable form components that handle hydration automatically.
+
+### 1. Creating Shared Context
+
+First, I set up shared form and field contexts:
+
+```tsx
+// components/form/context.tsx
+import { createFormHookContexts } from "@tanstack/react-form";
+
+export const {
+  fieldContext,
+  formContext,
+  useFieldContext,
+  useFormContext,
+} = createFormHookContexts();
+```
+
+---
+
+### 2. A Hydration-Aware Text Field
+
+Next, I wrapped my input component with hydration logic:
+
+```tsx
+// components/form/TextField.tsx
+import { useEffect, useState } from "react";
+import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
+import { Input } from "../ui/input";
+import { useFieldContext } from "./context";
+
+export function TextField({
+  label,
+  description,
+  type = "text",
+  placeholder,
+}) {
+  const [hydrated, setHydrated] = useState(false);
+  const field = useFieldContext<string>();
+
+  const isInvalid =
+    field.state.meta.isTouched && !field.state.meta.isValid;
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  return (
+    <Field data-invalid={isInvalid}>
+      <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+
+      <Input
+        id={field.name}
+        name={field.name}
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(e) => field.handleChange(e.target.value)}
+        aria-invalid={isInvalid}
+        placeholder={placeholder}
+        autoComplete="off"
+        type={type}
+        disabled={!hydrated}
+      />
+
+      {description && <FieldDescription>{description}</FieldDescription>}
+      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+    </Field>
+  );
+}
+```
+
+Now every text field stays disabled until hydration completes.
+
+---
+
+### 3. A Hydration-Aware Submit Button
+
+I applied the same idea to the submit button:
+
+```tsx
+// components/form/SubmitButton.tsx
+import { useEffect, useState, type ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { useFormContext } from "./context";
+
+export function SubmitButton({ children }: { children: ReactNode }) {
+  const [hydrated, setHydrated] = useState(false);
+  const form = useFormContext();
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  return (
+    <form.Subscribe selector={(state) => state.isSubmitting}>
+      {(isSubmitting) => (
+        <Button type="submit" disabled={!hydrated || isSubmitting}>
+          {isSubmitting ? <Spinner /> : children}
+        </Button>
+      )}
+    </form.Subscribe>
+  );
+}
+```
+
+This ensures that:
+
+* The button isn't clickable before hydration.
+* It's disabled while submitting.
+* It shows loading state automatically.
+
+---
+
+### 4. Registering Custom Components
+
+Then I wired everything up using `createFormHook`:
+
+```tsx
+// components/form/index.tsx
+import { createFormHook } from "@tanstack/react-form";
+import { fieldContext, formContext } from "./context";
+
+export const { useAppForm } = createFormHook({
+  fieldComponents: {
+    TextField,
+  },
+  formComponents: {
+    SubmitButton,
+  },
+  fieldContext,
+  formContext,
+});
+```
+
+Now my app has a single, reusable form system that knows how to behave during hydration.
+
+---
+
+## Using the Custom Form
+
+With everything in place, forms become clean and predictable:
+
+```tsx
+// routes/sign.in.tsx
+
+const form = useAppForm({
+  defaultValues: {
+    email: "",
+  },
+  validators: {
+    onSubmit: type({
+      email: "string.email",
+    }),
+  },
+  onSubmit: async ({ value }) => {
+    // ...
+  },
+});
+
+return (
+  <form
+    onSubmit={(e) => {
+      e.preventDefault();
+      form.handleSubmit();
+    }}
+  >
+    <FieldGroup>
+      <form.AppField
+        name="email"
+        children={(field) => (
+          <field.TextField
+            label="Email"
+            placeholder="your@email.com"
+          />
+        )}
+      />
+
+      <form.AppForm>
+        <form.SubmitButton>
+          Continue with email
+        </form.SubmitButton>
+      </form.AppForm>
+    </FieldGroup>
+  </form>
+);
+```
+
+No timeouts.
+No hacks.
+No repeated hydration logic.
+
+Playwright waits naturally, because the form only becomes interactive when it's actually ready.
+
+---
+
+## Conclusion
+
+By moving hydration awareness into reusable TanStack Form components, I ended up with:
+
+* More reliable Playwright tests
+* Zero arbitrary timeouts
+* Cleaner form code
+* Better UX for slow connections
+* A single source of truth for form behavior
+
+What started as a flaky test issue turned into an opportunity to improve both developer experience and user experience.
+
+If you're testing React apps with Playwright and running into hydration timing problems, this pattern is well worth considering.
