@@ -14,15 +14,21 @@ export const mdxComponents = {
       </div>
     </WindowFrame>
   ),
-  h2: (props: ComponentPropsWithoutRef<"h2">) => (
+  h1: (props: ComponentPropsWithoutRef<"h1">) => (
     <h2
       className="mt-12 text-2xl font-semibold tracking-tight text-zinc-900"
       {...props}
     />
   ),
-  h3: (props: ComponentPropsWithoutRef<"h3">) => (
+  h2: (props: ComponentPropsWithoutRef<"h2">) => (
     <h3
       className="mt-8 text-xl font-semibold tracking-tight text-zinc-900"
+      {...props}
+    />
+  ),
+  h3: (props: ComponentPropsWithoutRef<"h3">) => (
+    <h4
+      className="mt-6 text-lg font-semibold tracking-tight text-zinc-900"
       {...props}
     />
   ),
@@ -44,6 +50,12 @@ export const mdxComponents = {
   a: (props: ComponentPropsWithoutRef<"a">) => (
     <a
       className="text-blue-600 underline decoration-blue-200 underline-offset-4 hover:decoration-blue-600"
+      {...props}
+    />
+  ),
+  img: (props: ComponentPropsWithoutRef<"img">) => (
+    <img
+      className="my-6 w-full rounded-md ring-1 ring-zinc-200"
       {...props}
     />
   ),
