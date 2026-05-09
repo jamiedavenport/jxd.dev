@@ -10,13 +10,16 @@ import { SiteHeader } from "../components/SiteHeader";
 
 export const Route = createFileRoute("/")({
   component: Home,
-  head: () =>
-    pageMeta({
-      title: "JXD",
-      description:
-        "Jamie Davenport — software engineer, entrepreneur, investor.",
-      path: "/",
-    }),
+  head: (ctx) =>
+    pageMeta(
+      {
+        title: "JXD",
+        description:
+          "Jamie Davenport — software engineer, entrepreneur, investor.",
+        path: "/",
+      },
+      ctx,
+    ),
 });
 
 const NAME = "Jamie Davenport";

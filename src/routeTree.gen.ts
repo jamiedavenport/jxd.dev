@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
+import { Route as OgSplatRouteImport } from './routes/og/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const WritingSlugRoute = WritingSlugRouteImport.update({
   path: '/writing/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OgSplatRoute = OgSplatRouteImport.update({
+  id: '/og/$',
+  path: '/og/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/og/$': typeof OgSplatRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/og/$': typeof OgSplatRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/og/$': typeof OgSplatRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/writing/$slug'
+  fullPaths: '/' | '/og/$' | '/writing/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/writing/$slug'
-  id: '__root__' | '/' | '/writing/$slug'
+  to: '/' | '/og/$' | '/writing/$slug'
+  id: '__root__' | '/' | '/og/$' | '/writing/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OgSplatRoute: typeof OgSplatRoute
   WritingSlugRoute: typeof WritingSlugRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WritingSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/og/$': {
+      id: '/og/$'
+      path: '/og/$'
+      fullPath: '/og/$'
+      preLoaderRoute: typeof OgSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OgSplatRoute: OgSplatRoute,
   WritingSlugRoute: WritingSlugRoute,
 }
 export const routeTree = rootRouteImport

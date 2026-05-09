@@ -7,17 +7,18 @@
   },
   "scripts": {
     "dev": "vite dev --port 3000",
-    "og": "tsx scripts/og/generate.ts",
     "sitemap": "tsx scripts/sitemap/generate.ts",
-    "build": "pnpm run sitemap && pnpm run og && vite build",
+    "build": "pnpm run sitemap && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@content-collections/core": "^0.15.0",
     "@content-collections/mdx": "^0.2.2",
     "@content-collections/vite": "^0.3.0",
+    "@jxdltd/tanstack": "^0.0.1",
     "@offstage/react": "^0.0.2",
     "@phosphor-icons/react": "^2.1.10",
+    "@resvg/resvg-js": "^2.6.2",
     "@shikijs/rehype": "^4.0.2",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "latest",
@@ -40,15 +41,12 @@
   },
   "devDependencies": {
     "@fontsource/plus-jakarta-sans": "^5.2.8",
-    "@resvg/resvg-js": "^2.6.2",
     "@shikijs/types": "^4.0.2",
     "@tanstack/devtools-vite": "latest",
     "@types/node": "^22.10.2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
-    "geist": "^1.7.0",
-    "satori": "^0.26.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2",
     "vite": "^8.0.0"

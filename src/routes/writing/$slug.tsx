@@ -12,16 +12,19 @@ export const Route = createFileRoute("/writing/$slug")({
     return post;
   },
   component: BlogPost,
-  head: ({ loaderData }) => {
+  head: (ctx) => {
+    const { loaderData } = ctx;
     if (!loaderData) return {};
-    return pageMeta({
-      title: `${loaderData.title} — JXD`,
-      description: loaderData.excerpt,
-      path: `/writing/${loaderData.slug}`,
-      image: `/og/writing/${loaderData.slug}.png`,
-      type: "article",
-      publishedTime: loaderData.date,
-    });
+    return pageMeta(
+      {
+        title: `${loaderData.title} — JXD`,
+        description: loaderData.excerpt,
+        path: `/writing/${loaderData.slug}`,
+        type: "article",
+        publishedTime: loaderData.date,
+      },
+      ctx,
+    );
   },
 });
 

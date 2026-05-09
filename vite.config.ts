@@ -10,9 +10,14 @@ import contentCollections from '@content-collections/vite'
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
+  optimizeDeps: { exclude: ['@resvg/resvg-js'] },
+  ssr: {
+    external: ['@resvg/resvg-js'],
+    optimizeDeps: { exclude: ['@resvg/resvg-js'] },
+  },
   plugins: [
     devtools(),
-    nitro({ rollupConfig: { external: [/^@sentry\//] } }),
+    nitro({ rollupConfig: { external: [/^@sentry\//, /^@resvg\//] } }),
     tailwindcss(),
     contentCollections(),
     tanstackStart(),

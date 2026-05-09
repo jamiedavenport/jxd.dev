@@ -1,31 +1,24 @@
+import { ogMeta } from '@jxdltd/tanstack/og/router'
+
 export const SITE_URL = 'https://jxd.dev'
 export const SITE_NAME = 'JXD'
 export const TWITTER_HANDLE = '@jamiedavenport'
-export const DEFAULT_OG_IMAGE = '/og/home.png'
 
 type PageMetaInput = {
   title: string
   description: string
   path: string
-  image?: string
   type?: 'website' | 'article'
   publishedTime?: string
 }
 
-export function pageMeta({
-  title,
-  description,
-  path,
-  image = DEFAULT_OG_IMAGE,
-  type = 'website',
-  publishedTime,
-}: PageMetaInput) {
+type HeadCtx = Parameters<typeof ogMeta>[0]
+
+export function pageMeta(
+  { title, description, path, type = 'website', publishedTime }: PageMetaInput,
+  ctx: HeadCtx,
+) {
   const url = `${SITE_URL}${path}`
-  const fullImage = image
-    ? image.startsWith('http')
-      ? image
-      : `${SITE_URL}${image}`
-    : null
 
   const meta: Array<Record<string, string>> = [
     { title },
@@ -37,18 +30,16 @@ export function pageMeta({
     { property: 'og:description', content: description },
     { property: 'og:url', content: url },
 
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:site', content: TWITTER_HANDLE },
     { name: 'twitter:creator', content: TWITTER_HANDLE },
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: description },
-  ]
 
-  if (fullImage) {
-    meta.push({ property: 'og:image', content: fullImage })
-    meta.push({ property: 'og:image:alt', content: SITE_NAME })
-    meta.push({ name: 'twitter:image', content: fullImage })
-  }
+    ...ogMeta(ctx, {
+      siteName: SITE_NAME,
+      siteUrl: SITE_URL,
+      twitterHandle: TWITTER_HANDLE,
+    }),
+  ]
 
   if (type === 'article' && publishedTime) {
     meta.push({ property: 'article:published_time', content: publishedTime })
