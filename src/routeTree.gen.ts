@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WebDesignRouteImport } from './routes/web-design'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
 import { Route as OgSplatRouteImport } from './routes/og/$'
 
+const WebDesignRoute = WebDesignRouteImport.update({
+  id: '/web-design',
+  path: '/web-design',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,36 +37,47 @@ const OgSplatRoute = OgSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/web-design': typeof WebDesignRoute
   '/og/$': typeof OgSplatRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/web-design': typeof WebDesignRoute
   '/og/$': typeof OgSplatRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/web-design': typeof WebDesignRoute
   '/og/$': typeof OgSplatRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/og/$' | '/writing/$slug'
+  fullPaths: '/' | '/web-design' | '/og/$' | '/writing/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/og/$' | '/writing/$slug'
-  id: '__root__' | '/' | '/og/$' | '/writing/$slug'
+  to: '/' | '/web-design' | '/og/$' | '/writing/$slug'
+  id: '__root__' | '/' | '/web-design' | '/og/$' | '/writing/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  WebDesignRoute: typeof WebDesignRoute
   OgSplatRoute: typeof OgSplatRoute
   WritingSlugRoute: typeof WritingSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/web-design': {
+      id: '/web-design'
+      path: '/web-design'
+      fullPath: '/web-design'
+      preLoaderRoute: typeof WebDesignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  WebDesignRoute: WebDesignRoute,
   OgSplatRoute: OgSplatRoute,
   WritingSlugRoute: WritingSlugRoute,
 }
