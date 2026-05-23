@@ -35,28 +35,16 @@ const PROJECTS = [
     year: "2026",
   },
   {
+    name: "Plain",
+    blurb: "Modern and reliable Github alternative.",
+    href: "https://plain.jxd.dev",
+    year: "2026",
+  },
+  {
     name: "Offstage",
     blurb: "Conversational analytics for coding agents.",
     href: "https://offstage.sh",
     year: "2026",
-  },
-  {
-    name: "OpenPolicy",
-    blurb: "Privacy-first primitives for React.",
-    href: "https://github.com/jamiedavenport/openpolicy",
-    year: "2026",
-  },
-  {
-    name: "OpenCookies",
-    blurb: "Headless cookie consent primitives.",
-    href: "https://github.com/jamiedavenport/opencookies",
-    year: "2026",
-  },
-  {
-    name: "Lucid",
-    blurb: "Productivity platform for distracted minds.",
-    href: "https://lucid.jxd.dev",
-    year: "2025",
   },
 ];
 
@@ -111,8 +99,8 @@ function Home() {
         <Section label="about">
           <p className="leading-relaxed text-zinc-700">
             Hey, I'm Jamie. I build open-source developer tools and ship
-            production work for a small handful of clients. Most of my time
-            goes into{" "}
+            production work for a small handful of clients. Most of my time goes
+            into{" "}
             <a
               href="https://policystack.dev"
               target="_blank"
@@ -120,9 +108,9 @@ function Home() {
               className="font-medium text-zinc-900 underline underline-offset-4 hover:text-zinc-600"
             >
               PolicyStack
-            </a>
-            {" "}— privacy and consent as code. Before that I ran Docbot, a
-            VC-backed startup that didn't quite make it.
+            </a>{" "}
+            — privacy and consent as code. Before that I ran Docbot, a VC-backed
+            startup that didn't quite make it.
           </p>
           <p className="mt-3 font-mono text-xs text-zinc-500">
             {LOCATION} ·{" "}
