@@ -46,7 +46,7 @@ function BlogPost() {
               ← all posts
             </a>
           </div>
-          <div>
+          <div className="min-w-0">
             <h1 className="text-3xl font-medium tracking-tight text-balance lg:text-4xl">
               {post.title}
             </h1>

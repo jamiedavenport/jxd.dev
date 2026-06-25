@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WebDesignRouteImport } from './routes/web-design'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
+import { Route as ProjectSlugRouteImport } from './routes/project/$slug'
 import { Route as OgSplatRouteImport } from './routes/og/$'
 
 const WebDesignRoute = WebDesignRouteImport.update({
@@ -29,6 +30,11 @@ const WritingSlugRoute = WritingSlugRouteImport.update({
   path: '/writing/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectSlugRoute = ProjectSlugRouteImport.update({
+  id: '/project/$slug',
+  path: '/project/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OgSplatRoute = OgSplatRouteImport.update({
   id: '/og/$',
   path: '/og/$',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/web-design': typeof WebDesignRoute
   '/og/$': typeof OgSplatRoute
+  '/project/$slug': typeof ProjectSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/web-design': typeof WebDesignRoute
   '/og/$': typeof OgSplatRoute
+  '/project/$slug': typeof ProjectSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,28 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/web-design': typeof WebDesignRoute
   '/og/$': typeof OgSplatRoute
+  '/project/$slug': typeof ProjectSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/web-design' | '/og/$' | '/writing/$slug'
+  fullPaths: '/' | '/web-design' | '/og/$' | '/project/$slug' | '/writing/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/web-design' | '/og/$' | '/writing/$slug'
-  id: '__root__' | '/' | '/web-design' | '/og/$' | '/writing/$slug'
+  to: '/' | '/web-design' | '/og/$' | '/project/$slug' | '/writing/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/web-design'
+    | '/og/$'
+    | '/project/$slug'
+    | '/writing/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   WebDesignRoute: typeof WebDesignRoute
   OgSplatRoute: typeof OgSplatRoute
+  ProjectSlugRoute: typeof ProjectSlugRoute
   WritingSlugRoute: typeof WritingSlugRoute
 }
 
@@ -92,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WritingSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/project/$slug': {
+      id: '/project/$slug'
+      path: '/project/$slug'
+      fullPath: '/project/$slug'
+      preLoaderRoute: typeof ProjectSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/og/$': {
       id: '/og/$'
       path: '/og/$'
@@ -106,6 +129,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   WebDesignRoute: WebDesignRoute,
   OgSplatRoute: OgSplatRoute,
+  ProjectSlugRoute: ProjectSlugRoute,
   WritingSlugRoute: WritingSlugRoute,
 }
 export const routeTree = rootRouteImport

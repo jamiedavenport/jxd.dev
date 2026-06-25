@@ -26,7 +26,22 @@ const NAME = "Jamie Davenport";
 const ROLE = "Software engineer, entrepreneur, investor.";
 const LOCATION = "London, UK";
 
-const PROJECTS = [
+type Project = {
+  name: string;
+  blurb: string;
+  year: string;
+  href?: string;
+  slug?: string;
+};
+
+const PROJECTS: Project[] = [
+  {
+    name: "restmd",
+    blurb:
+      "A markdown-native REST client — requests live in .md files, version-controlled and executable.",
+    slug: "restmd",
+    year: "2026",
+  },
   {
     name: "PolicyStack",
     blurb:
@@ -122,17 +137,9 @@ function Home() {
 
         <Section label="projects">
           <ul className="flex flex-col">
-            {PROJECTS.map((p) => (
-              <li
-                key={p.name}
-                className="border-t border-zinc-200 py-3 first:border-t-0"
-              >
-                <a
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-baseline justify-between gap-6"
-                >
+            {PROJECTS.map((p) => {
+              const inner = (
+                <>
                   <span>
                     <span className="font-medium underline-offset-4 group-hover:underline">
                       {p.name}
@@ -142,9 +149,34 @@ function Home() {
                   <span className="shrink-0 font-mono text-xs text-zinc-400 tabular-nums">
                     {p.year}
                   </span>
-                </a>
-              </li>
-            ))}
+                </>
+              );
+              return (
+                <li
+                  key={p.name}
+                  className="border-t border-zinc-200 py-3 first:border-t-0"
+                >
+                  {p.slug ? (
+                    <Link
+                      to="/project/$slug"
+                      params={{ slug: p.slug }}
+                      className="group flex items-baseline justify-between gap-6"
+                    >
+                      {inner}
+                    </Link>
+                  ) : (
+                    <a
+                      href={p.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-baseline justify-between gap-6"
+                    >
+                      {inner}
+                    </a>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </Section>
 

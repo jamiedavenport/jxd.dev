@@ -3,6 +3,7 @@ import { join, resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dirname, "../..");
 const POSTS_DIR = join(ROOT, "content/blog");
+const PROJECTS_DIR = join(ROOT, "content/projects");
 const OUT = join(ROOT, "public/sitemap.xml");
 
 const SITE_URL = "https://jxd.dev";
@@ -29,12 +30,12 @@ function parseFrontmatter(raw: string): Record<string, string> {
   return data;
 }
 
-function loadPosts(): { slug: string; date?: string }[] {
-  if (!existsSync(POSTS_DIR)) return [];
-  return readdirSync(POSTS_DIR)
+function loadMdx(dir: string): { slug: string; date?: string }[] {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
     .filter((f) => f.endsWith(".mdx"))
     .map((file) => {
-      const data = parseFrontmatter(readFileSync(join(POSTS_DIR, file), "utf8"));
+      const data = parseFrontmatter(readFileSync(join(dir, file), "utf8"));
       return { slug: file.replace(/\.mdx$/, ""), date: data.date };
     });
 }
@@ -50,11 +51,20 @@ function buildXml(entries: Entry[]): string {
 }
 
 function main() {
-  const posts = loadPosts().sort((a, b) =>
+  const posts = loadMdx(POSTS_DIR).sort((a, b) =>
+    (a.date ?? "") < (b.date ?? "") ? 1 : -1,
+  );
+  const projects = loadMdx(PROJECTS_DIR).sort((a, b) =>
     (a.date ?? "") < (b.date ?? "") ? 1 : -1,
   );
   const entries: Entry[] = [
     { loc: `${SITE_URL}/`, changefreq: "weekly", priority: "1.0" },
+    ...projects.map((p) => ({
+      loc: `${SITE_URL}/project/${p.slug}`,
+      lastmod: p.date,
+      changefreq: "monthly",
+      priority: "0.8",
+    })),
     ...posts.map((p) => ({
       loc: `${SITE_URL}/writing/${p.slug}`,
       lastmod: p.date,

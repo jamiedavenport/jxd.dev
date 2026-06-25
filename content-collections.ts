@@ -10,6 +10,18 @@ import {
   shikiChromeTransformer,
 } from "./src/lib/rehype-codeblock-chrome";
 
+const rehypePlugins = [
+  [
+    shikiRehype,
+    {
+      theme: monoTheme as unknown as ThemeRegistrationRaw,
+      langs: ["ts", "tsx", "json", "bash", "markdown", "yaml", "http"],
+      parseMetaString: (metaString: string) => parseChromeMeta(metaString),
+      transformers: [shikiChromeTransformer],
+    },
+  ],
+];
+
 const posts = defineCollection({
   name: "posts",
   directory: "content/blog",
@@ -22,26 +34,40 @@ const posts = defineCollection({
     author: z.string().optional(),
   }),
   transform: async (doc, ctx) => {
-    const body = await compileMDX(ctx, doc, {
-      rehypePlugins: [
-        [
-          shikiRehype,
-          {
-            theme: monoTheme as unknown as ThemeRegistrationRaw,
-            langs: ["ts", "tsx", "json", "bash"],
-            parseMetaString: (metaString) => parseChromeMeta(metaString),
-            transformers: [shikiChromeTransformer],
-          },
-        ],
-      ],
-    });
+    const body = await compileMDX(ctx, doc, { rehypePlugins });
     const slug = doc._meta.fileName.replace(/\.mdx$/, "");
     const readingTime = computeReadingTime(doc.content);
     return { ...doc, slug, body, readingTime };
   },
 });
 
-export default defineConfig({ content: [posts] });
+const projects = defineCollection({
+  name: "projects",
+  directory: "content/projects",
+  include: "*.mdx",
+  schema: z.object({
+    title: z.string(),
+    excerpt: z.string(),
+    date: z.string(),
+    // One-line tagline shown under the title (defaults to excerpt).
+    tagline: z.string().optional(),
+    // Hero image and demo video, served from /public.
+    hero: z.string().optional(),
+    video: z.string().optional(),
+    videoPoster: z.string().optional(),
+    // External links rendered as a row of buttons under the hero.
+    links: z
+      .array(z.object({ label: z.string(), href: z.string() }))
+      .optional(),
+  }),
+  transform: async (doc, ctx) => {
+    const body = await compileMDX(ctx, doc, { rehypePlugins });
+    const slug = doc._meta.fileName.replace(/\.mdx$/, "");
+    return { ...doc, slug, body };
+  },
+});
+
+export default defineConfig({ content: [posts, projects] });
 
 function computeReadingTime(content: string): string {
   const prose = content

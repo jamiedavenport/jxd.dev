@@ -1,0 +1,127 @@
+---
+title: restmd
+excerpt: A markdown-native REST client — requests live in .md files, version-controlled, diffable, and executable.
+date: "2026-06-25"
+tagline: A markdown-native REST client. Requests live in .md files — version-controlled, diffable, and executable.
+hero: /projects/restmd/hero.png
+video: /projects/restmd/demo.mp4
+videoPoster: /projects/restmd/hero.png
+links:
+  - label: GitHub
+    href: https://github.com/jamiedavenport/restmd
+  - label: VS Code extension
+    href: https://marketplace.visualstudio.com/items?itemName=jamiedavenport.restmd
+  - label: Spec
+    href: https://github.com/jamiedavenport/restmd/blob/main/spec.md
+---
+
+# Overview
+
+restmd is a REST client built around a simple idea: your API requests are just
+markdown. Each request lives in an ordinary `.md` file inside a `.restmd/`
+directory, so the whole thing is version-controlled, diffable in code review,
+and executable straight from your terminal or editor.
+
+No proprietary export format, no GUI-only state, no secrets baked into a binary
+blob. A request is plain text you can read, grep, and commit alongside the code
+it talks to.
+
+# Install
+
+```bash
+# macOS / Linux
+curl -LsSf https://github.com/jamiedavenport/restmd/releases/latest/download/restmd-installer.sh | sh
+
+# Homebrew (macOS / Linux)
+brew install jamiedavenport/tap/restmd
+
+# Windows (PowerShell)
+powershell -c "irm https://github.com/jamiedavenport/restmd/releases/latest/download/restmd-installer.ps1 | iex"
+```
+
+The `restmd` binary also bundles the language server (`restmd lsp`), so editor
+support needs nothing extra.
+
+# Quick start
+
+```bash
+restmd init   # scaffold ./.restmd with an example request
+restmd        # open the TUI on ./.restmd
+```
+
+Navigate with `Tab` / `h` / `l` and `j` / `k`, press `Enter` to run a request
+(and the earlier ones it depends on), `o` to open the current file in
+`$EDITOR`, `q` to quit. Editing a file under `.restmd/` refreshes the TUI live.
+
+# Writing requests
+
+A restmd file has three layers: an optional **frontmatter** block of file-level
+config, free-form **prose** the runner ignores, and one or more **requests**.
+Here is a complete file:
+
+```markdown file=".restmd/auth.md"
+---
+base: http://127.0.0.1:8787
+defaults:
+  Accept: application/json
+---
+
+# Auth flow
+
+Log in, capture the token, then make an authenticated request that depends on
+it. Running the second request runs the first one too.
+
+## POST /auth/login
+Content-Type: application/json
+
+{ "email": "ada@example.com", "password": "hunter2" }
+
+> capture token  = $.access_token
+> capture userId = $.user.id
+> assert  status == 200
+> assert  $.access_token exists
+
+## GET /users/{{userId}}
+Authorization: Bearer {{token}}
+
+> assert status == 200
+> assert $.active == true
+```
+
+Each request is an `H2` heading of the form `## METHOD /path`. Directives —
+markdown blockquotes beginning with `>` — attach to the request above them and
+run once the response comes back: `capture` saves a value for later requests,
+`assert` checks the status or body, and `set` binds a variable without sending
+anything.
+
+# Variables
+
+`{{name}}` interpolates a variable anywhere in a path, header, or body. Lookup
+is first-match-wins: values captured earlier in the run, then
+`RESTMD_VAR_<NAME>` environment variables, then the selected `environments`
+block from the frontmatter.
+
+Two modifiers help with missing values — `{{name?}}` resolves to an empty
+string instead of erroring, and `{{name!fallback}}` uses a fallback when unset.
+Built-in functions are available too: `{{uuid()}}`, `{{now()}}`,
+`{{timestamp()}}`, `{{base64(var)}}`, and `{{env(NAME)}}`.
+
+# Editor integrations
+
+The bundled language server brings completion, diagnostics, document symbols,
+and hover to `.restmd/` files. It engages only inside `.restmd/` directories, so
+your files still render as plain markdown everywhere else.
+
+- **VS Code** — install the [restmd extension](https://marketplace.visualstudio.com/items?itemName=jamiedavenport.restmd) from the Marketplace.
+- **Zed, Neovim, Helix** — see [`editors/`](https://github.com/jamiedavenport/restmd/tree/main/editors) for setup.
+
+Each editor shells out to `restmd lsp`, so just keep the `restmd` binary on your
+`PATH` — nothing else to install.
+
+# Under the hood
+
+restmd is a Rust workspace. `restmd-core` is the parser, document model, and
+executor every surface builds on; `restmd-tui` is the ratatui client;
+`restmd-lsp` is the language server; and the `restmd` binary ties them together
+behind a small clap CLI. See the [spec](https://github.com/jamiedavenport/restmd/blob/main/spec.md)
+for the full design.
