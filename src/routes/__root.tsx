@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { OffstageProvider } from "@offstage/react";
+import { PlainAnalytics } from "@plainalpha/analytics/react";
 
 import appCss from "../styles.css?url";
 
@@ -35,11 +35,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <OffstageProvider apiKey="pk_live_IOjISJ77Ti5S9psBVE57y2OAlQN9GoSo">
-          <div id="app" className="isolate">
-            <main>{children ?? <Outlet />}</main>
-          </div>
-        </OffstageProvider>
+        <PlainAnalytics
+          publicKey="pa_pub_01KW04810A9G8KMKVZ69BWTDZF"
+          host="https://alpha.plain.jxd.dev"
+        />
+        <div id="app" className="isolate">
+          <main>{children ?? <Outlet />}</main>
+        </div>
         <TanStackDevtools
           config={{ position: "bottom-right" }}
           plugins={[

@@ -20,12 +20,12 @@ importers:
       '@jxdltd/tanstack':
         specifier: ^0.0.1
         version: 0.0.1(@tanstack/react-router@1.169.1(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react@19.2.5)
-      '@offstage/react':
-        specifier: ^0.0.2
-        version: 0.0.2(react@19.2.5)
       '@phosphor-icons/react':
         specifier: ^2.1.10
         version: 2.1.10(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      '@plainalpha/analytics':
+        specifier: ^0.0.1
+        version: 0.0.1(react@19.2.5)
       '@resvg/resvg-js':
         specifier: ^2.6.2
         version: 2.6.2
@@ -605,14 +605,6 @@ packages:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
 
-  '@offstage/browser@0.0.1':
-    resolution: {integrity: sha512-9SqPDAlGwWI1+HMbAHsEOnRndUO6scEJB6+N27zgrN9CJswkTKnTPqjUgFWlGBdinfiLtGiymdlikSetA/Fk0w==}
-
-  '@offstage/react@0.0.2':
-    resolution: {integrity: sha512-5FpuyL1iKDhSIsoX2NvF22zDf3xKj0bzCj1OexI5HPENIjXli0Jm5TPF5S/kDTGScG+mjKmUOKHh2ENPRWtOyQ==}
-    peerDependencies:
-      react: ^19.0.0
-
   '@oozcitak/dom@2.0.2':
     resolution: {integrity: sha512-GjpKhkSYC3Mj4+lfwEyI1dqnsKTgwGy48ytZEhm4A/xnH/8z9M3ZVXKr/YGQi3uCLs1AEBS+x5T2JPiueEDW8w==}
     engines: {node: '>=20.0'}
@@ -641,6 +633,14 @@ packages:
     peerDependencies:
       react: '>= 16.8'
       react-dom: '>= 16.8'
+
+  '@plainalpha/analytics@0.0.1':
+    resolution: {integrity: sha512-TaIKn6H4xtG30PBvVeDPFnIsSfW5GqDHoMCyfApGPKiAYcSMZ5XMU5MQ6LEnjqh1ilH1yP7fsd3VAAFTqwE1dA==}
+    peerDependencies:
+      react: '>=18'
+    peerDependenciesMeta:
+      react:
+        optional: true
 
   '@resvg/resvg-js-android-arm-eabi@2.6.2':
     resolution: {integrity: sha512-FrJibrAk6v29eabIPgcTUMPXiEz8ssrAk7TXxsiZzww9UTQ1Z5KAbFJs+Z0Ez+VZTYgnE5IQJqBcoSiMebtPHA==}
@@ -3160,13 +3160,6 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
-  '@offstage/browser@0.0.1': {}
-
-  '@offstage/react@0.0.2(react@19.2.5)':
-    dependencies:
-      '@offstage/browser': 0.0.1
-      react: 19.2.5
-
   '@oozcitak/dom@2.0.2':
     dependencies:
       '@oozcitak/infra': 2.0.2
@@ -3192,6 +3185,10 @@ snapshots:
     dependencies:
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
+
+  '@plainalpha/analytics@0.0.1(react@19.2.5)':
+    optionalDependencies:
+      react: 19.2.5
 
   '@resvg/resvg-js-android-arm-eabi@2.6.2':
     optional: true
