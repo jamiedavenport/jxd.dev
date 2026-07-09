@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as WritingSlugRouteImport } from './routes/writing/$slug'
 import { Route as ProjectSlugRouteImport } from './routes/project/$slug'
 import { Route as OgSplatRouteImport } from './routes/og/$'
+import { Route as ApiMarginRouteImport } from './routes/api/margin'
 
 const WebDesignRoute = WebDesignRouteImport.update({
   id: '/web-design',
@@ -40,10 +41,16 @@ const OgSplatRoute = OgSplatRouteImport.update({
   path: '/og/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMarginRoute = ApiMarginRouteImport.update({
+  id: '/api/margin',
+  path: '/api/margin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/web-design': typeof WebDesignRoute
+  '/api/margin': typeof ApiMarginRoute
   '/og/$': typeof OgSplatRoute
   '/project/$slug': typeof ProjectSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/web-design': typeof WebDesignRoute
+  '/api/margin': typeof ApiMarginRoute
   '/og/$': typeof OgSplatRoute
   '/project/$slug': typeof ProjectSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
@@ -59,19 +67,33 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/web-design': typeof WebDesignRoute
+  '/api/margin': typeof ApiMarginRoute
   '/og/$': typeof OgSplatRoute
   '/project/$slug': typeof ProjectSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/web-design' | '/og/$' | '/project/$slug' | '/writing/$slug'
+  fullPaths:
+    | '/'
+    | '/web-design'
+    | '/api/margin'
+    | '/og/$'
+    | '/project/$slug'
+    | '/writing/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/web-design' | '/og/$' | '/project/$slug' | '/writing/$slug'
+  to:
+    | '/'
+    | '/web-design'
+    | '/api/margin'
+    | '/og/$'
+    | '/project/$slug'
+    | '/writing/$slug'
   id:
     | '__root__'
     | '/'
     | '/web-design'
+    | '/api/margin'
     | '/og/$'
     | '/project/$slug'
     | '/writing/$slug'
@@ -80,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   WebDesignRoute: typeof WebDesignRoute
+  ApiMarginRoute: typeof ApiMarginRoute
   OgSplatRoute: typeof OgSplatRoute
   ProjectSlugRoute: typeof ProjectSlugRoute
   WritingSlugRoute: typeof WritingSlugRoute
@@ -122,12 +145,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OgSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/margin': {
+      id: '/api/margin'
+      path: '/api/margin'
+      fullPath: '/api/margin'
+      preLoaderRoute: typeof ApiMarginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   WebDesignRoute: WebDesignRoute,
+  ApiMarginRoute: ApiMarginRoute,
   OgSplatRoute: OgSplatRoute,
   ProjectSlugRoute: ProjectSlugRoute,
   WritingSlugRoute: WritingSlugRoute,

@@ -9,6 +9,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { PlainAnalytics } from "@plainalpha/analytics/react";
 
+import "#/lib/analytics";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
