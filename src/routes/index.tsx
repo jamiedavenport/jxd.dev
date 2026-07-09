@@ -36,6 +36,13 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
+    name: "Margin",
+    blurb:
+      "Analytics that annotates traffic spikes with the releases, mentions, and launches behind them.",
+    href: "https://inmargin.io",
+    year: "2026",
+  },
+  {
     name: "restmd",
     blurb:
       "A markdown-native REST client — requests live in .md files, version-controlled and executable.",
