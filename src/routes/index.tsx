@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { CtaSection, LabeledSection, SiteShell } from '../components/site'
 import { CadenceDiagram, IsoChips, IsoLegend, IsoStack } from '../components/diagrams'
+import { TechLogo } from '../components/logos'
 import {
   ArrowLink,
   BodyText,
@@ -167,30 +168,35 @@ function Home() {
       </LabeledSection>
 
       <LabeledSection index="04" title="The stack">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-[1fr_20rem]">
-          <div>
-            <DisplayHeading className="max-w-[24ch] text-3xl text-balance sm:text-4xl">
-              Modern by default.
-            </DisplayHeading>
-            <BodyText className="mt-6">
-              Proven, current tools we run in production on our own products.
-              AI-native throughout: models draft, engineers decide, and every
-              line passes review, tests, and CI.
-            </BodyText>
-            <TermRows
-              rows={stack}
-              className="mt-10"
-              detailClass="font-mono text-base/7 text-neutral-600 sm:text-sm/6"
-            />
-          </div>
-          <div className="max-lg:hidden">
-            <IsoStack className="py-6" boxClass="size-44" topChildren={<IsoChips />} />
-            <IsoLegend
-              entries={['Interface', 'API and data', 'Infrastructure']}
-              className="mt-4 text-center"
-            />
-          </div>
-        </div>
+        <DisplayHeading className="max-w-[24ch] text-3xl text-balance sm:text-4xl">
+          Modern by default.
+        </DisplayHeading>
+        <BodyText className="mt-6">
+          Proven, current tools we run in production on our own products.
+          AI-native throughout: models draft, engineers decide, and every line
+          passes review, tests, and CI.
+        </BodyText>
+        <TermRows
+          rows={stack.map((group) => ({
+            term: group.term,
+            detail: (
+              <span className="flex flex-wrap gap-x-8 gap-y-4">
+                {group.items.map((item) => (
+                  <span
+                    key={item.name}
+                    className="flex items-center gap-2 font-medium"
+                  >
+                    <TechLogo name={item.logo} className="size-5" />
+                    {item.name}
+                  </span>
+                ))}
+              </span>
+            ),
+          }))}
+          className="mt-10"
+          pads={['pb-6', 'py-6', 'pt-6']}
+          detailClass="text-neutral-950"
+        />
       </LabeledSection>
 
       <LabeledSection id="how-we-work" index="05" title="How we work">

@@ -1,22 +1,54 @@
-export const stack = [
+import type { TechLogoName } from '../components/logos'
+
+export const stack: {
+  term: string
+  items: { name: string; logo: TechLogoName }[]
+}[] = [
   {
     term: 'Interface',
-    detail: 'TypeScript · React · TanStack · Next.js · Expo · Tailwind',
+    items: [
+      { name: 'TypeScript', logo: 'typescript' },
+      { name: 'React', logo: 'react' },
+      { name: 'TanStack', logo: 'tanstack' },
+      { name: 'Next.js', logo: 'nextjs' },
+      { name: 'Expo', logo: 'expo' },
+      { name: 'Tailwind', logo: 'tailwind' },
+    ],
   },
   {
     term: 'API',
-    detail: 'Node.js · tRPC · Stripe',
+    items: [
+      { name: 'Node.js', logo: 'nodejs' },
+      { name: 'tRPC', logo: 'trpc' },
+      { name: 'Stripe', logo: 'stripe' },
+    ],
   },
   {
     term: 'Data and AI',
-    detail: 'Postgres · SQLite · Redis · Claude · AI SDK',
+    items: [
+      { name: 'Postgres', logo: 'postgres' },
+      { name: 'SQLite', logo: 'sqlite' },
+      { name: 'Redis', logo: 'redis' },
+      { name: 'Claude', logo: 'claude' },
+      { name: 'AI SDK', logo: 'aisdk' },
+    ],
   },
   {
     term: 'Infrastructure',
-    detail: 'Cloudflare · AWS · Kubernetes · Terraform',
+    items: [
+      { name: 'Cloudflare', logo: 'cloudflare' },
+      { name: 'AWS', logo: 'aws' },
+      { name: 'Kubernetes', logo: 'kubernetes' },
+      { name: 'Terraform', logo: 'terraform' },
+    ],
   },
   {
     term: 'Quality',
-    detail: 'GitHub Actions · Playwright · Vitest · OpenTelemetry',
+    items: [
+      { name: 'GitHub Actions', logo: 'githubactions' },
+      { name: 'Playwright', logo: 'playwright' },
+      { name: 'Vitest', logo: 'vitest' },
+      { name: 'OpenTelemetry', logo: 'opentelemetry' },
+    ],
   },
 ]
