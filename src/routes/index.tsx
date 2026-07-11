@@ -1,17 +1,21 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { CtaSection, LabeledSection, SiteShell } from '../components/site'
-import { IsoChips, IsoLegend, IsoStack } from '../components/diagrams'
+import { CadenceDiagram, IsoChips, IsoLegend, IsoStack } from '../components/diagrams'
 import {
   ArrowLink,
+  BodyText,
   ButtonLink,
   DisplayHeading,
   FeatureGrid,
   Lede,
   MonoLabel,
   NumberedRows,
+  Quote,
   StatStrip,
   TermRows,
 } from '../components/ui'
+import { caseStudies } from '../data/case-studies'
+import { stack } from '../data/stack'
 import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/')({
@@ -85,6 +89,8 @@ const stats = [
   { value: '100%', label: 'handover of code, infrastructure, and knowledge' },
 ]
 
+const featuredStudy = caseStudies[0]
+
 function Home() {
   return (
     <SiteShell>
@@ -139,18 +145,63 @@ function Home() {
         </p>
       </LabeledSection>
 
-      <LabeledSection index="02" title="Values">
+      <LabeledSection index="02" title="Proof">
+        <DisplayHeading className="max-w-[24ch] text-3xl text-balance sm:text-4xl">
+          {featuredStudy.title}
+        </DisplayHeading>
+        <BodyText className="mt-6">{featuredStudy.summary}</BodyText>
+        <Quote
+          text={featuredStudy.quote.text}
+          attribution={featuredStudy.quote.attribution}
+          className="mt-10"
+        />
+        <p className="mt-10 text-base font-semibold sm:text-sm/6">
+          <ArrowLink to="/work/$slug" params={{ slug: featuredStudy.slug }}>
+            Read the case study
+          </ArrowLink>
+        </p>
+      </LabeledSection>
+
+      <LabeledSection index="03" title="Values">
         <NumberedRows items={values} />
       </LabeledSection>
 
-      <LabeledSection id="how-we-work" index="03" title="How we work">
+      <LabeledSection index="04" title="The stack">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-[1fr_20rem]">
+          <div>
+            <DisplayHeading className="max-w-[24ch] text-3xl text-balance sm:text-4xl">
+              Modern by default.
+            </DisplayHeading>
+            <BodyText className="mt-6">
+              Proven, current tools we run in production on our own products.
+              AI-native throughout: models draft, engineers decide, and every
+              line passes review, tests, and CI.
+            </BodyText>
+            <TermRows
+              rows={stack}
+              className="mt-10"
+              detailClass="font-mono text-base/7 text-neutral-600 sm:text-sm/6"
+            />
+          </div>
+          <div className="max-lg:hidden">
+            <IsoStack className="py-6" boxClass="size-44" topChildren={<IsoChips />} />
+            <IsoLegend
+              entries={['Interface', 'API and data', 'Infrastructure']}
+              className="mt-4 text-center"
+            />
+          </div>
+        </div>
+      </LabeledSection>
+
+      <LabeledSection id="how-we-work" index="05" title="How we work">
         <FeatureGrid items={practices} />
+        <CadenceDiagram className="mt-12" />
         <p className="mt-10 text-base font-semibold sm:text-sm/6">
           <ArrowLink to="/how-we-work">How we work, in full</ArrowLink>
         </p>
       </LabeledSection>
 
-      <CtaSection index="04" />
+      <CtaSection index="06" />
     </SiteShell>
   )
 }
