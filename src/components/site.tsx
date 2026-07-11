@@ -33,7 +33,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
 function SiteHeader() {
   const [open, setOpen] = useState(false)
   return (
-    <header className="border-b border-neutral-950/10">
+    <header className="sticky top-0 z-50 border-b border-neutral-950/10 bg-white/70 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
         <div className="font-display text-lg font-semibold">
           <Link to="/" aria-label="Homepage">
@@ -179,7 +179,7 @@ export function LabeledSection({
   children: ReactNode
 }) {
   return (
-    <section id={id} className="border-t border-neutral-950/10">
+    <section id={id} className="scroll-mt-20 border-t border-neutral-950/10">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-8 px-6 py-16 sm:py-20 lg:grid-cols-[16rem_1fr] lg:px-8">
         <MonoLabel as="h2" className="text-neutral-500">
           <span className="text-red-600">{index}</span> / {title}
