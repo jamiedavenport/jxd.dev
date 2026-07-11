@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { CtaSection, LabeledSection, PageIntro, SiteShell } from '../components/site'
-import { IsoStack, ModuleChips } from '../components/diagrams'
+import { GemMark } from '../components/gems'
 import { ArrowLink, BodyText, DisplayHeading, MonoLabel } from '../components/ui'
 import { products } from '../data/products'
 import { seo } from '../lib/seo'
@@ -48,13 +48,8 @@ function ProductsPage() {
                 </ArrowLink>
               </p>
             </div>
-            <div className="max-lg:hidden">
-              <IsoStack
-                boxClass="size-32"
-                faces={product.glyph.faces}
-                zClasses={product.glyph.z}
-                topChildren={product.glyph.chips ? <ModuleChips /> : undefined}
-              />
+            <div className="flex items-center justify-center max-lg:hidden">
+              <GemMark name={product.slug} className="w-40" />
             </div>
           </div>
         </LabeledSection>

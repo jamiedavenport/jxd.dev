@@ -1,5 +1,7 @@
+import type { GemName } from '../components/gems'
+
 export type Product = {
-  slug: string
+  slug: GemName
   index: string
   name: string
   role: string
@@ -8,11 +10,6 @@ export type Product = {
   summary: string
   paragraphs: string[]
   features: { name: string; description: string }[]
-  glyph: {
-    faces: string[]
-    z: string[]
-    chips?: boolean
-  }
 }
 
 export const products: Product[] = [
@@ -55,13 +52,6 @@ export const products: Product[] = [
         description: 'A structure your team inherits, not a wiki that dies.',
       },
     ],
-    glyph: {
-      faces: [
-        'border-neutral-950/60 bg-neutral-900/90',
-        'border-neutral-950 bg-neutral-950',
-      ],
-      z: ['translate-z-0', 'translate-z-10'],
-    },
   },
   {
     slug: 'quartz',
@@ -102,11 +92,6 @@ export const products: Product[] = [
         description: 'You see the same view we do. No tour guide.',
       },
     ],
-    glyph: {
-      faces: ['border-neutral-950/30 bg-white/70'],
-      z: ['translate-z-0'],
-      chips: true,
-    },
   },
   {
     slug: 'garnet',
@@ -147,13 +132,5 @@ export const products: Product[] = [
         description: 'Everything an auditor needs, in a format they accept.',
       },
     ],
-    glyph: {
-      faces: [
-        'border-red-600/40 bg-red-600/5',
-        'border-red-600/70 bg-red-600/10',
-        'border-red-600 bg-red-600/15',
-      ],
-      z: ['translate-z-0', 'translate-z-6', 'translate-z-12'],
-    },
   },
 ]

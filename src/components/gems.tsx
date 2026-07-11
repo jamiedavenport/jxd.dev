@@ -1,0 +1,86 @@
+const gems = {
+  onyx: {
+    viewBox: '-1.020 -0.699 2.041 1.538',
+    polys: [
+      { points: '0.242,-0.619 0.403,-0.539 0.940,-0.231 0.564,-0.434', fill: '#161616', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+      { points: '0.564,-0.434 0.940,-0.231 0.940,0.012 0.564,-0.288', fill: '#0a0a0a', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+      { points: '0.564,-0.434 0.564,-0.288 0.013,0.029 -0.242,0.029 -0.564,-0.156 -0.564,-0.302 -0.013,-0.619 0.242,-0.619', fill: '#3d3d3d', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+      { points: '-0.564,-0.156 -0.940,0.231 -0.940,-0.012 -0.564,-0.302', fill: '#666666', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+      { points: '0.940,0.012 0.752,0.337 0.017,0.759 0.021,0.539', fill: '#0a0a0a', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+      { points: '-0.403,0.539 -0.322,0.759 -0.752,0.513 -0.940,0.231', fill: '#161616', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+      { points: '0.564,-0.288 0.940,0.012 0.021,0.539 0.013,0.029', fill: '#0a0a0a', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+      { points: '-0.242,0.029 -0.403,0.539 -0.940,0.231 -0.564,-0.156', fill: '#3d3d3d', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+      { points: '0.021,0.539 0.017,0.759 -0.322,0.759 -0.403,0.539', fill: '#0a0a0a', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+      { points: '0.013,0.029 0.021,0.539 -0.403,0.539 -0.242,0.029', fill: '#242424', fillOpacity: 1, stroke: 'rgba(255,255,255,0.22)', strokeWidth: 0.02 },
+    ],
+  },
+  quartz: {
+    viewBox: '-0.484 -0.784 1.198 1.797',
+    polys: [
+      { points: '-0.266,-0.387 -0.266,0.187 0.184,0.038 0.184,-0.536', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.184,-0.536 0.184,0.038 0.634,0.187 0.634,-0.387', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.184,0.038 -0.266,0.187 -0.266,0.485 0.184,0.634 0.634,0.485 0.634,0.187', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '-0.266,-0.088 -0.266,0.485 -0.266,0.187 -0.266,-0.387', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.634,-0.387 0.634,0.187 0.634,0.485 0.634,-0.088', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '-0.266,-0.387 0.184,-0.536 0.184,-0.704', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.184,-0.536 0.634,-0.387 0.184,-0.704', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '-0.268,0.288 -0.268,0.615 0.050,0.599 0.050,0.272', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '-0.266,-0.088 -0.266,-0.387 0.184,-0.704', fill: '#f4f4f4', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '0.634,-0.387 0.634,-0.088 0.184,-0.704', fill: '#c9c9c9', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '0.184,0.061 0.184,0.634 -0.266,0.485 -0.266,-0.088', fill: '#dadada', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '0.634,-0.088 0.634,0.485 0.184,0.634 0.184,0.061', fill: '#c9c9c9', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '0.050,0.272 0.050,0.599 0.234,0.750 0.234,0.422', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.050,0.599 -0.268,0.615 -0.404,0.782 -0.220,0.932 0.099,0.916 0.234,0.750', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '-0.404,0.454 -0.404,0.782 -0.268,0.615 -0.268,0.288', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.184,0.061 -0.266,-0.088 0.184,-0.704', fill: '#e8e8e8', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '0.634,-0.088 0.184,0.061 0.184,-0.704', fill: '#c9c9c9', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '-0.268,0.288 0.050,0.272 -0.085,0.111', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.234,0.422 0.234,0.750 0.099,0.916 0.099,0.589', fill: '#c9c9c9', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '0.050,0.272 0.234,0.422 -0.085,0.111', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '-0.404,0.454 -0.268,0.288 -0.085,0.111', fill: '#ffffff', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '-0.220,0.605 -0.220,0.932 -0.404,0.782 -0.404,0.454', fill: '#e8e8e8', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '0.099,0.589 0.099,0.916 -0.220,0.932 -0.220,0.605', fill: '#c9c9c9', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '0.234,0.422 0.099,0.589 -0.085,0.111', fill: '#c9c9c9', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '-0.220,0.605 -0.404,0.454 -0.085,0.111', fill: '#f4f4f4', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+      { points: '0.099,0.589 -0.220,0.605 -0.085,0.111', fill: '#dadada', fillOpacity: 0.94, stroke: 'rgba(10,10,10,0.35)', strokeWidth: 0.02 },
+    ],
+  },
+  garnet: {
+    viewBox: '-1.042 -0.965 2.085 1.929',
+    polys: [
+      { points: '0.490,0.552 0.726,0.578 0.000,0.885 -0.236,0.859', fill: '#7f1d1d', fillOpacity: 1, stroke: 'rgba(69,10,10,0.45)', strokeWidth: 0.02 },
+      { points: '0.962,-0.281 0.726,-0.307 0.000,-0.885 0.236,-0.859', fill: '#7f1d1d', fillOpacity: 1, stroke: 'rgba(69,10,10,0.45)', strokeWidth: 0.02 },
+      { points: '0.726,0.578 0.490,0.552 0.726,-0.307 0.962,-0.281', fill: '#7f1d1d', fillOpacity: 1, stroke: 'rgba(69,10,10,0.45)', strokeWidth: 0.02 },
+      { points: '-0.726,-0.578 0.000,-0.885 -0.236,-0.026 -0.962,0.281', fill: '#ef4444', fillOpacity: 1, stroke: 'rgba(69,10,10,0.45)', strokeWidth: 0.02 },
+      { points: '-0.962,0.281 -0.236,-0.026 0.490,0.552 -0.236,0.859', fill: '#7f1d1d', fillOpacity: 1, stroke: 'rgba(69,10,10,0.45)', strokeWidth: 0.02 },
+      { points: '-0.236,-0.026 0.000,-0.885 0.726,-0.307 0.490,0.552', fill: '#7f1d1d', fillOpacity: 1, stroke: 'rgba(69,10,10,0.45)', strokeWidth: 0.02 },
+    ],
+  },
+}
+
+export type GemName = keyof typeof gems
+
+export function GemMark({
+  name,
+  className,
+}: {
+  name: GemName
+  className?: string
+}) {
+  const gem = gems[name]
+  return (
+    <svg viewBox={gem.viewBox} aria-hidden="true" className={className}>
+      {gem.polys.map((poly, i) => (
+        <polygon
+          key={i}
+          points={poly.points}
+          fill={poly.fill}
+          fillOpacity={poly.fillOpacity}
+          stroke={poly.stroke}
+          strokeWidth={poly.strokeWidth}
+          strokeLinejoin="round"
+        />
+      ))}
+    </svg>
+  )
+}

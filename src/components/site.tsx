@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { ArrowLink, BodyText, DisplayHeading, Lede, MonoLabel } from './ui'
+import { GemMark } from './gems'
 import { products } from '../data/products'
 
 export const BOOKING_URL = 'https://cal.eu/jxd-dev/30min'
@@ -59,11 +60,9 @@ function ProductsNavItem() {
               to="/products/$slug"
               params={{ slug: product.slug }}
               onClick={() => setOpen(false)}
-              className="flex items-baseline gap-3 border-t border-neutral-950/10 px-4 py-3 first:border-t-0 hover:bg-neutral-950/2"
+              className="flex items-center gap-3 border-t border-neutral-950/10 px-4 py-3 first:border-t-0 hover:bg-neutral-950/2"
             >
-              <span className="font-mono text-xs text-red-600">
-                {product.index}
-              </span>
+              <GemMark name={product.slug} className="size-7 shrink-0" />
               <span>
                 <span className="block font-medium text-neutral-950">
                   {product.name}
@@ -193,9 +192,10 @@ function SiteHeader() {
                         to="/products/$slug"
                         params={{ slug: product.slug }}
                         onClick={() => setOpen(false)}
-                        className="block py-2 text-neutral-600 hover:text-neutral-950"
+                        className="flex items-center gap-2.5 py-2 text-neutral-600 hover:text-neutral-950"
                         activeProps={{ className: 'text-neutral-950' }}
                       >
+                        <GemMark name={product.slug} className="size-5 shrink-0" />
                         {product.name}
                       </Link>
                     ))}
