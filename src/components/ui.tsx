@@ -263,6 +263,31 @@ export function FeatureGrid({
   )
 }
 
+export function Quote({
+  text,
+  attribution,
+  className,
+}: {
+  text: string
+  attribution: string
+  className?: string
+}) {
+  return (
+    <figure
+      className={clsx('max-w-[48ch] border-l-2 border-red-600 pl-6', className)}
+    >
+      <blockquote className="text-xl/8 font-medium text-pretty text-neutral-950 sm:text-lg/8">
+        <p className="relative before:absolute before:inline before:-translate-x-full before:content-['\201C'] after:inline after:content-['\201D']">
+          {text}
+        </p>
+      </blockquote>
+      <figcaption className="mt-3 font-mono text-sm text-neutral-500">
+        {attribution}
+      </figcaption>
+    </figure>
+  )
+}
+
 export function StatStrip({
   stats,
   className,

@@ -51,6 +51,17 @@ export function IsoStack({
   )
 }
 
+export function ModuleChips() {
+  return (
+    <>
+      <div className="absolute top-3 left-3 size-8 rounded-md border border-red-600/60 bg-red-600/10" />
+      <div className="absolute top-3 right-3 size-8 rounded-md border border-neutral-950/25 bg-white/60" />
+      <div className="absolute bottom-3 left-3 size-8 rounded-md border border-neutral-950/25 bg-white/60" />
+      <div className="absolute right-3 bottom-3 size-8 rounded-md border border-neutral-950/25 bg-white/60" />
+    </>
+  )
+}
+
 export function IsoChips() {
   return (
     <>

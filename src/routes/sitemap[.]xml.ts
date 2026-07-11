@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { allPosts } from 'content-collections'
+import { products } from '../data/products'
 import { SITE_URL } from '../lib/seo'
 
 const staticPaths = [
@@ -18,6 +19,7 @@ export const Route = createFileRoute('/sitemap.xml')({
       GET: () => {
         const paths = [
           ...staticPaths,
+          ...products.map((product) => `/products/${product.slug}`),
           ...allPosts.map((post) => `/blog/${post.slug}`),
         ]
         const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

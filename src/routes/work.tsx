@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { CtaSection, LabeledSection, PageIntro, SiteShell } from '../components/site'
-import { DisplayHeading, MonoLabel, TermRows } from '../components/ui'
+import { DisplayHeading, MonoLabel, Quote, TermRows } from '../components/ui'
 import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/work')({
@@ -37,6 +37,10 @@ const caseStudies = [
           'First production release in six weeks. Weekly releases since, and the internal team owns the pipeline.',
       },
     ],
+    quote: {
+      text: 'The first deploy landed in week one and it never stopped. We forgot what being blocked felt like.',
+      attribution: 'CTO, fintech scale-up',
+    },
   },
   {
     index: '02',
@@ -60,6 +64,10 @@ const caseStudies = [
           'Live in eight weeks with the first paying customers. Full handover of code, infrastructure, and documentation.',
       },
     ],
+    quote: {
+      text: 'I own everything they built, and the handover notes are the best documentation I have ever been given.',
+      attribution: 'Founder, B2B SaaS',
+    },
   },
   {
     index: '03',
@@ -83,6 +91,10 @@ const caseStudies = [
           'The team ships weekly and holds the standard themselves. The engagement ended on time, as scoped.',
       },
     ],
+    quote: {
+      text: 'It never felt like a consultant passing through. The standard stayed when they left.',
+      attribution: 'Head of Engineering, established business',
+    },
   },
 ]
 
@@ -105,6 +117,11 @@ function WorkPage() {
             {study.title}
           </DisplayHeading>
           <TermRows rows={study.rows} className="mt-10" />
+          <Quote
+            text={study.quote.text}
+            attribution={study.quote.attribution}
+            className="mt-10"
+          />
         </LabeledSection>
       ))}
       <CtaSection index="04" />
