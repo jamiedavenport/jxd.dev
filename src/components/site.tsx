@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { ArrowLink, BodyText, DisplayHeading, Lede, MonoLabel } from './ui'
+import { products } from '../data/products'
 
 export const BOOKING_URL = 'https://cal.eu/jxd-dev/30min'
 
@@ -12,6 +13,77 @@ const navLinks = [
   { to: '/blog', label: 'Blog' },
   { to: '/about', label: 'About' },
 ]
+
+const navCell =
+  'flex items-center border-l border-neutral-950/10 px-5 hover:bg-neutral-950/2 hover:text-neutral-950'
+
+function ProductsNavItem() {
+  const [open, setOpen] = useState(false)
+  return (
+    <div
+      className="relative flex items-stretch"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false)
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') setOpen(false)
+      }}
+    >
+      <Link
+        to="/products"
+        aria-expanded={open}
+        className={`${navCell} gap-1.5`}
+        activeProps={{ className: 'bg-neutral-950/2 text-neutral-950' }}
+      >
+        Products
+        <svg
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+          className={`size-4 shrink-0 fill-current ${open ? 'rotate-180' : ''}`}
+        >
+          <path
+            fillRule="evenodd"
+            d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </Link>
+      {open ? (
+        <div className="absolute top-full left-0 w-72 bg-white shadow-lg ring-1 ring-neutral-950/10">
+          {products.map((product) => (
+            <Link
+              key={product.slug}
+              to="/products/$slug"
+              params={{ slug: product.slug }}
+              onClick={() => setOpen(false)}
+              className="flex items-baseline gap-3 border-t border-neutral-950/10 px-4 py-3 first:border-t-0 hover:bg-neutral-950/2"
+            >
+              <span className="font-mono text-xs text-red-600">
+                {product.index}
+              </span>
+              <span>
+                <span className="block font-medium text-neutral-950">
+                  {product.name}
+                </span>
+                <span className="block text-neutral-600">{product.role}</span>
+              </span>
+            </Link>
+          ))}
+          <Link
+            to="/products"
+            onClick={() => setOpen(false)}
+            className="block border-t border-neutral-950/10 px-4 py-3 font-medium text-neutral-950 hover:bg-neutral-950/2"
+          >
+            All products <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      ) : null}
+    </div>
+  )
+}
 
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
@@ -35,18 +107,22 @@ function SiteHeader() {
         </div>
         <div className="flex items-stretch border-r border-neutral-950/10 text-sm/6">
           <nav className="hidden items-stretch text-neutral-600 lg:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="flex items-center border-l border-neutral-950/10 px-5 hover:bg-neutral-950/2 hover:text-neutral-950"
-                activeProps={{
-                  className: 'bg-neutral-950/2 text-neutral-950',
-                }}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) =>
+              link.to === '/products' ? (
+                <ProductsNavItem key={link.to} />
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={navCell}
+                  activeProps={{
+                    className: 'bg-neutral-950/2 text-neutral-950',
+                  }}
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
           </nav>
           <Link
             to="/contact"
@@ -100,15 +176,32 @@ function SiteHeader() {
         <nav className="border-t border-neutral-950/10 lg:hidden">
           <div className="mx-auto max-w-7xl px-6 py-4 text-base/7">
             {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setOpen(false)}
-                className="block py-2 text-neutral-600 hover:text-neutral-950"
-                activeProps={{ className: 'text-neutral-950' }}
-              >
-                {link.label}
-              </Link>
+              <div key={link.to}>
+                <Link
+                  to={link.to}
+                  onClick={() => setOpen(false)}
+                  className="block py-2 text-neutral-600 hover:text-neutral-950"
+                  activeProps={{ className: 'text-neutral-950' }}
+                >
+                  {link.label}
+                </Link>
+                {link.to === '/products' ? (
+                  <div className="ml-1 border-l border-neutral-950/10 pl-4">
+                    {products.map((product) => (
+                      <Link
+                        key={product.slug}
+                        to="/products/$slug"
+                        params={{ slug: product.slug }}
+                        onClick={() => setOpen(false)}
+                        className="block py-2 text-neutral-600 hover:text-neutral-950"
+                        activeProps={{ className: 'text-neutral-950' }}
+                      >
+                        {product.name}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             ))}
           </div>
         </nav>
