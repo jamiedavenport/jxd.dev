@@ -1,5 +1,6 @@
 import {
   HeadContent,
+  Link,
   Outlet,
   Scripts,
   createRootRoute,
@@ -7,6 +8,8 @@ import {
 import type { ReactNode } from 'react'
 import appCss from '../styles.css?url'
 import { SITE_URL } from '../lib/seo'
+import { SiteShell } from '../components/site'
+import { ButtonLink, DisplayHeading, Lede, MonoLabel } from '../components/ui'
 
 const organizationJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -36,6 +39,17 @@ export const Route = createRootRoute({
       },
     ],
     links: [
+      {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: 'https://assets.ui.sh/marks/1.svg?color=red-600',
+      },
+      {
+        rel: 'alternate',
+        type: 'application/rss+xml',
+        title: 'JXD Blog',
+        href: `${SITE_URL}/rss.xml`,
+      },
       { rel: 'preconnect', href: 'https://rsms.me/' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       {
@@ -56,7 +70,36 @@ export const Route = createRootRoute({
     ],
   }),
   component: RootComponent,
+  notFoundComponent: NotFound,
 })
+
+function NotFound() {
+  return (
+    <SiteShell>
+      <section className="grid-lines">
+        <div className="mx-auto max-w-7xl px-6 pt-16 pb-16 sm:pt-24 sm:pb-24 lg:px-8">
+          <MonoLabel className="text-red-600">404</MonoLabel>
+          <DisplayHeading
+            as="h1"
+            className="mt-6 max-w-[24ch] text-4xl text-balance sm:text-6xl"
+          >
+            This page doesn't exist.
+          </DisplayHeading>
+          <Lede className="mt-6">
+            The address may be wrong, or the page may have moved. Everything
+            worth reading is reachable from the home page.
+          </Lede>
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 text-base font-semibold sm:text-sm/6">
+            <ButtonLink to="/">Back to home</ButtonLink>
+            <Link to="/blog" className="hover:text-red-600">
+              Read the blog <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </SiteShell>
+  )
+}
 
 function RootComponent() {
   return (
