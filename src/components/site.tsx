@@ -1,14 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import {
-  ArrowLink,
-  BodyText,
-  ButtonLink,
-  DisplayHeading,
-  Lede,
-  MonoLabel,
-} from './ui'
+import { ArrowLink, BodyText, DisplayHeading, Lede, MonoLabel } from './ui'
 
 export const BOOKING_URL = 'https://cal.eu/jxd-dev/30min'
 
@@ -34,33 +27,38 @@ function SiteHeader() {
   const [open, setOpen] = useState(false)
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-950/10 bg-white/70 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
-        <div className="font-display text-lg font-semibold">
+      <div className="mx-auto flex max-w-7xl items-stretch justify-between px-6 lg:px-8">
+        <div className="flex items-center py-5 font-display text-lg font-semibold">
           <Link to="/" aria-label="Homepage">
             JXD
           </Link>
         </div>
-        <div className="flex items-center gap-x-6 text-sm/6 lg:gap-x-8">
-          <nav className="hidden items-center gap-x-8 text-neutral-600 lg:flex">
+        <div className="flex items-stretch border-r border-neutral-950/10 text-sm/6">
+          <nav className="hidden items-stretch text-neutral-600 lg:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
-                className="hover:text-neutral-950"
-                activeProps={{ className: 'text-neutral-950' }}
+                className="flex items-center border-l border-neutral-950/10 px-5 hover:bg-neutral-950/2 hover:text-neutral-950"
+                activeProps={{
+                  className: 'bg-neutral-950/2 text-neutral-950',
+                }}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <ButtonLink to="/contact" variant="outline">
+          <Link
+            to="/contact"
+            className="flex items-center border-l border-neutral-950/10 px-5 font-medium hover:bg-neutral-950 hover:text-white"
+          >
             Contact
-          </ButtonLink>
+          </Link>
           <button
             type="button"
             onClick={() => setOpen(!open)}
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className="relative -m-2 p-2 lg:hidden"
+            className="relative flex items-center border-l border-neutral-950/10 px-4 lg:hidden"
           >
             {open ? (
               <svg
