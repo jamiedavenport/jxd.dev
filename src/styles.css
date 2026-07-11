@@ -1,1 +1,24 @@
 @import 'tailwindcss';
+
+@utility grid-lines {
+  background-image:
+    linear-gradient(
+      to right,
+      var(--grid-line, rgb(0 0 0 / 0.05)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      var(--grid-line, rgb(0 0 0 / 0.05)) 1px,
+      transparent 1px
+    );
+  background-size: var(--grid-size, --spacing(16)) var(--grid-size, --spacing(16));
+}
+
+@theme {
+  --font-sans: 'InterVariable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans--font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  --font-display: 'Mona Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display--font-variation-settings: 'wdth' 125;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+}
