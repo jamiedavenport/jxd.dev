@@ -4,6 +4,7 @@ dist
 .nitro
 .wrangler
 .tanstack
+.content-collections
 src/routeTree.gen.ts
 .env
 .DS_Store
