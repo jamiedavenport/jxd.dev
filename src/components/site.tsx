@@ -53,7 +53,7 @@ function ProductsNavItem() {
         </svg>
       </Link>
       {open ? (
-        <div className="absolute top-full left-0 w-72 bg-white shadow-lg ring-1 ring-neutral-950/10">
+        <div className="absolute top-full left-0 -mt-px w-72 bg-white shadow-lg ring-1 ring-neutral-950/10">
           {products.map((product) => (
             <Link
               key={product.slug}

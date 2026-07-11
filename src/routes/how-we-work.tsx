@@ -121,9 +121,8 @@ function HowWeWorkPage() {
           </div>
           <TermRows
             rows={noteRows}
-            className="px-6 py-5"
             columns="sm:grid-cols-[6rem_1fr]"
-            pads={['pb-4', 'py-4', 'pt-4']}
+            bordered={false}
             detailClass="text-neutral-600"
           />
         </div>

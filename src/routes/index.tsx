@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import clsx from 'clsx'
 import { CtaSection, LabeledSection, SiteShell } from '../components/site'
 import { CadenceDiagram, IsoChips, IsoLegend, IsoStack } from '../components/diagrams'
 import { TechLogo } from '../components/logos'
@@ -137,7 +138,6 @@ function Home() {
         <TermRows
           rows={modes}
           columns="sm:grid-cols-2"
-          pads={['pb-8', 'py-8', 'pt-8']}
           termClass="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
           detailClass="max-w-[48ch] text-neutral-600"
         />
@@ -176,27 +176,52 @@ function Home() {
           AI-native throughout: models draft, engineers decide, and every line
           passes review, tests, and CI.
         </BodyText>
-        <TermRows
-          rows={stack.map((group) => ({
-            term: group.term,
-            detail: (
-              <span className="flex flex-wrap gap-x-8 gap-y-4">
-                {group.items.map((item) => (
-                  <span
-                    key={item.name}
-                    className="flex items-center gap-2 font-medium"
-                  >
-                    <TechLogo name={item.logo} className="size-5" />
-                    {item.name}
-                  </span>
-                ))}
-              </span>
-            ),
-          }))}
-          className="mt-10"
-          pads={['pb-6', 'py-6', 'pt-6']}
-          detailClass="text-neutral-950"
-        />
+        <div className="mt-10 border border-neutral-950/10 text-base/7 sm:text-sm/6">
+          {stack.map((group, gi) => (
+            <div
+              key={group.term}
+              className={clsx(
+                'grid grid-cols-1 lg:grid-cols-[16rem_1fr]',
+                gi > 0 && 'border-t border-neutral-950/10',
+              )}
+            >
+              <div className="border-neutral-950/10 px-5 py-4 font-medium max-lg:border-b lg:border-r">
+                {group.term}
+              </div>
+              <div className="grid grid-cols-2 lg:grid-cols-4">
+                {Array.from({
+                  length: Math.ceil(group.items.length / 4) * 4,
+                }).map((_, i) => {
+                  const item = group.items[i]
+                  const mobileCells = Math.ceil(group.items.length / 2) * 2
+                  return (
+                    <div
+                      key={item ? item.name : `empty-${i}`}
+                      className={clsx(
+                        'flex items-center gap-2.5 border-neutral-950/10 px-4 py-4',
+                        i % 2 === 1 && 'max-lg:border-l',
+                        i >= 2 && 'max-lg:border-t',
+                        i % 4 !== 0 && 'lg:border-l',
+                        i >= 4 && 'lg:border-t',
+                        !item && i >= mobileCells && 'max-lg:hidden',
+                      )}
+                    >
+                      {item ? (
+                        <>
+                          <TechLogo
+                            name={item.logo}
+                            className="size-5 shrink-0"
+                          />
+                          <span className="font-medium">{item.name}</span>
+                        </>
+                      ) : null}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
       </LabeledSection>
 
       <LabeledSection id="how-we-work" index="05" title="How we work">
