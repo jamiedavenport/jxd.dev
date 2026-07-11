@@ -64,10 +64,7 @@ export const Route = createRootRoute({
       },
       { rel: 'stylesheet', href: appCss },
     ],
-    scripts: [
-      { src: 'https://ui.sh/ui-picker.js' },
-      { type: 'application/ld+json', children: organizationJsonLd },
-    ],
+    scripts: [{ type: 'application/ld+json', children: organizationJsonLd }],
   }),
   component: RootComponent,
   notFoundComponent: NotFound,

@@ -1,6 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { LabeledSection, PageIntro, SiteShell } from '../components/site'
-import { NumberedRows } from '../components/ui'
+import {
+  BOOKING_URL,
+  LabeledSection,
+  PageIntro,
+  SiteShell,
+} from '../components/site'
+import { BodyText, NumberedRows } from '../components/ui'
 import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/contact')({
@@ -49,7 +54,19 @@ function ContactPage() {
         </p>
       </LabeledSection>
 
-      <LabeledSection index="02" title="What happens next">
+      <LabeledSection index="02" title="Book a call">
+        <BodyText>
+          Thirty minutes with the engineer who would do the work. No sales
+          team on the other end.
+        </BodyText>
+        <p className="mt-6 font-display text-3xl font-semibold tracking-tight sm:text-5xl">
+          <a href={BOOKING_URL} className="hover:text-red-600">
+            cal.eu/jxd-dev/30min
+          </a>
+        </p>
+      </LabeledSection>
+
+      <LabeledSection index="03" title="What happens next">
         <NumberedRows items={steps} />
       </LabeledSection>
     </SiteShell>

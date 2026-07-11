@@ -1,7 +1,16 @@
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { BodyText, ButtonLink, DisplayHeading, Lede, MonoLabel } from './ui'
+import {
+  ArrowLink,
+  BodyText,
+  ButtonLink,
+  DisplayHeading,
+  Lede,
+  MonoLabel,
+} from './ui'
+
+export const BOOKING_URL = 'https://cal.eu/jxd-dev/30min'
 
 const navLinks = [
   { to: '/work', label: 'Work' },
@@ -192,6 +201,9 @@ export function CtaSection({ index }: { index: string }) {
         <a href="mailto:hello@jxd.dev" className="hover:text-red-600">
           hello@jxd.dev
         </a>
+      </p>
+      <p className="mt-6 text-base font-semibold sm:text-sm/6">
+        <ArrowLink href={BOOKING_URL}>Or book a 30-minute call</ArrowLink>
       </p>
     </LabeledSection>
   )
