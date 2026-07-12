@@ -22,7 +22,7 @@ function ProductsPage() {
       <PageIntro
         eyebrow="Products"
         title="The tooling behind our speed."
-        lede="We build on our own in-house products. It is an advantage most consultancies don't have: client work starts at speed, on foundations we trust because we live on them."
+        lede="We build on our own in-house products, an advantage most consultancies don't have: client work starts at speed, on foundations we trust because we live on them."
       />
       {products.map((product) => (
         <LabeledSection

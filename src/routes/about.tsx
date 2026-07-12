@@ -8,7 +8,7 @@ export const Route = createFileRoute('/about')({
     seo({
       title: 'About · JXD',
       description:
-        'JXD is founded and run by an engineer with 10+ years shipping production software. Based in London. Solo is a feature: you get the engineer, not a rotating bench.',
+        'JXD is founded and run by an engineer with 10+ years shipping production software. Based in London. Small is a feature: you get the engineer doing the work, not a rotating bench.',
       path: '/about',
     }),
   component: AboutPage,
@@ -30,7 +30,7 @@ const sections = [
   {
     index: '03',
     label: 'The standard',
-    title: 'One engineer today. Built to grow.',
+    title: 'A standard, not a headcount.',
     text: 'The values on the front page are not marketing. They are the standard anyone working under the JXD name will be held to: craft over volume, radical transparency, honesty on scope, and a full handover every time.',
   },
 ]
@@ -40,8 +40,8 @@ function AboutPage() {
     <SiteShell>
       <PageIntro
         eyebrow="About"
-        title="One engineer. On purpose."
-        lede="JXD is founded and run by an engineer with 10+ years shipping production software. Solo is a feature: you get the engineer, not a rotating bench."
+        title="Small. On purpose."
+        lede="JXD is founded and run by an engineer with 10+ years shipping production software. Small is a feature: you get the engineer doing the work, not a rotating bench."
       />
       {sections.map((section) => (
         <LabeledSection

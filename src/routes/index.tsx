@@ -56,7 +56,7 @@ const values = [
   {
     icon: 'modern',
     name: 'Modern by default',
-    description: 'AI-native delivery on current tools, with no accumulated caution.',
+    description: 'AI-native delivery on current tools, with no legacy habits in the way.',
   },
   {
     icon: 'transparency',

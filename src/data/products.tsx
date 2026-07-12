@@ -21,7 +21,7 @@ export const products: Product[] = [
     status: 'In production use on every engagement',
     lede: 'Auth, billing, deploys, monitoring, and testing solved before the first client commit.',
     summary:
-      'A proven starting point, so client work begins at product speed, not from scratch. Hardened further by every engagement it ships.',
+      'A proven starting point, so client work begins at product speed, not from scratch. Every engagement hardens it further.',
     paragraphs: [
       'Onyx is where every JXD build starts. Authentication, billing, CI/CD, monitoring, and a testing harness are already in place, so the first week of an engagement produces product, not plumbing.',
       'It is not a boilerplate rotting in a repository. Onyx runs in production across our own products and every client build, and improvements flow back into it weekly. When you start on Onyx, you inherit every hard lesson we have already paid for.',
@@ -138,7 +138,7 @@ export const products: Product[] = [
     index: '04',
     name: 'Sapphire',
     role: 'AI simulation engine',
-    status: 'Early access',
+    status: 'Runs our own architecture decisions',
     lede: 'Whole simulated teams that run your hardest questions forward before you commit.',
     summary:
       'Simulated engineering teams stress a decision before you make it: which stack fits your team, what breaks at scale, and which assumptions fail first.',
