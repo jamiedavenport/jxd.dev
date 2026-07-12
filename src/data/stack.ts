@@ -11,6 +11,7 @@ export const stack: {
       { name: 'React', logo: 'react' },
       { name: 'TanStack', logo: 'tanstack' },
       { name: 'Next.js', logo: 'nextjs' },
+      { name: 'Vue', logo: 'vue' },
       { name: 'Expo', logo: 'expo' },
       { name: 'Tailwind', logo: 'tailwind' },
     ],
@@ -19,6 +20,8 @@ export const stack: {
     term: 'API',
     items: [
       { name: 'Node.js', logo: 'nodejs' },
+      { name: 'Go', logo: 'go' },
+      { name: 'Laravel', logo: 'laravel' },
       { name: 'tRPC', logo: 'trpc' },
       { name: 'Stripe', logo: 'stripe' },
     ],

@@ -190,7 +190,8 @@ function SiteHeader() {
           </nav>
           <Link
             to="/contact"
-            className="flex items-center border-l border-neutral-950/10 px-5 font-medium hover:bg-neutral-950 hover:text-white"
+            className={clsx(navCell, 'text-neutral-600')}
+            activeProps={{ className: 'bg-neutral-950/2 text-neutral-950' }}
           >
             Contact
           </Link>
