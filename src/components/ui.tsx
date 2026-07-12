@@ -252,31 +252,28 @@ export function NumberedRows({
   );
 }
 
-export function IconRows({
+export function IconGrid({
   items,
   className,
-  pads = ["pb-5", "py-5", "pt-5"] as const,
 }: {
   items: { icon: ValueIconName; name: string; description: string }[];
   className?: string;
-  pads?: readonly [string, string, string];
 }) {
   return (
-    <dl className={clsx("text-base/7 sm:text-sm/6", className)}>
-      {items.map((item, i) => (
-        <div
-          key={item.name}
-          className={clsx(
-            "grid grid-cols-[3rem_1fr] gap-x-4 sm:grid-cols-[3rem_16rem_1fr] sm:gap-x-8",
-            rowDividers(i, items.length, pads),
-          )}
-        >
+    <dl
+      className={clsx(
+        "grid grid-cols-1 gap-x-8 gap-y-10 text-base/7 sm:grid-cols-2 sm:text-sm/6",
+        className,
+      )}
+    >
+      {items.map((item) => (
+        <div key={item.name}>
           <ValueIcon
             name={item.icon}
-            className="size-6 h-lh shrink-0 fill-red-600"
+            className="size-6 shrink-0 fill-neutral-950"
           />
-          <dt className="font-medium">{item.name}</dt>
-          <dd className="col-start-2 max-w-[56ch] text-neutral-600 sm:col-start-3">
+          <dt className="mt-4 font-medium">{item.name}</dt>
+          <dd className="mt-2 max-w-[48ch] text-neutral-600">
             {item.description}
           </dd>
         </div>

@@ -11,7 +11,7 @@ import {
   FeatureGrid,
   Lede,
   MonoLabel,
-  IconRows,
+  IconGrid,
   Quote,
   StatStrip,
   TermRows,
@@ -169,7 +169,7 @@ function Home() {
       </LabeledSection>
 
       <LabeledSection index="03" title="Values">
-        <IconRows items={[...values]} />
+        <IconGrid items={[...values]} />
       </LabeledSection>
 
       <LabeledSection index="04" title="The stack">
