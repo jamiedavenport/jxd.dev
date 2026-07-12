@@ -38,7 +38,7 @@ export const caseStudies: CaseStudy[] = [
         index: '02',
         heading: 'What we did',
         paragraphs: [
-          'We embedded a senior engineer inside the team, not alongside it. The first week went into making release mechanical: CI/CD on every commit, automated tests around the critical path, and one deploy that proved the pipe worked.',
+          'We embedded inside the team, not alongside it. The first week went into making release mechanical: CI/CD on every commit, automated tests around the critical path, and one deploy that proved the pipe worked.',
           'Then we cut the release scope in half. Not the ambition, the batch size. Decisions that had queued for months were made in days, in writing, with the people doing the work.',
         ],
       },
@@ -59,7 +59,7 @@ export const caseStudies: CaseStudy[] = [
       {
         term: 'What we did',
         detail:
-          'We embedded a senior engineer, cut the release scope in half, and put CI/CD and automated tests around the critical path. Architecture decisions stopped queueing and started landing.',
+          'We embedded inside the team, cut the release scope in half, and put CI/CD and automated tests around the critical path. Architecture decisions stopped queueing and started landing.',
       },
       {
         term: 'Outcome',

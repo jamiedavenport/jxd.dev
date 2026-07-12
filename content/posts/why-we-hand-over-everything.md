@@ -1,6 +1,6 @@
 ---
 title: Why we hand over everything
-lane: Craft
+lane: Opinionated craft
 summary: Lock-in is a business model. It is not ours.
 date: 2026-06-24
 tags: [ownership, handover, consulting]

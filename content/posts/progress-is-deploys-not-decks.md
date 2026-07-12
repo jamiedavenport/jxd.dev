@@ -1,6 +1,6 @@
 ---
 title: Progress is deploys, not decks
-lane: Craft
+lane: Opinionated craft
 summary: Status reporting is a symptom. Working software is the cure.
 date: 2026-04-21
 tags: [shipping, transparency, process]

@@ -38,7 +38,8 @@ const modes = [
   },
   {
     term: 'Rescue',
-    detail: 'Struggling projects unblocked, stabilised, and accelerated.',
+    detail:
+      'Struggling projects and vibe-coded apps unblocked, stabilised, and made production-grade.',
   },
   {
     term: 'Embed',
@@ -108,7 +109,7 @@ function Home() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-x-8 gap-y-16 px-6 pt-20 pb-16 sm:pt-28 sm:pb-20 lg:grid-cols-[1fr_1fr] lg:px-8">
           <div>
             <MonoLabel className="text-red-600">
-              No bullshit. Just results.
+              London software consultancy
             </MonoLabel>
             <DisplayHeading
               as="h1"
@@ -161,6 +162,9 @@ function Home() {
           attribution={featuredStudy.quote.attribution}
           className="mt-10"
         />
+        <MonoLabel className="mt-6 text-neutral-500">
+          Anonymised while the client's product is in flight
+        </MonoLabel>
         <p className="mt-10 text-base font-semibold sm:text-sm/6">
           <ArrowLink to="/work/$slug" params={{ slug: featuredStudy.slug }}>
             Read the case study

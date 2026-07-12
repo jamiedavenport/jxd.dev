@@ -46,7 +46,6 @@ function BlogPostPage() {
           </h1>
           <PostMeta
             author={post.author}
-            date={post.date}
             readingTime={post.readingTime}
             className="mt-5"
           />

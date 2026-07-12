@@ -53,7 +53,6 @@ function BlogIndexPage() {
                 </p>
                 <PostMeta
                   author={featured.author}
-                  date={featured.date}
                   readingTime={featured.readingTime}
                   className="mt-6"
                 />
@@ -87,7 +86,6 @@ function BlogIndexPage() {
                   </p>
                   <PostMeta
                     author={post.author}
-                    date={post.date}
                     readingTime={post.readingTime}
                     className="mt-5"
                   />

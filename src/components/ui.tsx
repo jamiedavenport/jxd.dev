@@ -308,22 +308,12 @@ export function FeatureGrid({
   );
 }
 
-export function formatDate(iso: string) {
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(iso));
-}
-
 export function PostMeta({
   author,
-  date,
   readingTime,
   className,
 }: {
   author?: string;
-  date: string;
   readingTime: number;
   className?: string;
 }) {
@@ -335,7 +325,7 @@ export function PostMeta({
       )}
     >
       {author ? `${author} · ` : ""}
-      <time dateTime={date}>{formatDate(date)}</time> · {readingTime} min read
+      {readingTime} min read
     </p>
   );
 }

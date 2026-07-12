@@ -59,11 +59,11 @@ export const products: Product[] = [
     name: 'Quartz',
     role: 'Product management suite',
     status: 'Runs every JXD engagement',
-    lede: 'The transparent one. Code, issues, documents, meetings, and CI in one place, visible to clients in real time.',
+    lede: 'The transparent stone. Code, issues, documents, meetings, and CI in one place, visible to clients in real time.',
     summary:
       'Issues link to the commits that close them, notes link to the decisions they record, and clients see the same view we do.',
     paragraphs: [
-      'The standard stack for an engagement is five tabs: a repository host, an issue tracker, a docs wiki, a meetings doc, and a CI dashboard. The connections between them live in people’s heads. Quartz replaces the five tabs with one place where everything links to everything.',
+      "Most engagements run across five disconnected tools: repository, issue tracker, wiki, meeting notes, and CI. Nothing links to anything, so the real state of the project lives in people's heads. Quartz puts all five in one place where everything links to everything.",
       'For a consultancy that promises radical transparency, this is not tooling, it is the promise made concrete. Clients get the same access we have, and the weekly note is assembled from what actually happened rather than from memory.',
     ],
     features: [
@@ -98,7 +98,7 @@ export const products: Product[] = [
     index: '03',
     name: 'Garnet',
     role: 'Data compliance framework',
-    status: 'Formerly PolicyStack',
+    status: 'Runs the policies on this site',
     lede: 'The protection stone. Data compliance treated as an engineering problem, mapped to how systems actually behave.',
     summary:
       'Policies as maintained artefacts with owners, history, and evidence, mapped to real systems instead of a PDF nobody reads.',
@@ -141,10 +141,10 @@ export const products: Product[] = [
     status: 'Early access',
     lede: 'The foresight stone. Whole simulated teams that run your hardest questions forward before you commit.',
     summary:
-      'Simulated engineering teams stress a decision before you make it: which stack fits your team, what breaks at scale, how it all holds up in 20 years.',
+      'Simulated engineering teams stress a decision before you make it: which stack fits your team, what breaks at scale, and which assumptions fail first.',
     paragraphs: [
-      'Some questions cannot be answered by a spike or a proof of concept. How will this architecture hold up in 20 years? Which stack suits the team we actually have? Sapphire answers them by simulation: entire AI teams of engineers, users, and stakeholders play the scenario forward and report what happened.',
-      'Each run produces a decision report, not a vibe. The assumptions made, where the simulation diverged, what broke first, and what held. Run it again with a different stack, a different team shape, or a different decade, and compare.',
+      'Some questions cannot be answered by a spike or a proof of concept. How will this architecture hold up a decade from now? Which stack suits the team we actually have? Sapphire answers them by simulation: entire AI teams of engineers, users, and stakeholders play the scenario forward and report what happened.',
+      'Each run produces a decision report, not a vibe. The assumptions made, where the simulation diverged, what broke first, and what held. Run it again with a different stack, a different team shape, or a different time horizon, and compare.',
     ],
     features: [
       {
@@ -153,7 +153,7 @@ export const products: Product[] = [
       },
       {
         name: 'Time-horizon runs',
-        description: 'Play a decision forward five, ten, or twenty years and watch it age.',
+        description: 'Play a decision forward five or ten years and watch it age.',
       },
       {
         name: 'Stack trials',

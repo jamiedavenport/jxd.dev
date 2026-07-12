@@ -9,7 +9,7 @@ We work with founders, startups, scale-ups, and established businesses: anyone w
 ## What we do
 
 - **Build** — products and features, idea to production.
-- **Rescue** — unblock and accelerate struggling projects.
+- **Rescue** — unblock and accelerate struggling projects, vibe-coded apps included.
 - **Embed** — senior engineering presence inside your team.
 
 ## Our products
