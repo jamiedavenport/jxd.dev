@@ -10,7 +10,6 @@ export type Product = {
   summary: string
   paragraphs: string[]
   features: { name: string; description: string }[]
-  github?: string
 }
 
 export const products: Product[] = [
@@ -20,7 +19,7 @@ export const products: Product[] = [
     name: 'Onyx',
     role: 'Full-stack template',
     status: 'In production use on every engagement',
-    lede: 'The black foundation stone. Auth, billing, deploys, monitoring, and testing solved before the first client commit.',
+    lede: 'Auth, billing, deploys, monitoring, and testing solved before the first client commit.',
     summary:
       'A proven starting point, so client work begins at product speed, not from scratch. Hardened further by every engagement it ships.',
     paragraphs: [
@@ -60,7 +59,7 @@ export const products: Product[] = [
     name: 'Quartz',
     role: 'Product management suite',
     status: 'Runs every JXD engagement',
-    lede: 'The transparent stone. Code, issues, documents, meetings, and CI in one place, visible to clients in real time.',
+    lede: 'Code, issues, documents, meetings, and CI in one place, visible to clients in real time.',
     summary:
       'Issues link to the commits that close them, notes link to the decisions they record, and clients see the same view we do.',
     paragraphs: [
@@ -100,7 +99,7 @@ export const products: Product[] = [
     name: 'Garnet',
     role: 'Data compliance framework',
     status: 'Runs the policies on this site',
-    lede: 'The protection stone. Data compliance treated as an engineering problem, mapped to how systems actually behave.',
+    lede: 'Data compliance treated as an engineering problem, mapped to how systems actually behave.',
     summary:
       'Policies as maintained artefacts with owners, history, and evidence, mapped to real systems instead of a PDF nobody reads.',
     paragraphs: [
@@ -140,7 +139,7 @@ export const products: Product[] = [
     name: 'Sapphire',
     role: 'AI simulation engine',
     status: 'Early access',
-    lede: 'The foresight stone. Whole simulated teams that run your hardest questions forward before you commit.',
+    lede: 'Whole simulated teams that run your hardest questions forward before you commit.',
     summary:
       'Simulated engineering teams stress a decision before you make it: which stack fits your team, what breaks at scale, and which assumptions fail first.',
     paragraphs: [
@@ -179,8 +178,8 @@ export const products: Product[] = [
     index: '05',
     name: 'Amber',
     role: 'REST client and test suite',
-    status: 'Open source as restmd',
-    lede: 'The preserving stone. A Markdown-native REST client where requests live in files, and every file runs as a test suite.',
+    status: 'Tests every API we ship',
+    lede: 'A Markdown-native REST client where requests live in files, and every file runs as a test suite.',
     summary:
       "A REST client built on Markdown: requests are version-controlled, diffable, and executable, so the collection you explore an API with doubles as its test suite in CI.",
     paragraphs: [
@@ -213,6 +212,5 @@ export const products: Product[] = [
         description: 'A bundled language server, with a VS Code extension included.',
       },
     ],
-    github: 'https://github.com/jamiedavenport/restmd',
   },
 ]

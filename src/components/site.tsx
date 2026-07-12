@@ -393,6 +393,9 @@ function SiteFooter() {
             <a href="/rss.xml" className="hover:text-neutral-950">
               RSS
             </a>
+            <a href="https://github.com/jamiedavenport" className="hover:text-neutral-950">
+              GitHub
+            </a>
             <p>London</p>
           </div>
         </div>
