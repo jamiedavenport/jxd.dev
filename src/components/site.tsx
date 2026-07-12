@@ -2,7 +2,14 @@ import { Link } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { ArrowLink, BodyText, DisplayHeading, Lede, MonoLabel } from './ui'
+import {
+  ArrowLink,
+  BodyText,
+  DisplayHeading,
+  Lede,
+  LogoMark,
+  MonoLabel,
+} from './ui'
 import { GemMark } from './gems'
 import { products } from '../data/products'
 
@@ -101,7 +108,8 @@ function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-neutral-950/10 bg-white/70 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-stretch justify-between px-6 lg:px-8">
         <div className="flex items-center py-5 font-display text-lg font-semibold">
-          <Link to="/" aria-label="Homepage">
+          <Link to="/" aria-label="Homepage" className="flex items-center gap-2.5">
+            <LogoMark className="size-5 shrink-0" />
             JXD
           </Link>
         </div>
@@ -238,7 +246,10 @@ function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-2">
           <div>
-            <p className="font-display text-lg font-semibold">JXD</p>
+            <p className="flex items-center gap-2.5 font-display text-lg font-semibold">
+              <LogoMark className="size-5 shrink-0" />
+              JXD
+            </p>
             <p className="mt-3 max-w-[36ch] text-sm/6 text-neutral-600">
               Serious software, shipped in weeks. A London consultancy for
               founders, startups, and established businesses.

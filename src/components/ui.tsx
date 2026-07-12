@@ -3,6 +3,15 @@ import clsx from "clsx";
 import type { LinkProps } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
+export function LogoMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" aria-hidden="true" className={className}>
+      <path className="fill-neutral-950" d="M0 0h8v8H0zM0 8h16v8H0z" />
+      <path className="fill-red-600" d="M8 0h8v8H8z" />
+    </svg>
+  );
+}
+
 export function TouchTarget() {
   return (
     <span

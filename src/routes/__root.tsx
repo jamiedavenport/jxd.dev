@@ -42,7 +42,7 @@ export const Route = createRootRoute({
       {
         rel: 'icon',
         type: 'image/svg+xml',
-        href: 'https://assets.ui.sh/marks/1.svg?color=red-600',
+        href: '/favicon.svg',
       },
       {
         rel: 'alternate',
