@@ -5,6 +5,7 @@ import { MonoLabel } from './ui'
 
 const chipIdle = 'border-neutral-950/25 bg-white/60'
 const chipActive = 'border-red-600/60 bg-red-600/10'
+const chipFaint = 'border-neutral-950/10 bg-white/30'
 
 function InterfaceLayer({ active }: { active: boolean }) {
   return (
@@ -27,52 +28,38 @@ function InterfaceLayer({ active }: { active: boolean }) {
           chipIdle,
         )}
       />
+    </>
+  )
+}
+
+function ApiLayer({ active }: { active: boolean }) {
+  return (
+    <>
       <div
         className={clsx(
-          'absolute right-5 bottom-5 h-14 w-26 rounded-md border',
-          chipIdle,
+          'absolute right-5 bottom-5 h-7 w-24 rounded-full border',
+          active ? chipActive : chipFaint,
+        )}
+      />
+      <div
+        className={clsx(
+          'absolute right-5 bottom-15 h-7 w-30 rounded-full border',
+          chipFaint,
         )}
       />
     </>
   )
 }
 
-const pills = ['top-6 left-5 w-28', 'top-16 left-9 w-32', 'top-26 left-5 w-24']
-
-function ApiLayer({ active }: { active: boolean }) {
-  return (
-    <>
-      {pills.map((pos, i) => (
-        <div
-          key={pos}
-          className={clsx(
-            'absolute flex h-7 items-center gap-2 rounded-full border px-2.5',
-            pos,
-            active && i === 0 ? chipActive : chipIdle,
-          )}
-        >
-          <span
-            className={clsx(
-              'size-2 rounded-full',
-              active && i === 0 ? 'bg-red-600/70' : 'bg-neutral-950/20',
-            )}
-          />
-          <span className="h-1 flex-1 rounded-full bg-neutral-950/10" />
-        </div>
-      ))}
-    </>
-  )
-}
-
 function InfraLayer({ active }: { active: boolean }) {
   return (
-    <div className="absolute inset-5 grid grid-cols-3 grid-rows-3 gap-3">
-      {Array.from({ length: 9 }).map((_, i) => (
+    <div className="absolute inset-6 grid grid-cols-2 grid-rows-2 gap-4">
+      {Array.from({ length: 4 }).map((_, i) => (
         <div
           key={i}
           className={clsx(
-            'rounded-md border',
-            active && i === 0 ? chipActive : 'border-neutral-950/15 bg-white/40',
+            'rounded-lg border',
+            active && i === 3 ? chipActive : chipFaint,
           )}
         />
       ))}
@@ -82,8 +69,8 @@ function InfraLayer({ active }: { active: boolean }) {
 
 const heroLayers = [
   { name: 'Infrastructure', z: 0, Content: InfraLayer },
-  { name: 'API', z: 64, Content: ApiLayer },
-  { name: 'Interface', z: 128, Content: InterfaceLayer },
+  { name: 'API', z: 72, Content: ApiLayer },
+  { name: 'Interface', z: 144, Content: InterfaceLayer },
 ]
 
 export function HeroStack({ className }: { className?: string }) {
@@ -92,7 +79,7 @@ export function HeroStack({ className }: { className?: string }) {
 
   useEffect(() => {
     if (reduce) return
-    const id = setInterval(() => setActive((a) => (a + 2) % 3), 3000)
+    const id = setInterval(() => setActive((a) => (a + 2) % 3), 4000)
     return () => clearInterval(id)
   }, [reduce])
 
@@ -106,31 +93,25 @@ export function HeroStack({ className }: { className?: string }) {
           {heroLayers.map((layer, i) => (
             <motion.div
               key={layer.name}
-              initial={reduce ? false : { opacity: 0, z: 0 }}
-              animate={{ opacity: 1, z: layer.z }}
+              initial={reduce ? false : { z: 0 }}
+              animate={{ z: layer.z }}
               transition={{
                 type: 'spring',
-                stiffness: 110,
-                damping: 20,
-                delay: 0.15 + i * 0.18,
+                stiffness: 90,
+                damping: 18,
+                delay: 0.1 + i * 0.15,
               }}
-              className="absolute inset-0 transform-3d"
+              onMouseEnter={() => setActive(i)}
+              className={clsx(
+                'absolute inset-0 rounded-xl border',
+                active === i
+                  ? 'border-red-600/70 bg-red-600/3'
+                  : i === 1
+                    ? 'border-neutral-950/30 bg-white/70'
+                    : 'border-neutral-950/20 bg-white/70',
+              )}
             >
-              <motion.div
-                animate={{ z: !reduce && active === i ? 16 : 0 }}
-                transition={{ type: 'spring', stiffness: 250, damping: 24 }}
-                onMouseEnter={() => setActive(i)}
-                className={clsx(
-                  'absolute inset-0 rounded-xl border',
-                  active === i
-                    ? 'border-red-600/70 bg-red-600/3'
-                    : i === 1
-                      ? 'border-neutral-950/30 bg-white/70'
-                      : 'border-neutral-950/20 bg-white/70',
-                )}
-              >
-                <layer.Content active={active === i} />
-              </motion.div>
+              <layer.Content active={active === i} />
             </motion.div>
           ))}
         </div>
