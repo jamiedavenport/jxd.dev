@@ -1,136 +1,125 @@
 import clsx from 'clsx'
 import { motion, useReducedMotion } from 'motion/react'
-import { useEffect, useState } from 'react'
 import { MonoLabel } from './ui'
 
-const chipIdle = 'border-neutral-950/25 bg-white/60'
-const chipActive = 'border-red-600/60 bg-red-600/10'
-const chipFaint = 'border-neutral-950/10 bg-white/30'
-
-function InterfaceLayer({ active }: { active: boolean }) {
+function CircuitLayer() {
+  const pads = [
+    [45, 22],
+    [70, 16],
+    [80, 45],
+    [74, 72],
+    [55, 82],
+    [26, 74],
+    [18, 55],
+    [24, 28],
+  ]
   return (
-    <>
-      <div
-        className={clsx(
-          'absolute top-5 left-5 size-10 rounded-md border',
-          active ? chipActive : chipIdle,
-        )}
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 100 100"
+      className="absolute inset-0 size-full text-neutral-950/20"
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="0.75"
+        d="M45 40V24M55 40V18h15M60 45h20M60 55h14v17M55 60v22M45 60v14H26M40 55H18M40 45H24V28"
       />
-      <div
-        className={clsx(
-          'absolute top-5 left-18 size-10 rounded-md border',
-          chipIdle,
-        )}
+      {pads.map(([x, y]) => (
+        <rect
+          key={`${x}-${y}`}
+          x={x - 2}
+          y={y - 2}
+          width="4"
+          height="4"
+          fill="white"
+          stroke="currentColor"
+          strokeWidth="0.75"
+        />
+      ))}
+      <rect
+        x="40"
+        y="40"
+        width="20"
+        height="20"
+        fill="white"
+        fillOpacity="0.7"
+        stroke="currentColor"
+        strokeWidth="0.9"
       />
-      <div
-        className={clsx(
-          'absolute top-18 left-5 h-10 w-23 rounded-md border',
-          chipIdle,
-        )}
+      <rect
+        x="45"
+        y="45"
+        width="10"
+        height="10"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="0.75"
       />
-    </>
+    </svg>
   )
 }
 
-function ApiLayer({ active }: { active: boolean }) {
-  return (
-    <>
-      <div
-        className={clsx(
-          'absolute right-5 bottom-5 h-7 w-24 rounded-full border',
-          active ? chipActive : chipFaint,
-        )}
-      />
-      <div
-        className={clsx(
-          'absolute right-5 bottom-15 h-7 w-30 rounded-full border',
-          chipFaint,
-        )}
-      />
-    </>
-  )
-}
+const codeLines = ['w-24', 'ml-4 w-32', 'ml-8 w-24', 'ml-8 w-28', 'ml-4 w-16', 'w-10', 'w-28 mt-3', 'ml-4 w-20']
 
-function InfraLayer({ active }: { active: boolean }) {
+function CodeLayer() {
   return (
-    <div className="absolute inset-6 grid grid-cols-2 grid-rows-2 gap-4">
-      {Array.from({ length: 4 }).map((_, i) => (
+    <div className="absolute inset-6 flex flex-col gap-3">
+      {codeLines.map((line, i) => (
         <div
           key={i}
-          className={clsx(
-            'rounded-lg border',
-            active && i === 3 ? chipActive : chipFaint,
-          )}
+          className={clsx('h-1.5 bg-neutral-950/15', line, i === 0 && 'bg-red-600/30')}
         />
       ))}
     </div>
   )
 }
 
+function UiLayer() {
+  return (
+    <>
+      <div className="absolute inset-x-4 top-4 flex h-6 items-center gap-1.5 border border-neutral-950/25 bg-white/60 px-2">
+        <span className="size-1.5 bg-neutral-950/25" />
+        <span className="size-1.5 bg-neutral-950/25" />
+      </div>
+      <div className="absolute top-12 bottom-4 left-4 w-13 border border-neutral-950/25 bg-white/60" />
+      <div className="absolute top-12 right-4 left-19 h-13 border border-red-600/60 bg-red-600/10" />
+      <div className="absolute top-27 right-4 bottom-4 left-19 border border-neutral-950/25 bg-white/60" />
+    </>
+  )
+}
+
 const heroLayers = [
-  { name: 'Infrastructure', z: 0, Content: InfraLayer },
-  { name: 'API', z: 72, Content: ApiLayer },
-  { name: 'Interface', z: 144, Content: InterfaceLayer },
+  { name: 'hardware', z: 0, face: 'border-neutral-950/20 bg-white/70', Content: CircuitLayer },
+  { name: 'code', z: 72, face: 'border-neutral-950/30 bg-white/70', Content: CodeLayer },
+  { name: 'ui', z: 144, face: 'border-red-600/70 bg-red-600/3', Content: UiLayer },
 ]
 
 export function HeroStack({ className }: { className?: string }) {
   const reduce = useReducedMotion()
-  const [active, setActive] = useState(2)
-
-  useEffect(() => {
-    if (reduce) return
-    const id = setInterval(() => setActive((a) => (a + 2) % 3), 4000)
-    return () => clearInterval(id)
-  }, [reduce])
 
   return (
-    <div className={className}>
-      <div
-        aria-hidden="true"
-        className="flex items-center justify-center py-10"
-      >
-        <div className="relative size-52 transform-3d [transform:rotateX(55deg)rotateZ(-45deg)] sm:size-72">
-          {heroLayers.map((layer, i) => (
-            <motion.div
-              key={layer.name}
-              initial={reduce ? false : { z: 0 }}
-              animate={{ z: layer.z }}
-              transition={{
-                type: 'spring',
-                stiffness: 90,
-                damping: 18,
-                delay: 0.1 + i * 0.15,
-              }}
-              onMouseEnter={() => setActive(i)}
-              className={clsx(
-                'absolute inset-0 rounded-xl border',
-                active === i
-                  ? 'border-red-600/70 bg-red-600/3'
-                  : i === 1
-                    ? 'border-neutral-950/30 bg-white/70'
-                    : 'border-neutral-950/20 bg-white/70',
-              )}
-            >
-              <layer.Content active={active === i} />
-            </motion.div>
-          ))}
-        </div>
-      </div>
-      <div className="mt-4 text-center font-mono text-sm text-neutral-500">
-        {[...heroLayers].reverse().map((layer, idx) => {
-          const i = heroLayers.length - 1 - idx
-          return (
-            <p key={layer.name} className={clsx(idx > 0 && 'mt-1')}>
-              <span className={clsx(active === i && 'text-red-600')}>
-                {String(i + 1).padStart(2, '0')}
-              </span>{' '}
-              /{' '}
-              <span className={clsx(active === i && 'text-neutral-950')}>
-                {layer.name}
-              </span>
-            </p>
-          )
-        })}
+    <div
+      aria-hidden="true"
+      className={clsx('flex items-center justify-center py-10', className)}
+    >
+      <div className="relative size-52 transform-3d [transform:rotateX(55deg)rotateZ(-45deg)] sm:size-72">
+        {heroLayers.map((layer, i) => (
+          <motion.div
+            key={layer.name}
+            initial={reduce ? false : { z: 0 }}
+            animate={{ z: layer.z }}
+            transition={{
+              type: 'spring',
+              stiffness: 90,
+              damping: 18,
+              delay: 0.1 + i * 0.15,
+            }}
+            className={clsx('absolute inset-0 border', layer.face)}
+          >
+            <layer.Content />
+          </motion.div>
+        ))}
       </div>
     </div>
   )
