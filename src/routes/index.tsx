@@ -11,7 +11,7 @@ import {
   FeatureGrid,
   Lede,
   MonoLabel,
-  NumberedRows,
+  IconRows,
   Quote,
   StatStrip,
   TermRows,
@@ -47,24 +47,32 @@ const modes = [
 ]
 
 const values = [
-  { name: 'Craft over volume', description: 'Fewer things, done properly.' },
   {
+    icon: 'craft',
+    name: 'Craft over volume',
+    description: 'Fewer things, done properly.',
+  },
+  {
+    icon: 'modern',
     name: 'Modern by default',
     description: 'AI-native delivery on current tools, with no accumulated caution.',
   },
   {
+    icon: 'transparency',
     name: 'Radical transparency',
     description: 'Real progress, real problems, real costs.',
   },
   {
+    icon: 'scope',
     name: 'Honesty on scope',
     description: 'No inflated estimates, no stretched engagements. Bad work gets declined.',
   },
   {
+    icon: 'ownership',
     name: 'You own everything',
     description: 'Full handover of code, infrastructure, and knowledge. No lock-in.',
   },
-]
+] as const
 
 const practices = [
   {
@@ -161,7 +169,7 @@ function Home() {
       </LabeledSection>
 
       <LabeledSection index="03" title="Values">
-        <NumberedRows items={values} />
+        <IconRows items={[...values]} />
       </LabeledSection>
 
       <LabeledSection index="04" title="The stack">

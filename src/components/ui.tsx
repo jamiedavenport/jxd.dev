@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import clsx from "clsx";
+import { ValueIcon } from "./icons";
+import type { ValueIconName } from "./icons";
 import type { LinkProps } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
@@ -240,6 +242,39 @@ export function NumberedRows({
           <div className="font-mono text-sm text-red-600">
             {String(i + 1).padStart(2, "0")}
           </div>
+          <dt className="font-medium">{item.name}</dt>
+          <dd className="col-start-2 max-w-[56ch] text-neutral-600 sm:col-start-3">
+            {item.description}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+export function IconRows({
+  items,
+  className,
+  pads = ["pb-5", "py-5", "pt-5"] as const,
+}: {
+  items: { icon: ValueIconName; name: string; description: string }[];
+  className?: string;
+  pads?: readonly [string, string, string];
+}) {
+  return (
+    <dl className={clsx("text-base/7 sm:text-sm/6", className)}>
+      {items.map((item, i) => (
+        <div
+          key={item.name}
+          className={clsx(
+            "grid grid-cols-[3rem_1fr] gap-x-4 sm:grid-cols-[3rem_16rem_1fr] sm:gap-x-8",
+            rowDividers(i, items.length, pads),
+          )}
+        >
+          <ValueIcon
+            name={item.icon}
+            className="size-6 h-lh shrink-0 fill-red-600"
+          />
           <dt className="font-medium">{item.name}</dt>
           <dd className="col-start-2 max-w-[56ch] text-neutral-600 sm:col-start-3">
             {item.description}
