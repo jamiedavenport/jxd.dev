@@ -188,22 +188,22 @@ function Home() {
               <div className="border-neutral-950/10 px-5 py-4 font-medium max-lg:border-b lg:border-r">
                 {group.term}
               </div>
-              <div className="grid grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-2 xl:grid-cols-4">
                 {Array.from({
                   length: Math.ceil(group.items.length / 4) * 4,
                 }).map((_, i) => {
                   const item = group.items[i]
-                  const mobileCells = Math.ceil(group.items.length / 2) * 2
+                  const twoColCells = Math.ceil(group.items.length / 2) * 2
                   return (
                     <div
                       key={item ? item.name : `empty-${i}`}
                       className={clsx(
                         'flex items-center gap-2.5 border-neutral-950/10 px-4 py-4',
-                        i % 2 === 1 && 'max-lg:border-l',
-                        i >= 2 && 'max-lg:border-t',
-                        i % 4 !== 0 && 'lg:border-l',
-                        i >= 4 && 'lg:border-t',
-                        !item && i >= mobileCells && 'max-lg:hidden',
+                        i % 2 === 1 && 'max-xl:border-l',
+                        i >= 2 && 'max-xl:border-t',
+                        i % 4 !== 0 && 'xl:border-l',
+                        i >= 4 && 'xl:border-t',
+                        !item && i >= twoColCells && 'max-xl:hidden',
                       )}
                     >
                       {item ? (
