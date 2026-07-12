@@ -1,6 +1,9 @@
 import { Link } from '@tanstack/react-router'
+import { useConsent } from '@policystack/react/consent'
+import { PolicyStack } from '@policystack/react/provider'
 import clsx from 'clsx'
 import { useState } from 'react'
+import policy from '../policystack'
 import type { ReactNode } from 'react'
 import {
   ArrowLink,
@@ -94,10 +97,61 @@ function ProductsNavItem() {
 
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
-    <div className="isolate flex min-h-dvh flex-col bg-white text-neutral-950">
-      <SiteHeader />
-      <main className="flex-1">{children}</main>
-      <SiteFooter />
+    <PolicyStack config={policy}>
+      <div className="isolate flex min-h-dvh flex-col bg-white text-neutral-950">
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
+        <CookieBanner />
+      </div>
+    </PolicyStack>
+  )
+}
+
+function CookieBanner() {
+  const { route, acceptAll, acceptNecessary } = useConsent()
+  if (route !== 'cookie') return null
+
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-950/10 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-8 gap-y-4 px-6 py-4 lg:px-8">
+        <div className="text-sm/6 text-neutral-600">
+          <p>
+            Essential cookies run this site. Analytics cookies are set only if
+            you allow them.{' '}
+            <Link
+              to="/cookies"
+              className="font-medium text-neutral-950 hover:text-red-600"
+            >
+              Cookie policy
+            </Link>
+          </p>
+          <Link
+            to="/products/$slug"
+            params={{ slug: 'garnet' }}
+            className="mt-1 flex items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-neutral-500 hover:text-neutral-950"
+          >
+            <GemMark name="garnet" className="size-3.5 shrink-0" />
+            Powered by Garnet
+          </Link>
+        </div>
+        <div className="flex items-center gap-3 text-sm">
+          <button
+            type="button"
+            onClick={() => acceptNecessary()}
+            className="relative border border-neutral-950 px-3 py-1.5 font-medium hover:bg-neutral-950 hover:text-white"
+          >
+            Necessary only
+          </button>
+          <button
+            type="button"
+            onClick={() => acceptAll()}
+            className="bg-neutral-950 px-4 py-1.5 font-medium text-white hover:bg-neutral-800"
+          >
+            Accept all
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -327,6 +381,12 @@ function SiteFooter() {
         <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-neutral-950/10 pt-8 font-mono text-xs uppercase tracking-wide text-neutral-500">
           <p>© 2026 JXD Ltd</p>
           <div className="flex items-center gap-6">
+            <Link to="/privacy" className="hover:text-neutral-950">
+              Privacy
+            </Link>
+            <Link to="/cookies" className="hover:text-neutral-950">
+              Cookies
+            </Link>
             <a href="/rss.xml" className="hover:text-neutral-950">
               RSS
             </a>

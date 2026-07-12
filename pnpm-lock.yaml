@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@policystack/core':
+        specifier: ^1.1.0
+        version: 1.1.0
+      '@policystack/react':
+        specifier: ^1.1.0
+        version: 1.1.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@policystack/sdk':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@tanstack/react-router':
         specifier: ^1.170.17
         version: 1.170.17(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -716,6 +725,18 @@ packages:
 
   '@oxc-project/types@0.139.0':
     resolution: {integrity: sha512-r9gHphtCs+1M7J0pw6Sn/hh/Wpa/iQrOOkrNAlVLF/gHq+/CJmHIWKKUUhdWjcD6CIa8idarspCsASiXCXvFUw==}
+
+  '@policystack/core@1.1.0':
+    resolution: {integrity: sha512-J6g2zv7qw4Pm2EnLm66vES6L7vb74BWzP0ylG8edxScfnvpImy+jnw2ONzjSXYfcLX/bbDbAhRIaI93r7thfuQ==}
+
+  '@policystack/react@1.1.0':
+    resolution: {integrity: sha512-heDdS0kOy/eEfxsCqpOeS7oD3dmLXw1vv9nj8dLDxSnRA1Su3zmGCAovhvzj/7TrBZSeMrJLpYR9gmpazp83lw==}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@policystack/sdk@1.1.0':
+    resolution: {integrity: sha512-SIJdTTmEVjZZDVs8hNr6WwCqRbBAYs/HDd/ezHkniYLFb0GmWXAyydVLy4Tn+eBhZHNFZTx+DhSHiF+ltE8HTA==}
 
   '@poppinss/colors@4.1.6':
     resolution: {integrity: sha512-H9xkIdFswbS8n1d6vmRd8+c10t2Qe+rZITbbDHHkQixH5+2x1FDGmi/0K+WgWiqQFKPSlIYB7jlH6Kpfn6Fleg==}
@@ -2513,6 +2534,15 @@ snapshots:
   '@oozcitak/util@10.0.0': {}
 
   '@oxc-project/types@0.139.0': {}
+
+  '@policystack/core@1.1.0': {}
+
+  '@policystack/react@1.1.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+    dependencies:
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+
+  '@policystack/sdk@1.1.0': {}
 
   '@poppinss/colors@4.1.6':
     dependencies:

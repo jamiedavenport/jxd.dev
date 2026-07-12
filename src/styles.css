@@ -94,6 +94,34 @@
     padding: --spacing(0.5) --spacing(1);
   }
 
+  & table {
+    width: 100%;
+    border: 1px solid --alpha(var(--color-neutral-950) / 10%);
+    font-size: var(--text-sm);
+    line-height: --spacing(6);
+    text-align: left;
+  }
+
+  & th {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-neutral-950);
+  }
+
+  & th,
+  & td {
+    border-top: 1px solid --alpha(var(--color-neutral-950) / 10%);
+    padding: --spacing(2.5) --spacing(4);
+  }
+
+  & th + th,
+  & td + td {
+    border-left: 1px solid --alpha(var(--color-neutral-950) / 10%);
+  }
+
+  & thead th {
+    border-top: none;
+  }
+
   & pre {
     background-color: var(--color-neutral-950);
     color: var(--color-neutral-200);

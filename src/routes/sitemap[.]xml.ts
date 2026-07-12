@@ -12,6 +12,8 @@ const staticPaths = [
   '/blog',
   '/about',
   '/contact',
+  '/privacy',
+  '/cookies',
 ]
 
 export const Route = createFileRoute('/sitemap.xml')({
