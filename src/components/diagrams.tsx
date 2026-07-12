@@ -1,94 +1,156 @@
 import clsx from 'clsx'
-import type { ReactNode } from 'react'
+import { motion, useReducedMotion } from 'motion/react'
+import { useEffect, useState } from 'react'
 import { MonoLabel } from './ui'
 
-const defaultFaces = [
-  'border-neutral-950/20 bg-white/70',
-  'border-neutral-950/30 bg-white/70',
-  'border-red-600/70 bg-red-600/3',
-]
+const chipIdle = 'border-neutral-950/25 bg-white/60'
+const chipActive = 'border-red-600/60 bg-red-600/10'
 
-const defaultZ = ['translate-z-0', 'translate-z-16', 'translate-z-32']
-
-export function IsoStack({
-  className,
-  boxClass = 'size-52 sm:size-64',
-  faces = defaultFaces,
-  zClasses = defaultZ,
-  topChildren,
-}: {
-  className?: string
-  boxClass?: string
-  faces?: string[]
-  zClasses?: string[]
-  topChildren?: ReactNode
-}) {
+function InterfaceLayer({ active }: { active: boolean }) {
   return (
-    <div
-      aria-hidden="true"
-      className={clsx('flex items-center justify-center', className)}
-    >
+    <>
       <div
         className={clsx(
-          'relative transform-3d [transform:rotateX(55deg)rotateZ(-45deg)]',
-          boxClass,
+          'absolute top-5 left-5 size-10 rounded-md border',
+          active ? chipActive : chipIdle,
         )}
-      >
-        {faces.map((face, i) => (
-          <div
-            key={face}
+      />
+      <div
+        className={clsx(
+          'absolute top-5 left-18 size-10 rounded-md border',
+          chipIdle,
+        )}
+      />
+      <div
+        className={clsx(
+          'absolute top-18 left-5 h-10 w-23 rounded-md border',
+          chipIdle,
+        )}
+      />
+      <div
+        className={clsx(
+          'absolute right-5 bottom-5 h-14 w-26 rounded-md border',
+          chipIdle,
+        )}
+      />
+    </>
+  )
+}
+
+const pills = ['top-6 left-5 w-28', 'top-16 left-9 w-32', 'top-26 left-5 w-24']
+
+function ApiLayer({ active }: { active: boolean }) {
+  return (
+    <>
+      {pills.map((pos, i) => (
+        <div
+          key={pos}
+          className={clsx(
+            'absolute flex h-7 items-center gap-2 rounded-full border px-2.5',
+            pos,
+            active && i === 0 ? chipActive : chipIdle,
+          )}
+        >
+          <span
             className={clsx(
-              'absolute inset-0 rounded-xl border',
-              zClasses[i],
-              face,
+              'size-2 rounded-full',
+              active && i === 0 ? 'bg-red-600/70' : 'bg-neutral-950/20',
             )}
-          >
-            {i === faces.length - 1 ? topChildren : null}
-          </div>
-        ))}
-      </div>
+          />
+          <span className="h-1 flex-1 rounded-full bg-neutral-950/10" />
+        </div>
+      ))}
+    </>
+  )
+}
+
+function InfraLayer({ active }: { active: boolean }) {
+  return (
+    <div className="absolute inset-5 grid grid-cols-3 grid-rows-3 gap-3">
+      {Array.from({ length: 9 }).map((_, i) => (
+        <div
+          key={i}
+          className={clsx(
+            'rounded-md border',
+            active && i === 0 ? chipActive : 'border-neutral-950/15 bg-white/40',
+          )}
+        />
+      ))}
     </div>
   )
 }
 
-export function ModuleChips() {
-  return (
-    <>
-      <div className="absolute top-3 left-3 size-8 rounded-md border border-red-600/60 bg-red-600/10" />
-      <div className="absolute top-3 right-3 size-8 rounded-md border border-neutral-950/25 bg-white/60" />
-      <div className="absolute bottom-3 left-3 size-8 rounded-md border border-neutral-950/25 bg-white/60" />
-      <div className="absolute right-3 bottom-3 size-8 rounded-md border border-neutral-950/25 bg-white/60" />
-    </>
-  )
-}
+const heroLayers = [
+  { name: 'Infrastructure', z: 0, Content: InfraLayer },
+  { name: 'API', z: 64, Content: ApiLayer },
+  { name: 'Interface', z: 128, Content: InterfaceLayer },
+]
 
-export function IsoChips() {
-  return (
-    <>
-      <div className="absolute top-5 left-5 size-10 rounded-md border border-red-600/60 bg-red-600/10" />
-      <div className="absolute top-5 left-18 size-10 rounded-md border border-neutral-950/25 bg-white/60" />
-      <div className="absolute top-18 left-5 h-10 w-23 rounded-md border border-neutral-950/25 bg-white/60" />
-    </>
-  )
-}
+export function HeroStack({ className }: { className?: string }) {
+  const reduce = useReducedMotion()
+  const [active, setActive] = useState(2)
 
-export function IsoLegend({
-  entries,
-  className,
-}: {
-  entries: string[]
-  className?: string
-}) {
+  useEffect(() => {
+    if (reduce) return
+    const id = setInterval(() => setActive((a) => (a + 2) % 3), 3000)
+    return () => clearInterval(id)
+  }, [reduce])
+
   return (
-    <div className={clsx('font-mono text-sm text-neutral-500', className)}>
-      {entries.map((entry, i) => (
-        <p key={entry} className={clsx(i > 0 && 'mt-1')}>
-          <span className={clsx(i === 0 && 'text-red-600')}>
-            {String(entries.length - i).padStart(2, '0')}
-          </span>{' '}
-          / {entry}
-        </p>
-      ))}
+    <div className={className}>
+      <div
+        aria-hidden="true"
+        className="flex items-center justify-center py-10"
+      >
+        <div className="relative size-52 transform-3d [transform:rotateX(55deg)rotateZ(-45deg)] sm:size-72">
+          {heroLayers.map((layer, i) => (
+            <motion.div
+              key={layer.name}
+              initial={reduce ? false : { opacity: 0, z: 0 }}
+              animate={{ opacity: 1, z: layer.z }}
+              transition={{
+                type: 'spring',
+                stiffness: 110,
+                damping: 20,
+                delay: 0.15 + i * 0.18,
+              }}
+              className="absolute inset-0 transform-3d"
+            >
+              <motion.div
+                animate={{ z: !reduce && active === i ? 16 : 0 }}
+                transition={{ type: 'spring', stiffness: 250, damping: 24 }}
+                onMouseEnter={() => setActive(i)}
+                className={clsx(
+                  'absolute inset-0 rounded-xl border',
+                  active === i
+                    ? 'border-red-600/70 bg-red-600/3'
+                    : i === 1
+                      ? 'border-neutral-950/30 bg-white/70'
+                      : 'border-neutral-950/20 bg-white/70',
+                )}
+              >
+                <layer.Content active={active === i} />
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-4 text-center font-mono text-sm text-neutral-500">
+        {[...heroLayers].reverse().map((layer, idx) => {
+          const i = heroLayers.length - 1 - idx
+          return (
+            <p key={layer.name} className={clsx(idx > 0 && 'mt-1')}>
+              <span className={clsx(active === i && 'text-red-600')}>
+                {String(i + 1).padStart(2, '0')}
+              </span>{' '}
+              /{' '}
+              <span className={clsx(active === i && 'text-neutral-950')}>
+                {layer.name}
+              </span>
+            </p>
+          )
+        })}
+      </div>
     </div>
   )
 }

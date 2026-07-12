@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { CtaSection, LabeledSection, SiteShell } from '../components/site'
-import { CadenceDiagram, IsoChips, IsoLegend, IsoStack } from '../components/diagrams'
+import { CadenceDiagram, HeroStack } from '../components/diagrams'
 import { TechLogo } from '../components/logos'
 import {
   ArrowLink,
@@ -119,11 +119,7 @@ function Home() {
             </div>
           </div>
           <div>
-            <IsoStack className="py-10" topChildren={<IsoChips />} />
-            <IsoLegend
-              entries={['Interface', 'API', 'Infrastructure']}
-              className="mt-4 text-center"
-            />
+            <HeroStack />
           </div>
         </div>
       </section>
