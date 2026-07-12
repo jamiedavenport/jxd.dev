@@ -12,6 +12,8 @@ export const Route = createFileRoute('/blog/')({
       description:
         'Build logs, AI-native practice, and opinionated craft from JXD, a London software consultancy.',
       path: '/blog',
+      noindex: true,
+      image: 'default',
     }),
   component: BlogIndexPage,
 })

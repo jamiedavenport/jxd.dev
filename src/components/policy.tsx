@@ -7,6 +7,15 @@ import type { PolicyComponents } from '@policystack/react/policy'
 // slot receives the rendered header row (a <thead>) followed by bare body
 // rows, so keep the header and wrap the rest in an explicit <tbody>.
 export const policyComponents: PolicyComponents = {
+  Link: ({ node }) => (
+    <a
+      href={node.href}
+      target={node.href.startsWith('http') ? '_blank' : undefined}
+      rel={node.href.startsWith('http') ? 'noreferrer' : undefined}
+    >
+      {node.value}
+    </a>
+  ),
   Table: ({ children }) => {
     const [header, ...rows] = Children.toArray(children)
     return (

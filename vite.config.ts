@@ -4,6 +4,7 @@ import { cloudflare } from '@cloudflare/vite-plugin'
 import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import contentCollections from '@content-collections/vite'
+import { inmargin } from '@inmargin/vite'
 
 export default defineConfig({
   server: {
@@ -13,6 +14,7 @@ export default defineConfig({
     contentCollections(),
     cloudflare({ viteEnvironment: { name: 'ssr' } }),
     tailwindcss(),
+    inmargin(),
     tanstackStart(),
     viteReact(),
   ],

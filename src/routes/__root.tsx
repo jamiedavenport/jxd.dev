@@ -6,6 +6,7 @@ import {
   createRootRoute,
 } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
+import '../lib/analytics'
 import appCss from '../styles.css?url'
 import { SITE_URL } from '../lib/seo'
 import { SiteShell } from '../components/site'
@@ -43,12 +44,6 @@ export const Route = createRootRoute({
         rel: 'icon',
         type: 'image/svg+xml',
         href: '/favicon.svg',
-      },
-      {
-        rel: 'alternate',
-        type: 'application/rss+xml',
-        title: 'JXD Blog',
-        href: `${SITE_URL}/rss.xml`,
       },
       { rel: 'preconnect', href: 'https://rsms.me/' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -88,8 +83,8 @@ function NotFound() {
           </Lede>
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 text-base font-semibold sm:text-sm/6">
             <ButtonLink to="/">Back to home</ButtonLink>
-            <Link to="/blog" className="hover:text-red-600">
-              Read the blog <span aria-hidden="true">→</span>
+            <Link to="/work" className="hover:text-red-600">
+              See the work <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>

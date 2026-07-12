@@ -60,7 +60,12 @@ function ContactPage() {
           team on the other end.
         </BodyText>
         <p className="mt-6 font-display text-3xl font-semibold tracking-tight sm:text-5xl">
-          <a href={BOOKING_URL} className="hover:text-red-600">
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-red-600"
+          >
             cal.eu/jxd-dev/30min
           </a>
         </p>

@@ -22,7 +22,6 @@ const navLinks = [
   { to: '/work', label: 'Work' },
   { to: '/how-we-work', label: 'Process' },
   { to: '/products', label: 'Products' },
-  { to: '/blog', label: 'Blog' },
   { to: '/about', label: 'About' },
 ]
 
@@ -115,7 +114,7 @@ function CookieBanner() {
   if (!mounted || route !== 'cookie') return null
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-950/10 bg-white/95 backdrop-blur">
+    <div className="sticky inset-x-0 bottom-0 z-50 border-t border-neutral-950/10 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-8 gap-y-4 px-6 py-4 lg:px-8">
         <div className="text-sm/6 text-neutral-600">
           <p>
@@ -337,11 +336,6 @@ function SiteFooter() {
                   About
                 </Link>
               </li>
-              <li>
-                <Link to="/blog" className={footerLink}>
-                  Blog
-                </Link>
-              </li>
             </FooterColumn>
             <FooterColumn title="Products">
               {products.map((product) => (
@@ -369,7 +363,12 @@ function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <a href={BOOKING_URL} className={footerLink}>
+                <a
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={footerLink}
+                >
                   Book a call
                 </a>
               </li>
@@ -390,10 +389,12 @@ function SiteFooter() {
             <Link to="/cookies" className="hover:text-neutral-950">
               Cookies
             </Link>
-            <a href="/rss.xml" className="hover:text-neutral-950">
-              RSS
-            </a>
-            <a href="https://github.com/jamiedavenport" className="hover:text-neutral-950">
+            <a
+              href="https://github.com/jamiedavenport"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-neutral-950"
+            >
               GitHub
             </a>
             <p>London</p>

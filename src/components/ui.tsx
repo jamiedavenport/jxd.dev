@@ -124,10 +124,16 @@ export function ArrowLink({
     );
   }
   return (
-    <a href={href} className={cls}>
+    <a href={href} className={cls} {...externalLinkProps(href)}>
       {content}
     </a>
   );
+}
+
+function externalLinkProps(href: string | undefined) {
+  return href?.startsWith("http")
+    ? ({ target: "_blank", rel: "noreferrer" } as const)
+    : undefined;
 }
 
 const buttonStyles = {
@@ -168,7 +174,7 @@ export function ButtonLink({
     );
   }
   return (
-    <a href={href} className={cls}>
+    <a href={href} className={cls} {...externalLinkProps(href)}>
       {content}
     </a>
   );
