@@ -33,22 +33,16 @@ function ProductPage() {
         eyebrow={`Products / ${product.role}`}
         title={`${product.name}.`}
         lede={product.lede}
+        aside={<GemMark name={product.slug} className="w-40" />}
       />
 
       <LabeledSection index="01" title="What it is">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-[1fr_16rem]">
-          <div>
-            <MonoLabel className="text-neutral-500">{product.status}</MonoLabel>
-            {product.paragraphs.map((paragraph, i) => (
-              <BodyText key={paragraph} className={i === 0 ? 'mt-6' : 'mt-4'}>
-                {paragraph}
-              </BodyText>
-            ))}
-          </div>
-          <div className="flex items-center justify-center max-lg:hidden">
-            <GemMark name={product.slug} className="w-40" />
-          </div>
-        </div>
+        <MonoLabel className="text-neutral-500">{product.status}</MonoLabel>
+        {product.paragraphs.map((paragraph, i) => (
+          <BodyText key={paragraph} className={i === 0 ? 'mt-6' : 'mt-4'}>
+            {paragraph}
+          </BodyText>
+        ))}
       </LabeledSection>
 
       <LabeledSection index="02" title="What's inside">

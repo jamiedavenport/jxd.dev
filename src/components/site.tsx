@@ -342,22 +342,36 @@ export function PageIntro({
   eyebrow,
   title,
   lede,
+  aside,
 }: {
   eyebrow: string
   title: string
   lede?: string
+  aside?: ReactNode
 }) {
   return (
     <section className="grid-lines">
-      <div className="mx-auto max-w-7xl px-6 pt-16 pb-12 sm:pt-24 sm:pb-16 lg:px-8">
-        <MonoLabel className="text-red-600">{eyebrow}</MonoLabel>
-        <DisplayHeading
-          as="h1"
-          className="mt-6 max-w-[24ch] text-4xl text-balance sm:text-6xl"
-        >
-          {title}
-        </DisplayHeading>
-        {lede ? <Lede className="mt-6">{lede}</Lede> : null}
+      <div
+        className={clsx(
+          'mx-auto max-w-7xl px-6 pt-16 pb-12 sm:pt-24 sm:pb-16 lg:px-8',
+          aside && 'grid grid-cols-1 gap-x-8 lg:grid-cols-[1fr_20rem] lg:items-center',
+        )}
+      >
+        <div>
+          <MonoLabel className="text-red-600">{eyebrow}</MonoLabel>
+          <DisplayHeading
+            as="h1"
+            className="mt-6 max-w-[24ch] text-4xl text-balance sm:text-6xl"
+          >
+            {title}
+          </DisplayHeading>
+          {lede ? <Lede className="mt-6">{lede}</Lede> : null}
+        </div>
+        {aside ? (
+          <div className="flex items-center justify-center max-lg:hidden">
+            {aside}
+          </div>
+        ) : null}
       </div>
     </section>
   )

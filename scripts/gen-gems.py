@@ -102,10 +102,25 @@ def rhombic_dodeca(scale, rot_z_deg):
 
 garnet_parts = [(rhombic_dodeca(0.54, 18), False)]
 
+# ---- SAPPHIRE: hexagonal bipyramid (corundum habit) ----
+def bipyramid(r, girdle_half, apex_z, offset_deg):
+    hexa = ngon(6, r, offset_deg)
+    top_ring = ring(hexa, girdle_half)
+    bot_ring = ring(hexa, -girdle_half)
+    faces = (
+        sides(top_ring, bot_ring)
+        + cone(top_ring, (0, 0, apex_z))
+        + cone(bot_ring, (0, 0, -apex_z))
+    )
+    return fix_winding(faces, (0, 0, 0))
+
+sapphire_parts = [(bipyramid(0.6, 0.2, 0.95, 15), False)]
+
 palettes = {
     'onyx':   {'stops': ['#0a0a0a', '#161616', '#242424', '#3d3d3d', '#666666'], 'stroke': 'rgba(255,255,255,0.22)'},
     'quartz': {'stops': ['#c9c9c9', '#dadada', '#e8e8e8', '#f4f4f4', '#ffffff'], 'stroke': 'rgba(10,10,10,0.35)'},
     'garnet': {'stops': ['#7f1d1d', '#991b1b', '#b91c1c', '#dc2626', '#ef4444'], 'stroke': 'rgba(69,10,10,0.45)'},
+    'sapphire': {'stops': ['#1e3a8a', '#1e40af', '#1d4ed8', '#2563eb', '#3b82f6'], 'stroke': 'rgba(23,37,84,0.45)'},
 }
 
 def render(name, parts):
@@ -151,6 +166,7 @@ gems = {
     'onyx': render('onyx', onyx_parts),
     'quartz': render('quartz', quartz_parts),
     'garnet': render('garnet', garnet_parts),
+    'sapphire': render('sapphire', sapphire_parts),
 }
 
 import os

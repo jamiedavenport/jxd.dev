@@ -10,7 +10,7 @@ export const Route = createFileRoute('/products/')({
     seo({
       title: 'Products · JXD',
       description:
-        'The in-house products behind JXD delivery speed: Onyx, a proven full-stack template; Quartz, a product management suite; and Garnet, a data compliance framework.',
+        'The in-house products behind JXD delivery speed: Onyx, a full-stack template; Quartz, a product management suite; Garnet, a data compliance framework; and Sapphire, an AI simulation engine.',
       path: '/products',
     }),
   component: ProductsPage,
@@ -54,7 +54,7 @@ function ProductsPage() {
           </div>
         </LabeledSection>
       ))}
-      <CtaSection index="04" />
+      <CtaSection index="05" />
     </SiteShell>
   )
 }

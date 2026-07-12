@@ -57,6 +57,19 @@ const gems = {
       { points: '-0.236,-0.026 0.000,-0.885 0.726,-0.307 0.490,0.552', fill: '#7f1d1d', fillOpacity: 1, stroke: 'rgba(69,10,10,0.45)', strokeWidth: 0.02 },
     ],
   },
+  sapphire: {
+    viewBox: '-0.878 -0.878 1.756 1.756',
+    polys: [
+      { points: '0.000,0.778 -0.520,0.336 0.000,0.508', fill: '#1e3a8a', fillOpacity: 1, stroke: 'rgba(23,37,84,0.45)', strokeWidth: 0.02 },
+      { points: '0.000,0.778 0.000,0.508 0.520,0.336', fill: '#1e3a8a', fillOpacity: 1, stroke: 'rgba(23,37,84,0.45)', strokeWidth: 0.02 },
+      { points: '-0.520,0.008 -0.520,-0.336 0.000,-0.778', fill: '#3b82f6', fillOpacity: 1, stroke: 'rgba(23,37,84,0.45)', strokeWidth: 0.02 },
+      { points: '0.520,-0.336 0.520,0.008 0.000,-0.778', fill: '#1e3a8a', fillOpacity: 1, stroke: 'rgba(23,37,84,0.45)', strokeWidth: 0.02 },
+      { points: '0.000,0.180 0.000,0.508 -0.520,0.336 -0.520,0.008', fill: '#1e40af', fillOpacity: 1, stroke: 'rgba(23,37,84,0.45)', strokeWidth: 0.02 },
+      { points: '0.520,0.008 0.520,0.336 0.000,0.508 0.000,0.180', fill: '#1e3a8a', fillOpacity: 1, stroke: 'rgba(23,37,84,0.45)', strokeWidth: 0.02 },
+      { points: '0.520,0.008 0.000,0.180 0.000,-0.778', fill: '#1e3a8a', fillOpacity: 1, stroke: 'rgba(23,37,84,0.45)', strokeWidth: 0.02 },
+      { points: '0.000,0.180 -0.520,0.008 0.000,-0.778', fill: '#2563eb', fillOpacity: 1, stroke: 'rgba(23,37,84,0.45)', strokeWidth: 0.02 },
+    ],
+  },
 }
 
 export type GemName = keyof typeof gems
