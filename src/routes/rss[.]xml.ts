@@ -14,7 +14,9 @@ export const Route = createFileRoute('/rss.xml')({
   server: {
     handlers: {
       GET: () => {
-        const posts = [...allPosts].sort((a, b) => a.order - b.order)
+        const posts = [...allPosts].sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        )
         const items = posts
           .map(
             (post) => `    <item>
@@ -22,6 +24,7 @@ export const Route = createFileRoute('/rss.xml')({
       <link>${SITE_URL}/blog/${post.slug}</link>
       <guid isPermaLink="true">${SITE_URL}/blog/${post.slug}</guid>
       <description>${escapeXml(post.summary)}</description>
+      <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     </item>`,
           )
           .join('\n')

@@ -2,7 +2,8 @@
 title: Shipping in weeks without sacrificing rigour
 lane: AI-native practice
 summary: AI-native delivery is a discipline, not a shortcut.
-order: 2
+date: 2026-06-02
+tags: [ai-native, delivery, process]
 ---
 
 "Weeks, not quarters" invites a fair question: what gets cut? The honest answer is nothing that matters. The speed comes from removing waste, not from removing rigour.

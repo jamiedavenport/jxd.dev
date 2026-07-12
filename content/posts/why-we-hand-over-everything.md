@@ -2,7 +2,9 @@
 title: Why we hand over everything
 lane: Craft
 summary: Lock-in is a business model. It is not ours.
-order: 1
+date: 2026-06-24
+tags: [ownership, handover, consulting]
+featured: true
 ---
 
 Most consultancies are structured around retention. The code lives in their accounts, the infrastructure runs on their subscriptions, and the knowledge lives in their heads. None of this is an accident. It makes the next invoice easier to send.

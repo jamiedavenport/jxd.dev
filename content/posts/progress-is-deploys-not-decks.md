@@ -2,7 +2,8 @@
 title: Progress is deploys, not decks
 lane: Craft
 summary: Status reporting is a symptom. Working software is the cure.
-order: 4
+date: 2026-04-21
+tags: [shipping, transparency, process]
 ---
 
 If a project needs a weekly slide deck to prove it is moving, it is usually not moving. Decks exist to represent progress. Deploys are progress.

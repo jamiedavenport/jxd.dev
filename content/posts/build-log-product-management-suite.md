@@ -2,7 +2,8 @@
 title: "Build log: a product management suite"
 lane: Build log
 summary: Code, issues, documents, meetings, and CI in one place. Notes from building our own tooling.
-order: 3
+date: 2026-05-12
+tags: [quartz, tooling, build-log]
 ---
 
 Every JXD engagement runs on tooling we built ourselves. This post is about the largest piece: a product management suite that puts code, issues, documents, meetings, and CI in one place.

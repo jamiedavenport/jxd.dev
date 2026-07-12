@@ -10,14 +10,19 @@ const posts = defineCollection({
     title: z.string(),
     lane: z.string(),
     summary: z.string(),
-    order: z.number(),
+    date: z.string(),
+    author: z.string().default('Jamie Davenport'),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
   }),
   transform: async (document, context) => {
     const html = await compileMarkdown(context, document)
+    const words = document.content.trim().split(/\s+/).length
     return {
       ...document,
       html,
       slug: document._meta.path,
+      readingTime: Math.max(1, Math.round(words / 220)),
     }
   },
 })

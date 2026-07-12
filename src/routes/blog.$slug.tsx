@@ -1,6 +1,7 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { allPosts } from 'content-collections'
 import { SiteShell } from '../components/site'
+import { PostMeta, TagRow } from '../components/ui'
 import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/blog/$slug')({
@@ -43,9 +44,16 @@ function BlogPostPage() {
           <h1 className="max-w-[24ch] font-display text-4xl font-semibold tracking-tight text-pretty sm:text-5xl">
             {post.title}
           </h1>
+          <PostMeta
+            author={post.author}
+            date={post.date}
+            readingTime={post.readingTime}
+            className="mt-5"
+          />
           <p className="mt-6 max-w-[48ch] text-xl/8 text-pretty text-neutral-600 sm:text-lg/7">
             {post.summary}
           </p>
+          <TagRow tags={post.tags} className="mt-6" />
           <div
             className="prose mt-12 max-w-[65ch]"
             dangerouslySetInnerHTML={{ __html: post.html }}

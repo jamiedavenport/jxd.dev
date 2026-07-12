@@ -283,6 +283,60 @@ export function FeatureGrid({
   );
 }
 
+export function formatDate(iso: string) {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(iso));
+}
+
+export function PostMeta({
+  author,
+  date,
+  readingTime,
+  className,
+}: {
+  author?: string;
+  date: string;
+  readingTime: number;
+  className?: string;
+}) {
+  return (
+    <p
+      className={clsx(
+        "font-mono text-sm uppercase tracking-wide text-neutral-500",
+        className,
+      )}
+    >
+      {author ? `${author} · ` : ""}
+      <time dateTime={date}>{formatDate(date)}</time> · {readingTime} min read
+    </p>
+  );
+}
+
+export function TagRow({
+  tags,
+  className,
+}: {
+  tags: string[];
+  className?: string;
+}) {
+  if (tags.length === 0) return null;
+  return (
+    <ul role="list" className={clsx("flex flex-wrap gap-1.5", className)}>
+      {tags.map((tag) => (
+        <li
+          key={tag}
+          className="border border-neutral-950/10 px-2 py-0.5 font-mono text-xs uppercase tracking-wide text-neutral-600"
+        >
+          {tag}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function Quote({
   text,
   attribution,
