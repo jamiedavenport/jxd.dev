@@ -1,6 +1,7 @@
+import { localStorageAdapter } from '@policystack/core/consent/storage/local-storage'
 import { LegalBases, Voluntary, defineConfig } from '@policystack/sdk'
 
-export default defineConfig({
+const config = defineConfig({
   company: {
     name: 'JXD',
     legalName: 'JXD Ltd',
@@ -52,3 +53,10 @@ export default defineConfig({
   },
   automatedDecisionMaking: [],
 })
+
+export default {
+  ...config,
+  consent: {
+    adapter: localStorageAdapter({ key: 'jxd_consent' }),
+  },
+}

@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { useConsent } from '@policystack/react/consent'
 import { PolicyStack } from '@policystack/react/provider'
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import policy from '../policystack'
 import type { ReactNode } from 'react'
 import {
@@ -110,7 +110,9 @@ export function SiteShell({ children }: { children: ReactNode }) {
 
 function CookieBanner() {
   const { route, acceptAll, acceptNecessary } = useConsent()
-  if (route !== 'cookie') return null
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  if (!mounted || route !== 'cookie') return null
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-950/10 bg-white/95 backdrop-blur">
