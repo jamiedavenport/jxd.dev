@@ -109,7 +109,7 @@ function Home() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-x-8 gap-y-16 px-6 pt-20 pb-16 sm:pt-28 sm:pb-20 lg:grid-cols-[1fr_1fr] lg:px-8">
           <div>
             <MonoLabel className="text-red-600">
-              London software consultancy
+              No bullshit. Just results.
             </MonoLabel>
             <DisplayHeading
               as="h1"
