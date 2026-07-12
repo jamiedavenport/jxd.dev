@@ -21,7 +21,7 @@ function WorkPage() {
       <PageIntro
         eyebrow="Work"
         title="Proof, not promises."
-        lede="Case studies are anonymised while client products are in flight. The shape of the work is real: the problem, what we did, and the outcome."
+        lede="Real clients, real products. The problem, what we did, and the outcome."
       />
       {caseStudies.map((study) => (
         <LabeledSection
@@ -34,11 +34,13 @@ function WorkPage() {
             {study.title}
           </DisplayHeading>
           <TermRows rows={study.rows} className="mt-10" />
-          <Quote
-            text={study.quote.text}
-            attribution={study.quote.attribution}
-            className="mt-10"
-          />
+          {study.quote ? (
+            <Quote
+              text={study.quote.text}
+              attribution={study.quote.attribution}
+              className="mt-10"
+            />
+          ) : null}
           <p className="mt-10 text-base font-semibold sm:text-sm/6">
             <ArrowLink to="/work/$slug" params={{ slug: study.slug }}>
               Read the full case study
@@ -46,7 +48,7 @@ function WorkPage() {
           </p>
         </LabeledSection>
       ))}
-      <CtaSection index="04" />
+      <CtaSection index="02" />
     </SiteShell>
   )
 }

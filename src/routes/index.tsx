@@ -157,13 +157,16 @@ function Home() {
           {featuredStudy.title}
         </DisplayHeading>
         <BodyText className="mt-6">{featuredStudy.summary}</BodyText>
-        <Quote
-          text={featuredStudy.quote.text}
-          attribution={featuredStudy.quote.attribution}
-          className="mt-10"
-        />
+        {featuredStudy.quote ? (
+          <Quote
+            text={featuredStudy.quote.text}
+            attribution={featuredStudy.quote.attribution}
+            className="mt-10"
+          />
+        ) : null}
         <MonoLabel className="mt-6 text-neutral-500">
-          Anonymised while the client's product is in flight
+          {featuredStudy.client}
+          {featuredStudy.url ? ` · ${featuredStudy.url.replace('https://', '')}` : ''}
         </MonoLabel>
         <p className="mt-10 text-base font-semibold sm:text-sm/6">
           <ArrowLink to="/work/$slug" params={{ slug: featuredStudy.slug }}>
