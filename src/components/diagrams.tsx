@@ -43,7 +43,6 @@ function CircuitLayer() {
         width="20"
         height="20"
         fill="white"
-        fillOpacity="0.7"
         stroke="currentColor"
         strokeWidth="0.9"
       />
@@ -78,21 +77,21 @@ function CodeLayer() {
 function UiLayer() {
   return (
     <>
-      <div className="absolute inset-x-4 top-4 flex h-6 items-center gap-1.5 border border-neutral-950/25 bg-white/60 px-2">
+      <div className="absolute inset-x-4 top-4 flex h-6 items-center gap-1.5 border border-neutral-950/25 bg-white px-2">
         <span className="size-1.5 bg-neutral-950/25" />
         <span className="size-1.5 bg-neutral-950/25" />
       </div>
-      <div className="absolute top-12 bottom-4 left-4 w-13 border border-neutral-950/25 bg-white/60" />
+      <div className="absolute top-12 bottom-4 left-4 w-13 border border-neutral-950/25 bg-white" />
       <div className="absolute top-12 right-4 left-19 h-13 border border-red-600/60 bg-red-600/10" />
-      <div className="absolute top-27 right-4 bottom-4 left-19 border border-neutral-950/25 bg-white/60" />
+      <div className="absolute top-27 right-4 bottom-4 left-19 border border-neutral-950/25 bg-white" />
     </>
   )
 }
 
 const heroLayers = [
-  { name: 'hardware', z: 0, face: 'border-neutral-950/20 bg-white/70', Content: CircuitLayer },
-  { name: 'code', z: 72, face: 'border-neutral-950/30 bg-white/70', Content: CodeLayer },
-  { name: 'ui', z: 144, face: 'border-red-600/70 bg-red-600/3', Content: UiLayer },
+  { name: 'hardware', z: 0, face: 'border-neutral-950/20 bg-white', Content: CircuitLayer },
+  { name: 'code', z: 72, face: 'border-neutral-950/30 bg-white', Content: CodeLayer },
+  { name: 'ui', z: 144, face: 'border-red-600/70 bg-red-50', Content: UiLayer },
 ]
 
 export function HeroStack({ className }: { className?: string }) {
@@ -107,13 +106,15 @@ export function HeroStack({ className }: { className?: string }) {
         {heroLayers.map((layer, i) => (
           <motion.div
             key={layer.name}
-            initial={reduce ? false : { z: 0 }}
-            animate={{ z: layer.z }}
+            initial={
+              reduce || i === 0 ? false : { opacity: 0, z: layer.z - 24 }
+            }
+            animate={{ opacity: 1, z: layer.z }}
             transition={{
               type: 'spring',
               stiffness: 90,
               damping: 18,
-              delay: 0.1 + i * 0.15,
+              delay: 0.4 + (i - 1) * 1,
             }}
             className={clsx('absolute inset-0 border', layer.face)}
           >
