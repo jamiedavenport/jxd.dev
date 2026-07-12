@@ -70,6 +70,28 @@ const gems = {
       { points: '0.000,0.180 -0.520,0.008 0.000,-0.778', fill: '#2563eb', fillOpacity: 1, stroke: 'rgba(23,37,84,0.45)', strokeWidth: 0.02 },
     ],
   },
+  amber: {
+    viewBox: '-0.765 -0.653 1.530 1.530',
+    polys: [
+      { points: '0.000,0.696 0.276,-0.382 -0.276,-0.382', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.000,0.696 -0.276,-0.382 -0.665,-0.158', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.000,0.696 0.665,-0.158 0.276,-0.382', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '-0.152,-0.472 -0.276,-0.382 0.276,-0.382 0.152,-0.472', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '-0.366,-0.349 -0.665,-0.158 -0.276,-0.382 -0.152,-0.472', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.152,-0.472 0.276,-0.382 0.665,-0.158 0.366,-0.349', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.000,0.696 -0.665,-0.158 -0.665,0.158', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '0.000,0.696 0.665,0.158 0.665,-0.158', fill: 'none', fillOpacity: 1, stroke: 'rgba(10,10,10,0.08)', strokeWidth: 0.016 },
+      { points: '-0.366,-0.175 -0.665,0.158 -0.665,-0.158 -0.366,-0.349', fill: '#f59e0b', fillOpacity: 0.94, stroke: 'rgba(69,26,3,0.45)', strokeWidth: 0.02 },
+      { points: '0.366,-0.349 0.665,-0.158 0.665,0.158 0.366,-0.175', fill: '#78350f', fillOpacity: 0.94, stroke: 'rgba(69,26,3,0.45)', strokeWidth: 0.02 },
+      { points: '0.000,0.696 -0.665,0.158 -0.276,0.382', fill: '#78350f', fillOpacity: 0.94, stroke: 'rgba(69,26,3,0.45)', strokeWidth: 0.02 },
+      { points: '0.000,0.696 0.276,0.382 0.665,0.158', fill: '#78350f', fillOpacity: 0.94, stroke: 'rgba(69,26,3,0.45)', strokeWidth: 0.02 },
+      { points: '0.366,-0.349 0.366,-0.175 0.152,-0.052 -0.152,-0.052 -0.366,-0.175 -0.366,-0.349 -0.152,-0.472 0.152,-0.472', fill: '#b45309', fillOpacity: 0.94, stroke: 'rgba(69,26,3,0.45)', strokeWidth: 0.02 },
+      { points: '0.000,0.696 -0.276,0.382 0.276,0.382', fill: '#78350f', fillOpacity: 0.94, stroke: 'rgba(69,26,3,0.45)', strokeWidth: 0.02 },
+      { points: '-0.152,-0.052 -0.276,0.382 -0.665,0.158 -0.366,-0.175', fill: '#d97706', fillOpacity: 0.94, stroke: 'rgba(69,26,3,0.45)', strokeWidth: 0.02 },
+      { points: '0.366,-0.175 0.665,0.158 0.276,0.382 0.152,-0.052', fill: '#78350f', fillOpacity: 0.94, stroke: 'rgba(69,26,3,0.45)', strokeWidth: 0.02 },
+      { points: '0.152,-0.052 0.276,0.382 -0.276,0.382 -0.152,-0.052', fill: '#92400e', fillOpacity: 0.94, stroke: 'rgba(69,26,3,0.45)', strokeWidth: 0.02 },
+    ],
+  },
 }
 
 export type GemName = keyof typeof gems

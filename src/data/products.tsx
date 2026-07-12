@@ -10,6 +10,7 @@ export type Product = {
   summary: string
   paragraphs: string[]
   features: { name: string; description: string }[]
+  github?: string
 }
 
 export const products: Product[] = [
@@ -172,5 +173,46 @@ export const products: Product[] = [
         description: 'Same question, new inputs. Compare runs as your situation changes.',
       },
     ],
+  },
+  {
+    slug: 'amber',
+    index: '05',
+    name: 'Amber',
+    role: 'REST client and test suite',
+    status: 'Open source as restmd',
+    lede: 'The preserving stone. A Markdown-native REST client where requests live in files, and every file runs as a test suite.',
+    summary:
+      "A REST client built on Markdown: requests are version-controlled, diffable, and executable, so the collection you explore an API with doubles as its test suite in CI.",
+    paragraphs: [
+      'Most REST clients keep your API workflows in a proprietary app, behind an account, drifting out of date next to the code they describe. Amber puts requests in plain Markdown files instead: version-controlled, diffable, reviewable in a pull request, and runnable from a terminal UI that refreshes as you edit.',
+      "Because every request carries its expectations, the same files run headlessly in CI as a test suite: exit codes for pipelines, JUnit reports for dashboards, environments and variables for staging against production. One set of documents to explore an API and to prove it still behaves.",
+    ],
+    features: [
+      {
+        name: 'Markdown requests',
+        description: 'Requests live in .md files: version-controlled, diffable, executable.',
+      },
+      {
+        name: 'Terminal UI',
+        description: 'Browse and run requests from a TUI that refreshes live as files change.',
+      },
+      {
+        name: 'Test suite in CI',
+        description: 'Headless runs with CI-friendly exit codes and JUnit reports.',
+      },
+      {
+        name: 'Environments and variables',
+        description: 'Switch environments from frontmatter, override variables per run.',
+      },
+      {
+        name: 'Request chaining',
+        description: 'Later requests reuse captures and cookies from earlier ones.',
+      },
+      {
+        name: 'Editor support',
+        description: 'A bundled language server, with a VS Code extension included.',
+      },
+    ],
+    github: 'https://github.com/jamiedavenport/restmd',
   },
 ]

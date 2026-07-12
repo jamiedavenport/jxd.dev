@@ -1,7 +1,7 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { CtaSection, LabeledSection, PageIntro, SiteShell } from '../components/site'
 import { GemMark } from '../components/gems'
-import { BodyText, FeatureGrid, MonoLabel } from '../components/ui'
+import { ArrowLink, BodyText, FeatureGrid, MonoLabel } from '../components/ui'
 import { products } from '../data/products'
 import { seo } from '../lib/seo'
 
@@ -43,6 +43,11 @@ function ProductPage() {
             {paragraph}
           </BodyText>
         ))}
+        {product.github ? (
+          <p className="mt-8 text-base font-semibold sm:text-sm/6">
+            <ArrowLink href={product.github}>View on GitHub</ArrowLink>
+          </p>
+        ) : null}
       </LabeledSection>
 
       <LabeledSection index="02" title="What's inside">

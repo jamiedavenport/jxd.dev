@@ -116,11 +116,22 @@ def bipyramid(r, girdle_half, apex_z, offset_deg):
 
 sapphire_parts = [(bipyramid(0.6, 0.2, 0.95, 15), False)]
 
+# ---- AMBER: octagonal brilliant, flat table over a deep pavilion ----
+def brilliant(r, table_scale, table_z, girdle_z, culet_z, offset_deg):
+    octa = ngon(8, r, offset_deg)
+    table = ring(octa, table_z, scale=table_scale)
+    girdle = ring(octa, girdle_z)
+    faces = [table] + sides(table, girdle) + cone(girdle, (0, 0, culet_z))
+    return fix_winding(faces, (0, 0, (table_z + culet_z) / 2))
+
+amber_parts = [(brilliant(0.72, 0.55, 0.32, 0.0, -0.85, 22.5), True)]
+
 palettes = {
     'onyx':   {'stops': ['#0a0a0a', '#161616', '#242424', '#3d3d3d', '#666666'], 'stroke': 'rgba(255,255,255,0.22)'},
     'quartz': {'stops': ['#c9c9c9', '#dadada', '#e8e8e8', '#f4f4f4', '#ffffff'], 'stroke': 'rgba(10,10,10,0.35)'},
     'garnet': {'stops': ['#7f1d1d', '#991b1b', '#b91c1c', '#dc2626', '#ef4444'], 'stroke': 'rgba(69,10,10,0.45)'},
     'sapphire': {'stops': ['#1e3a8a', '#1e40af', '#1d4ed8', '#2563eb', '#3b82f6'], 'stroke': 'rgba(23,37,84,0.45)'},
+    'amber':  {'stops': ['#78350f', '#92400e', '#b45309', '#d97706', '#f59e0b'], 'stroke': 'rgba(69,26,3,0.45)'},
 }
 
 def render(name, parts):
@@ -167,6 +178,7 @@ gems = {
     'quartz': render('quartz', quartz_parts),
     'garnet': render('garnet', garnet_parts),
     'sapphire': render('sapphire', sapphire_parts),
+    'amber': render('amber', amber_parts),
 }
 
 import os
