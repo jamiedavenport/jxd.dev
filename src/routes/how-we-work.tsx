@@ -7,7 +7,7 @@ import { seo } from '../lib/seo'
 export const Route = createFileRoute('/how-we-work')({
   head: () =>
     seo({
-      title: 'How we work · JXD',
+      title: 'Process · JXD',
       description:
         'Continuous shipping, weekly demos and written notes, production-grade foundations from day one, direct access to the engineer, and a full handover. How every JXD engagement runs.',
       path: '/how-we-work',
@@ -87,7 +87,7 @@ function HowWeWorkPage() {
   return (
     <SiteShell>
       <PageIntro
-        eyebrow="How we work"
+        eyebrow="Process"
         title="Rigour, visible weekly."
         lede="These are not aspirations. They are how every engagement runs, from the first week to handover."
       />
@@ -121,8 +121,9 @@ function HowWeWorkPage() {
           </div>
           <TermRows
             rows={noteRows}
+            className="px-6 py-5"
             columns="sm:grid-cols-[6rem_1fr]"
-            bordered={false}
+            pads={['pb-4', 'py-4', 'pt-4']}
             detailClass="text-neutral-600"
           />
         </div>

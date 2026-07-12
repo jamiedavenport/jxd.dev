@@ -138,6 +138,7 @@ function Home() {
         <TermRows
           rows={modes}
           columns="sm:grid-cols-2"
+          pads={['pb-8', 'py-8', 'pt-8']}
           termClass="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
           detailClass="max-w-[48ch] text-neutral-600"
         />
@@ -224,11 +225,11 @@ function Home() {
         </div>
       </LabeledSection>
 
-      <LabeledSection id="how-we-work" index="05" title="How we work">
+      <LabeledSection id="how-we-work" index="05" title="Process">
         <FeatureGrid items={practices} />
         <CadenceDiagram className="mt-12" />
         <p className="mt-10 text-base font-semibold sm:text-sm/6">
-          <ArrowLink to="/how-we-work">How we work, in full</ArrowLink>
+          <ArrowLink to="/how-we-work">The full process</ArrowLink>
         </p>
       </LabeledSection>
 

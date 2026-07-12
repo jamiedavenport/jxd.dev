@@ -163,49 +163,46 @@ export function ButtonLink({
   );
 }
 
+function rowDividers(
+  i: number,
+  count: number,
+  pads: readonly [string, string, string],
+) {
+  if (i === 0) return pads[0];
+  return clsx(
+    "border-t border-neutral-950/10",
+    i === count - 1 ? pads[2] : pads[1],
+  );
+}
+
 export function TermRows({
   rows,
   className,
   columns = "sm:grid-cols-[16rem_1fr]",
-  bordered = true,
+  pads = ["pb-5", "py-5", "pt-5"] as const,
   termClass = "font-medium",
   detailClass = "max-w-[56ch] text-neutral-600",
 }: {
   rows: { term: string; detail: ReactNode }[];
   className?: string;
   columns?: string;
-  bordered?: boolean;
+  pads?: readonly [string, string, string];
   termClass?: string;
   detailClass?: string;
 }) {
   return (
-    <dl
-      className={clsx(
-        bordered && "border border-neutral-950/10",
-        "text-base/7 sm:text-sm/6",
-        className,
-      )}
-    >
+    <dl className={clsx("text-base/7 sm:text-sm/6", className)}>
       {rows.map((row, i) => (
         <div
           key={row.term}
           className={clsx(
-            "grid grid-cols-1",
+            "grid grid-cols-1 gap-y-2 sm:gap-x-8 sm:gap-y-0",
             columns,
-            i > 0 && "border-t border-neutral-950/10",
+            rowDividers(i, rows.length, pads),
           )}
         >
-          <dt
-            className={clsx(
-              "px-5 pt-4 sm:border-r sm:border-neutral-950/10 sm:py-4",
-              termClass,
-            )}
-          >
-            {row.term}
-          </dt>
-          <dd className={clsx("px-5 pb-4 sm:py-4", detailClass)}>
-            {row.detail}
-          </dd>
+          <dt className={termClass}>{row.term}</dt>
+          <dd className={detailClass}>{row.detail}</dd>
         </div>
       ))}
     </dl>
@@ -215,32 +212,27 @@ export function TermRows({
 export function NumberedRows({
   items,
   className,
+  pads = ["pb-5", "py-5", "pt-5"] as const,
 }: {
   items: { name: string; description: string }[];
   className?: string;
+  pads?: readonly [string, string, string];
 }) {
   return (
-    <dl
-      className={clsx(
-        "border border-neutral-950/10 text-base/7 sm:text-sm/6",
-        className,
-      )}
-    >
+    <dl className={clsx("text-base/7 sm:text-sm/6", className)}>
       {items.map((item, i) => (
         <div
           key={item.name}
           className={clsx(
-            "grid grid-cols-[3.5rem_1fr] sm:grid-cols-[3.5rem_16rem_1fr]",
-            i > 0 && "border-t border-neutral-950/10",
+            "grid grid-cols-[3rem_1fr] gap-x-4 sm:grid-cols-[3rem_16rem_1fr] sm:gap-x-8",
+            rowDividers(i, items.length, pads),
           )}
         >
-          <div className="row-span-2 flex border-r border-neutral-950/10 px-4 py-4 font-mono text-sm text-red-600 sm:row-span-1 sm:items-center">
+          <div className="font-mono text-sm text-red-600">
             {String(i + 1).padStart(2, "0")}
           </div>
-          <dt className="px-5 pt-4 font-medium sm:border-r sm:border-neutral-950/10 sm:py-4">
-            {item.name}
-          </dt>
-          <dd className="col-start-2 max-w-[56ch] px-5 pb-4 text-neutral-600 sm:col-start-3 sm:py-4">
+          <dt className="font-medium">{item.name}</dt>
+          <dd className="col-start-2 max-w-[56ch] text-neutral-600 sm:col-start-3">
             {item.description}
           </dd>
         </div>
@@ -259,20 +251,12 @@ export function FeatureGrid({
   return (
     <dl
       className={clsx(
-        "grid grid-cols-1 border border-neutral-950/10 text-base/7 sm:grid-cols-2 sm:text-sm/6",
+        "grid grid-cols-1 gap-x-8 gap-y-10 text-base/7 sm:grid-cols-2 sm:text-sm/6",
         className,
       )}
     >
-      {items.map((item, i) => (
-        <div
-          key={item.name}
-          className={clsx(
-            "border-neutral-950/10 px-5 py-4",
-            i > 0 && "max-sm:border-t",
-            i >= 2 && "sm:border-t",
-            i % 2 === 1 && "sm:border-l",
-          )}
-        >
+      {items.map((item) => (
+        <div key={item.name}>
           <dt className="font-medium">{item.name}</dt>
           <dd className="mt-2 max-w-[48ch] text-neutral-600">
             {item.description}
@@ -370,18 +354,15 @@ export function StatStrip({
   className?: string;
 }) {
   return (
-    <div
-      className={clsx(
-        "grid grid-cols-1 border border-neutral-950/10 sm:grid-cols-3",
-        className,
-      )}
-    >
+    <div className={clsx("grid grid-cols-1 sm:grid-cols-3", className)}>
       {stats.map((stat, i) => (
         <div
           key={stat.label}
           className={clsx(
-            "border-neutral-950/10 px-6 py-6",
-            i > 0 && "max-sm:border-t sm:border-l",
+            "border-neutral-950/10",
+            i > 0 &&
+              "max-sm:mt-6 max-sm:border-t max-sm:pt-6 sm:border-l sm:pl-8",
+            i < stats.length - 1 && "sm:pr-8",
           )}
         >
           <div className="text-4xl font-semibold tracking-tight tabular-nums">

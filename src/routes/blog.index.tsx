@@ -62,26 +62,17 @@ function BlogIndexPage() {
             </article>
           ) : null}
 
-          <div
-            className={clsx(
-              'border border-neutral-950/10',
-              featured && 'mt-8',
-            )}
-          >
+          <div className={clsx(featured && 'mt-4')}>
             {rest.map((post, i) => (
               <article
                 key={post.slug}
                 className={clsx(
-                  'grid grid-cols-1 lg:grid-cols-[16rem_1fr]',
+                  'grid grid-cols-1 gap-x-8 gap-y-3 py-10 sm:py-12 lg:grid-cols-[16rem_1fr]',
                   i > 0 && 'border-t border-neutral-950/10',
                 )}
               >
-                <div className="border-neutral-950/10 px-6 pt-6 lg:border-r lg:py-8">
-                  <MonoLabel className="text-neutral-500">
-                    {post.lane}
-                  </MonoLabel>
-                </div>
-                <div className="px-6 pb-6 pt-3 lg:py-8">
+                <MonoLabel className="text-neutral-500">{post.lane}</MonoLabel>
+                <div>
                   <h2 className="max-w-[24ch] font-display text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
                     <Link
                       to="/blog/$slug"

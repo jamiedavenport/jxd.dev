@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import clsx from 'clsx'
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { ArrowLink, BodyText, DisplayHeading, Lede, MonoLabel } from './ui'
@@ -9,14 +10,14 @@ export const BOOKING_URL = 'https://cal.eu/jxd-dev/30min'
 
 const navLinks = [
   { to: '/work', label: 'Work' },
-  { to: '/how-we-work', label: 'How we work' },
+  { to: '/how-we-work', label: 'Process' },
   { to: '/products', label: 'Products' },
   { to: '/blog', label: 'Blog' },
   { to: '/about', label: 'About' },
 ]
 
 const navCell =
-  'flex items-center border-l border-neutral-950/10 px-5 hover:bg-neutral-950/2 hover:text-neutral-950'
+  'flex w-32 items-center justify-center border-l border-neutral-950/10 hover:bg-neutral-950/2 hover:text-neutral-950'
 
 function ProductsNavItem() {
   const [open, setOpen] = useState(false)
@@ -210,23 +211,116 @@ function SiteHeader() {
   )
 }
 
+function FooterColumn({
+  title,
+  children,
+}: {
+  title: string
+  children: ReactNode
+}) {
+  return (
+    <div>
+      <p className="font-mono text-xs uppercase tracking-wide text-neutral-500">
+        {title}
+      </p>
+      <ul role="list" className="mt-4 space-y-3 text-sm/6">
+        {children}
+      </ul>
+    </div>
+  )
+}
+
+const footerLink = 'text-neutral-600 hover:text-neutral-950'
+
 function SiteFooter() {
   return (
     <footer className="border-t border-neutral-950/10">
-      <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
-        <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm/6 text-neutral-600">
-          {navLinks.map((link) => (
-            <Link key={link.to} to={link.to} className="hover:text-neutral-950">
-              {link.label}
-            </Link>
-          ))}
-          <Link to="/contact" className="hover:text-neutral-950">
-            Contact
-          </Link>
-        </nav>
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 font-mono text-sm uppercase tracking-wide text-neutral-500">
+      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-2">
+          <div>
+            <p className="font-display text-lg font-semibold">JXD</p>
+            <p className="mt-3 max-w-[36ch] text-sm/6 text-neutral-600">
+              Serious software, shipped in weeks. A London consultancy for
+              founders, startups, and established businesses.
+            </p>
+            <p className="mt-6 text-sm/6">
+              <a
+                href="mailto:hello@jxd.dev"
+                className="font-medium hover:text-red-600"
+              >
+                hello@jxd.dev
+              </a>
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+            <FooterColumn title="Company">
+              <li>
+                <Link to="/work" className={footerLink}>
+                  Work
+                </Link>
+              </li>
+              <li>
+                <Link to="/how-we-work" className={footerLink}>
+                  Process
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className={footerLink}>
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog" className={footerLink}>
+                  Blog
+                </Link>
+              </li>
+            </FooterColumn>
+            <FooterColumn title="Products">
+              {products.map((product) => (
+                <li key={product.slug}>
+                  <Link
+                    to="/products/$slug"
+                    params={{ slug: product.slug }}
+                    className={clsx('flex items-center gap-2', footerLink)}
+                  >
+                    <GemMark name={product.slug} className="size-4 shrink-0" />
+                    {product.name}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link to="/products" className={footerLink}>
+                  All products
+                </Link>
+              </li>
+            </FooterColumn>
+            <FooterColumn title="Contact">
+              <li>
+                <Link to="/contact" className={footerLink}>
+                  Start a project
+                </Link>
+              </li>
+              <li>
+                <a href={BOOKING_URL} className={footerLink}>
+                  Book a call
+                </a>
+              </li>
+              <li>
+                <a href="mailto:hello@jxd.dev" className={footerLink}>
+                  Email us
+                </a>
+              </li>
+            </FooterColumn>
+          </div>
+        </div>
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-neutral-950/10 pt-8 font-mono text-xs uppercase tracking-wide text-neutral-500">
           <p>© 2026 JXD Ltd</p>
-          <p>London</p>
+          <div className="flex items-center gap-6">
+            <a href="/rss.xml" className="hover:text-neutral-950">
+              RSS
+            </a>
+            <p>London</p>
+          </div>
         </div>
       </div>
     </footer>
