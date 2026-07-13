@@ -22,6 +22,7 @@ export const stack: {
       { name: 'Node.js', logo: 'nodejs' },
       { name: 'Go', logo: 'go' },
       { name: 'Laravel', logo: 'laravel' },
+      { name: 'Effect', logo: 'effect' },
       { name: 'tRPC', logo: 'trpc' },
       { name: 'Stripe', logo: 'stripe' },
     ],
