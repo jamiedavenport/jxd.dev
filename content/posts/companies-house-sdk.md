@@ -9,7 +9,7 @@ featured: true
 
 We needed the Companies House API for a project. We could have called it directly with `fetch` and moved on. Plenty of teams do.
 
-But the tooling around one of the UK's most useful public APIs is in a poor state. The official Node SDK is built for Companies House's own internal services: it exists to propagate auth between their web apps, speaks ERIC (their internal routing layer), and covers the public API only partially. The community clients were last published between six and ten years ago. And the official OpenAPI spec, the thing every generated client depends on, is broken in ways we will get to shortly.
+But the tooling around the API for the UK's company register, the open data that KYC checks and company due diligence are built on, is in a poor state. The official Node SDK is built for Companies House's own internal services: it exists to propagate auth between their web apps, speaks ERIC (their internal routing layer), and covers the public API only partially. The community clients were last published between six and ten years ago. And the official OpenAPI spec, the thing every generated client depends on, is broken in ways we will get to shortly.
 
 So we had a choice: work around it quietly, or build the client we wanted and leave things better than we found them. We built. This post is about what we shipped and, more usefully, how.
 
