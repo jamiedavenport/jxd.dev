@@ -41,7 +41,7 @@ The worst defect looks harmless:
 { "type": "object", "items": { "$ref": "#/definitions/officerSummary" } }
 ```
 
-JSON Schema has no `items` keyword on objects, so every tool silently reads this as `{}`: untyped. It appears 132 times in the official spec. That single defect is why generated Companies House clients are full of `unknown`.
+JSON Schema has no `items` keyword on objects, so every tool silently reads this as `{}`: untyped. Stitch the official spec's 20-plus fragment files into the single document you would feed a generator, and it appears 132 times. That single defect is why generated Companies House clients are full of `unknown`.
 
 Repair had a harder limit, though: you cannot repair what was never written down. The official spec omits fields the API has returned for years. Search results are missing `title`, `address_snippet`, `matches`, and every pagination field. Advanced and dissolved search results have essentially no item schema at all. Newer additions like the ECCTA identity verification fields are absent, and whole endpoints exist in Companies House's own SDK before they appear in any documentation.
 
@@ -57,7 +57,7 @@ Fix the spec, regenerate, and the client is correct by construction. We also shi
 
 A curated spec is only better than a broken one if curation does not rot. Ours is maintained by two Claude Code skills, checked into the repo like any other code. One builds the spec from scratch by reading the Developer Hub and the official SDK source. One refreshes it in place when upstream may have drifted. Both run under a strict rule: never invent, report gaps. Anything found only in the SDK source is quarantined until proven to answer to API-key auth. The git diff is the review surface, and an engineer reads it before anything merges.
 
-This is how we use AI generally: models draft, engineers decide. But you should not have to trust our process, so there is a second mechanism that does not involve trust at all. Every day at 06:00 UTC, CI runs the full integration suite against the live API, exercising every endpoint with real companies. If Companies House changes shape, we find out as a red build the same morning, not as your bug report.
+This is how we use AI generally: models draft, engineers decide. But you should not have to trust our process, so there is a second mechanism that does not involve trust at all. The full integration suite runs against the live API on every pull request and push to main, and on a daily 06:00 UTC schedule, exercising every endpoint with real companies. If Companies House changes shape, we find out as a red build the same morning, not as your bug report.
 
 ## Thin by design
 
