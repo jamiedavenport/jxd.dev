@@ -22,6 +22,7 @@ const navLinks = [
   { to: '/work', label: 'Work' },
   { to: '/how-we-work', label: 'Process' },
   { to: '/products', label: 'Products' },
+  { to: '/blog', label: 'Blog' },
   { to: '/about', label: 'About' },
 ]
 
@@ -334,6 +335,11 @@ function SiteFooter() {
               <li>
                 <Link to="/about" className={footerLink}>
                   About
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog" className={footerLink}>
+                  Blog
                 </Link>
               </li>
             </FooterColumn>

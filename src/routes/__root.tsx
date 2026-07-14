@@ -45,6 +45,12 @@ export const Route = createRootRoute({
         type: 'image/svg+xml',
         href: '/favicon.svg',
       },
+      {
+        rel: 'alternate',
+        type: 'application/rss+xml',
+        title: 'JXD Blog',
+        href: `${SITE_URL}/rss.xml`,
+      },
       { rel: 'preconnect', href: 'https://rsms.me/' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       {

@@ -17,7 +17,6 @@ export const Route = createFileRoute('/blog/$slug')({
           description: loaderData.summary,
           path: `/blog/${loaderData.slug}`,
           type: 'article',
-          noindex: true,
           image: 'default',
         })
       : {},
