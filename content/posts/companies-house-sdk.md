@@ -92,9 +92,12 @@ The official spec is wrong for a structural reason: it is written by hand, after
 import { oc } from "@orpc/contract";
 import { implement } from "@orpc/server";
 import { OpenAPIGenerator } from "@orpc/openapi";
+import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import * as z from "zod";
 
 // 1. The contract is the source of truth
+const CompanyProfile = z.object({ company_name: z.string() /* ... */ });
+
 const getCompanyProfile = oc
   .route({ method: "GET", path: "/company/{company_number}" })
   .input(z.object({ company_number: z.string() }))
@@ -104,10 +107,16 @@ export const contract = { getCompanyProfile /* ... */ };
 
 // 2. The server implements the contract; drift is a compile error
 const os = implement(contract);
+export const router = os.router({
+  getCompanyProfile: os.getCompanyProfile.handler(({ input }) =>
+    // must return a CompanyProfile, or this does not compile
+    lookup(input.company_number),
+  ),
+});
 
 // 3. The OpenAPI document is generated, never written
-const spec = await new OpenAPIGenerator({
-  converters: [new ZodToJsonSchemaConverter()], // oRPC's Zod integration
+export const spec = await new OpenAPIGenerator({
+  schemaConverters: [new ZodToJsonSchemaConverter()],
 }).generate(contract, {
   info: { title: "Companies House Public Data API", version: "1.0.0" },
 });
@@ -119,13 +128,11 @@ The spec stops being documentation and becomes a build artefact. It cannot lie, 
 
 A side project survives on low maintenance, so the tooling is deliberately boring. [Vite+](https://viteplus.dev/) gives us one tool for the lot: `vp check` formats, lints, and type checks, `vp pack` builds the publishable package, and Vitest runs the live integration tests. pnpm workspaces with catalog-pinned dependencies mean one place to bump a version, Changesets cuts releases from CI, and the docs site is Astro Starlight with a [Scalar](https://scalar.com/) API reference rendered from the same OpenAPI document that generates the client. One artefact, three outputs.
 
-## Fix the spec, or take ours
+## We would love to be made redundant
 
-Two asks, addressed to Companies House directly.
+We hope Companies House fixes the official spec: publishes OpenAPI 3.x, runs it through a validator, and ideally generates it from the code that serves the API. And happily, they do not have to start from zero: our curated OpenAPI 3.1 document is MIT licensed and verified against their own API every morning. Adopt it, fork it, or just diff it against the official one to find the gaps. We are easy to find.
 
-First: fix the official spec. Publish OpenAPI 3.x, run it through a validator, and ideally generate it from the code that serves the API. Every consumer of your API is paying the repair cost today, in their own 374 lines.
-
-Second, and we mean this sincerely: take ours. The curated OpenAPI 3.1 document is MIT licensed, verified against your own API every morning, and we would genuinely love for it to become redundant. Adopt it, fork it, or just diff it against yours to find the gaps. We are easy to find.
+Generation is worth considering beyond the spec, and the numbers make the argument better than we can. The hand-written runtime source of our SDK is 41 lines, or about 500 including tests; everything else is generated from the spec. The official SDK is more than 10,000 lines of hand-maintained TypeScript, over 25,000 including tests. It covers more of Companies House's APIs than ours does, but that is rather the point: every one of those lines is kept in sync with the wire format by hand, and every line generated is a line nobody has to keep in sync at all.
 
 This is not point-scoring. Companies House's data is a public asset and the API behind it is good. The developer experience around it deserves to be as good.
 
