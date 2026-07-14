@@ -1,7 +1,7 @@
 ---
 title: "Companies House's API spec is broken. Ours isn't."
 lane: Build log
-summary: It took 374 lines of code to keep the official spec usable. We deleted them, built a curated spec from primary sources, and shipped the SDK Companies House should have.
+summary: It took 374 lines of code to keep the official spec usable. We deleted them, built a curated spec from primary sources, and shipped the SDK Companies House should have built.
 date: 2026-07-14
 tags: [typescript, open-source, build-log, ai-native]
 featured: true
@@ -9,7 +9,7 @@ featured: true
 
 We needed the Companies House API for a project. We could have called it directly with `fetch` and moved on. Plenty of teams do.
 
-But the tooling around the API for the UK's company register, the open data that KYC checks and company due diligence are built on, is in a poor state. The official Node SDK is built for Companies House's own internal services: it exists to propagate auth between their web apps, speaks ERIC (their internal routing layer), and covers the public API only partially. The community clients were last published between six and ten years ago. And the official OpenAPI spec, the thing every generated client depends on, is broken in ways we will get to shortly.
+But this is the API for the UK's company register, the open data that KYC checks and company due diligence are built on, and the tooling around it is in a poor state. The official Node SDK is built for Companies House's own internal services: it exists to propagate auth between their web apps, speaks ERIC (their internal routing layer), and covers the public API only partially. The community clients were last published between six and ten years ago. And the official OpenAPI spec, the thing every generated client depends on, is broken in ways we will get to shortly.
 
 So we had a choice: work around it quietly, or build the client we wanted and leave things better than we found them. We built. This post is about what we shipped and, more usefully, how.
 
@@ -55,7 +55,7 @@ Fix the spec, regenerate, and the client is correct by construction. We also shi
 
 ## AI maintains the spec, tests keep it honest
 
-A curated spec is only better than a broken one if curation does not rot. Ours is maintained by two Claude Code skills, checked into the repo like any other code. One builds the spec from scratch by reading the Developer Hub and the official SDK source. One refreshes it in place when upstream may have drifted. Both run under a strict rule: never invent, report gaps. Anything found only in the SDK source is quarantined until proven to answer to API-key auth. The git diff is the review surface, and an engineer reads it before anything merges.
+A curated spec is only better than a broken one if curation does not rot. Ours is maintained by two Claude Code skills, checked into the repo like any other code. One builds the spec from scratch by reading the Developer Hub and the official SDK source. One refreshes it in place when upstream may have drifted. Both run under a strict rule: never invent, report gaps. Anything found only in the SDK source is quarantined until proven to work with API-key auth. The git diff is the review surface, and an engineer reads it before anything merges.
 
 This is how we use AI generally: models draft, engineers decide. But you should not have to trust our process, so there is a second mechanism that does not involve trust at all. The full integration suite runs against the live API on every pull request and push to main, and on a daily 06:00 UTC schedule, exercising every endpoint with real companies. If Companies House changes shape, we find out as a red build the same morning, not as your bug report.
 
@@ -122,7 +122,7 @@ export const spec = await new OpenAPIGenerator({
 });
 ```
 
-The spec stops being documentation and becomes a build artefact. It cannot lie, because the compiler checks it against the running server. Everything in our repair saga, the phantom fields, the impossible types, the undocumented endpoints, becomes structurally impossible.
+The spec stops being documentation and becomes a build artefact, checked against the server code by the compiler: drift is a compile error, not a silent documentation bug. Everything in our repair saga, the phantom fields, the self-contradicting types, the endpoints documented nowhere, turns into a class of defect the build rejects.
 
 ## The rest of the stack
 
