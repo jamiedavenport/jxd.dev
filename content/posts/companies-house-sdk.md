@@ -47,17 +47,26 @@ console.log(data?.company_name); // "TESCO PLC"
 
 ## Thin by design
 
-<!-- Design decisions and the reasoning. No retry, timeout, or rate-limit policy baked in: policy belongs to the application, not the SDK. The fetch option takes any spec-compliant fetch, so adding a timeout is one line: -->
+<!-- Design decisions and the reasoning. No retry, timeout, or rate-limit policy baked in: policy belongs to the application, not the SDK. The fetch option takes any spec-compliant fetch, so bringing your own policy is a few lines. Example with ky, which speaks real Request/Response: -->
 
 ```ts
+import ky from "ky";
+import { createCompaniesHouseClient } from "@jxdltd/companies-house";
+
 const ch = createCompaniesHouseClient({
   apiKey: process.env.CH_API_KEY!,
   fetch: (input, init) =>
-    fetch(input, { ...init, signal: AbortSignal.timeout(5_000) }),
+    ky(input, {
+      ...init,
+      timeout: 5_000,
+      retry: 2,
+      // Let non-2xx responses flow back so the SDK can return { data, error }
+      throwHttpErrors: false,
+    }),
 });
 ```
 
-<!-- NOTE for Jamie: better-fetch does not fit here. Its $fetch returns { data, error } instead of a Response, so it is not a typeof fetch and will not typecheck as the fetch option. Options: keep the native AbortSignal.timeout example above, or feature a genuinely drop-in wrapper (ky returns a Response and has timeout + retry built in). The SDK README already shows fetch-retry for retries. -->
+<!-- If you want zero dependencies, the native equivalent for timeouts alone is fetch(input, { ...init, signal: AbortSignal.timeout(5_000) }). Worth a one-line mention. -->
 
 <!-- Also cover: isolated clients, nothing global or shared; calls return { data, error, response } instead of throwing; throwOnError when you want it. One sentence on why thin beats clever in an SDK: every policy we bake in is one you have to work around. -->
 
@@ -90,6 +99,10 @@ const spec = await new OpenAPIGenerator({
 ```
 
 <!-- Punchline: the spec stops being documentation and becomes a build artifact. It cannot lie, because the compiler checks it against the running server. Our whole spec-repair saga would be structurally impossible. -->
+
+## The rest of the stack
+
+<!-- Short section, list-like, on the tooling that keeps a side project maintainable. The theme: a two-package monorepo should not need twelve configs. Vite+ (vp) is the headline: one tool for build, test, lint, format, and type checking; vp check runs the lot, vp pack builds the publishable package, Vitest is baked in for the live integration tests. Then one line each: pnpm workspaces with catalog-pinned dependencies (one place to bump a version), Changesets for versioned npm releases from CI, Astro Starlight + Scalar rendering the docs site and interactive API reference from the same OpenAPI document that generates the client. Point back to the theme: low maintenance is what makes a free SDK sustainable. -->
 
 ## Fix the spec, or take ours
 
