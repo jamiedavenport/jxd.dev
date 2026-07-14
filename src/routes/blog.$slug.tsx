@@ -1,6 +1,6 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { allPosts } from 'content-collections'
-import { SiteShell } from '../components/site'
+import { CtaSection, SiteShell } from '../components/site'
 import { PostMeta, TagRow } from '../components/ui'
 import { seo } from '../lib/seo'
 
@@ -60,6 +60,18 @@ function BlogPostPage() {
           />
         </div>
       </article>
+
+      <section className="border-t border-neutral-950/10">
+        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
+          <p className="font-mono text-sm uppercase tracking-wide text-neutral-500">
+            <Link to="/blog" className="hover:text-neutral-950">
+              <span aria-hidden="true">←</span> All posts
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      <CtaSection index="Next" />
     </SiteShell>
   )
 }
