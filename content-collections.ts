@@ -1,5 +1,6 @@
 import { defineCollection, defineConfig } from '@content-collections/core'
 import { compileMarkdown } from '@content-collections/markdown'
+import rehypeShiki from '@shikijs/rehype'
 import { z } from 'zod'
 
 const posts = defineCollection({
@@ -16,7 +17,9 @@ const posts = defineCollection({
     featured: z.boolean().default(false),
   }),
   transform: async (document, context) => {
-    const html = await compileMarkdown(context, document)
+    const html = await compileMarkdown(context, document, {
+      rehypePlugins: [[rehypeShiki, { theme: 'vesper' }]],
+    })
     const words = document.content.trim().split(/\s+/).length
     return {
       ...document,
