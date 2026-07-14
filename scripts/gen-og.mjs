@@ -1,8 +1,15 @@
 // Generates the OG share images in public/og/ - run `node scripts/gen-og.mjs`.
 // Renders one 1200x630 card per route with headless Chrome. When routes or
-// page copy change, update the `cards` list below and rerun.
+// page copy change, update the `cards` list below and rerun. Blog cards are
+// derived from content/posts frontmatter - rerun after adding a post.
 import { execFileSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import {
+  copyFileSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -49,10 +56,38 @@ const cards = [
   { name: 'contact', eyebrow: 'Contact', title: 'Start with a conversation.', path: '/contact' },
   { name: 'privacy', eyebrow: 'Legal', title: 'Privacy policy.', path: '/privacy' },
   { name: 'cookies', eyebrow: 'Legal', title: 'Cookie policy.', path: '/cookies' },
+  { name: 'blog', eyebrow: 'Blog', title: 'Notes from the workshop.', path: '/blog' },
 ]
 
+// One card per post, named blog-<slug> to match what seo() derives from the
+// route path. Titles come from frontmatter, so escape them for the template.
+const escapeHtml = (s) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+const postsDir = join(repoRoot, 'content/posts')
+for (const file of readdirSync(postsDir).filter((f) => f.endsWith('.md'))) {
+  const slug = file.replace(/\.md$/, '')
+  const frontmatter = readFileSync(join(postsDir, file), 'utf8').match(
+    /^---\n([\s\S]*?)\n---/,
+  )[1]
+  const field = (key) => {
+    const match = frontmatter.match(new RegExp(`^${key}: *(.+)$`, 'm'))
+    if (!match) throw new Error(`${file}: missing frontmatter field "${key}"`)
+    return match[1].trim().replace(/^"(.*)"$/, '$1')
+  }
+  const title = field('title')
+  cards.push({
+    name: `blog-${slug}`,
+    eyebrow: `Blog / ${escapeHtml(field('lane'))}`,
+    title: escapeHtml(title),
+    path: `/blog/${slug}`,
+    size: title.length > 70 ? 'sm' : 'md',
+  })
+}
+
 function html(card) {
-  const titleSize = card.size === 'md' ? '76px' : '96px'
+  const titleSize =
+    card.size === 'sm' ? '64px' : card.size === 'md' ? '76px' : '96px'
   const gem = card.gem
     ? `<div style="position:absolute; right:72px; top:50%; transform:translateY(-50%);">${gemSvg(card.gem, 320)}</div>`
     : ''
