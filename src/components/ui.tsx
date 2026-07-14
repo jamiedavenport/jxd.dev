@@ -372,7 +372,7 @@ export function Quote({
       className={clsx("max-w-[48ch] border-l-2 border-red-600 pl-6", className)}
     >
       <blockquote className="text-xl/8 font-medium text-pretty text-neutral-950 sm:text-lg/8">
-        <p className="relative before:absolute before:inline before:-translate-x-full before:content-['\201C'] after:inline after:content-['\201D']">
+        <p className="relative before:absolute before:inline before:-translate-x-full before:content-['“'] after:inline after:content-['”']">
           {text}
         </p>
       </blockquote>
