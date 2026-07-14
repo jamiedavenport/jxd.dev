@@ -3,6 +3,7 @@ import { CtaSection, LabeledSection, PageIntro, SiteShell } from '../components/
 import { GemMark } from '../components/gems'
 import { ArrowLink, BodyText, DisplayHeading, MonoLabel } from '../components/ui'
 import { products } from '../data/products'
+import { openSourceProjects } from '../data/open-source'
 import { seo } from '../lib/seo'
 
 export const Route = createFileRoute('/products/')({
@@ -10,7 +11,7 @@ export const Route = createFileRoute('/products/')({
     seo({
       title: 'Products · JXD',
       description:
-        'The in-house products behind JXD delivery speed: Onyx, a full-stack template; Quartz, a product management suite; Garnet, a data compliance framework; Sapphire, an AI simulation engine; and Amber, a Markdown REST client and test suite.',
+        'The in-house products behind JXD delivery speed: Onyx, a full-stack template; Quartz, a product management suite; Garnet, a data compliance framework; Sapphire, an AI simulation engine; and Amber, a Markdown REST client and test suite. Plus open source, including the Companies House SDK.',
       path: '/products',
     }),
   component: ProductsPage,
@@ -54,7 +55,48 @@ function ProductsPage() {
           </div>
         </LabeledSection>
       ))}
-      <CtaSection index="06" />
+      <LabeledSection index="06" title="Open source">
+        <DisplayHeading className="max-w-[24ch] text-3xl text-balance sm:text-4xl">
+          Built for us, released for everyone.
+        </DisplayHeading>
+        <BodyText className="mt-6">
+          When the official tooling falls short, we build our own and publish
+          it. MIT licensed, maintained, and tested in CI. More on the way.
+        </BodyText>
+        <dl className="mt-12 divide-y divide-neutral-950/10">
+          {openSourceProjects.map((project) => (
+            <div
+              key={project.packageName}
+              className="grid grid-cols-1 gap-x-8 gap-y-4 py-10 first:pt-0 last:pb-0 lg:grid-cols-[16rem_1fr]"
+            >
+              <dt>
+                <span className="block font-display text-xl font-semibold tracking-tight">
+                  {project.name}
+                </span>
+                <span className="mt-2 block font-mono text-sm text-neutral-500">
+                  {project.packageName}
+                </span>
+              </dt>
+              <dd>
+                <BodyText>{project.description}</BodyText>
+                <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-base font-semibold sm:text-sm/6">
+                  <ArrowLink href={project.docsUrl}>Docs</ArrowLink>
+                  <ArrowLink href={project.githubUrl}>GitHub</ArrowLink>
+                  {project.blogSlug ? (
+                    <ArrowLink
+                      to="/blog/$slug"
+                      params={{ slug: project.blogSlug }}
+                    >
+                      Build log
+                    </ArrowLink>
+                  ) : null}
+                </div>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </LabeledSection>
+      <CtaSection index="07" />
     </SiteShell>
   )
 }
