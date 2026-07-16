@@ -39,7 +39,7 @@ function BlogIndexPage() {
                 {featured.lane}
               </div>
               <div className="px-6 py-8 sm:py-10">
-                <h2 className="max-w-[24ch] font-display text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+                <h2 className="max-w-[40ch] font-display text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
                   <Link
                     to="/blog/$slug"
                     params={{ slug: featured.slug }}
@@ -72,7 +72,7 @@ function BlogIndexPage() {
               >
                 <MonoLabel className="text-neutral-500">{post.lane}</MonoLabel>
                 <div>
-                  <h2 className="max-w-[24ch] font-display text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+                  <h2 className="max-w-[36ch] font-display text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
                     <Link
                       to="/blog/$slug"
                       params={{ slug: post.slug }}
