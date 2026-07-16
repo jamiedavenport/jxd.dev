@@ -75,4 +75,60 @@ export const caseStudies: CaseStudy[] = [
     ],
     // Quote pending from Paul O'Sullivan-Sweeney, CEO and Founder, Auvia.
   },
+  {
+    slug: 'muriel-marketing',
+    index: '02',
+    mode: 'Build',
+    client: 'Muriel Marketing',
+    url: 'https://murielmarketing.com',
+    products: ['onyx', 'garnet'],
+    title: 'Client-designed mockups to a 100 Lighthouse score in a week',
+    summary:
+      'Muriel Marketing came with designs and AI-generated mockups, not code. One week later they had a live, fully hosted website scoring 100 on Lighthouse.',
+    facts: [
+      { label: 'Engagement', value: 'Build' },
+      { label: 'Duration', value: 'One week, start to launch' },
+      { label: 'Lighthouse', value: '100 across the board' },
+    ],
+    sections: [
+      {
+        index: '01',
+        heading: 'The problem',
+        paragraphs: [
+          'Muriel Marketing had a clear brand and a set of designs and AI mockups showing what they wanted their site to look like. What they didn’t have was a website, or anyone to build one to that standard.',
+        ],
+      },
+      {
+        index: '02',
+        heading: 'What we did',
+        paragraphs: [
+          'We took their designs and mockups and turned them into a real, hosted website in a week, using our own AI-assisted build process to move fast without cutting corners on performance. The build ran on Onyx, so hosting, deploys, and monitoring were sorted from day one. Their data handling runs on Garnet.',
+        ],
+      },
+      {
+        index: '03',
+        heading: 'The outcome',
+        paragraphs: [
+          'A live site at murielmarketing.com, built in a week, scoring 100 on Lighthouse.',
+        ],
+      },
+    ],
+    rows: [
+      {
+        term: 'Problem',
+        detail:
+          'Muriel Marketing had designs and AI mockups but no website and no one to build it.',
+      },
+      {
+        term: 'What we did',
+        detail:
+          'Built their designs into a live, hosted website in a week using our AI-assisted process. Built on Onyx, data handling on Garnet.',
+      },
+      {
+        term: 'Outcome',
+        detail: 'Live site, one week turnaround, 100 Lighthouse score.',
+      },
+    ],
+    // Quote pending from Bronagh Morton.
+  },
 ]
