@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { CtaSection, LabeledSection, SiteShell } from '../components/site'
 import { CadenceDiagram, HeroStack } from '../components/diagrams'
 import { TechLogo } from '../components/logos'
+import { ClientLogo } from '../components/clients'
 import {
   ArrowLink,
   BodyText,
@@ -164,10 +165,14 @@ function Home() {
             className="mt-10"
           />
         ) : null}
-        <MonoLabel className="mt-6 text-neutral-500">
-          {featuredStudy.client}
-          {featuredStudy.url ? ` · ${featuredStudy.url.replace('https://', '')}` : ''}
-        </MonoLabel>
+        <div className="mt-6 flex items-center gap-3">
+          <ClientLogo slug={featuredStudy.slug} className="h-4 w-auto text-neutral-950" />
+          {featuredStudy.url ? (
+            <MonoLabel className="text-neutral-500">
+              {featuredStudy.url.replace('https://', '')}
+            </MonoLabel>
+          ) : null}
+        </div>
         <p className="mt-10 text-base font-semibold sm:text-sm/6">
           <ArrowLink to="/work/$slug" params={{ slug: featuredStudy.slug }}>
             Read the case study

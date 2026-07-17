@@ -1,6 +1,7 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { CtaSection, LabeledSection, PageIntro, SiteShell } from '../components/site'
 import { BodyText, MonoLabel, Quote } from '../components/ui'
+import { ClientLogo } from '../components/clients'
 import { GemMark } from '../components/gems'
 import { caseStudies } from '../data/case-studies'
 import { products } from '../data/products'
@@ -35,6 +36,7 @@ function CaseStudyPage() {
         eyebrow={`Work / ${study.mode}`}
         title={study.title}
         lede={study.summary}
+        aside={<ClientLogo slug={study.slug} className="w-40 text-neutral-950" />}
       />
 
       <section className="border-t border-neutral-950/10">

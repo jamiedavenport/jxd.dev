@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { CtaSection, LabeledSection, PageIntro, SiteShell } from '../components/site'
-import { ArrowLink, DisplayHeading, MonoLabel, Quote, TermRows } from '../components/ui'
+import { ArrowLink, DisplayHeading, Quote, TermRows } from '../components/ui'
+import { ClientLogo } from '../components/clients'
 import { caseStudies } from '../data/case-studies'
 import { seo } from '../lib/seo'
 
@@ -29,7 +30,7 @@ function WorkPage() {
           index={study.index}
           title={study.mode}
         >
-          <MonoLabel className="text-neutral-500">{study.client}</MonoLabel>
+          <ClientLogo slug={study.slug} className="h-4 w-auto text-neutral-950" />
           <DisplayHeading className="mt-3 max-w-[24ch] text-3xl text-balance sm:text-4xl">
             {study.title}
           </DisplayHeading>
