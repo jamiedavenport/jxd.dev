@@ -1,7 +1,7 @@
-import type { GemName } from '../components/gems'
+import type { ProductMarkName } from '../components/products'
 
 export type Product = {
-  slug: GemName
+  slug: ProductMarkName
   index: string
   name: string
   role: string
@@ -10,6 +10,7 @@ export type Product = {
   summary: string
   paragraphs: string[]
   features: { name: string; description: string }[]
+  links?: { label: string; href: string }[]
 }
 
 export const products: Product[] = [
@@ -211,6 +212,50 @@ export const products: Product[] = [
         name: 'Editor support',
         description: 'A bundled language server, with a VS Code extension included.',
       },
+    ],
+  },
+  {
+    slug: 'stet',
+    index: '06',
+    name: 'Stet',
+    role: 'Open-source CMS',
+    status: 'Self-host it, or run it on our cloud',
+    lede: 'An open-source CMS that marketing and engineering both love: marketing owns the content model, engineering gets a typed client generated from it.',
+    summary:
+      "Marketing adds a field in the interface and the developer's editor autocompletes it seconds later. Marketing deletes one and the build stays green.",
+    paragraphs: [
+      'Every CMS makes one side compromise. Developer-first tools keep the content model in the repository, so every new field is a ticket, a pull request, and a deploy. Marketer-first tools keep it in a UI and hand engineers an untyped API, so the first sign of a change is a broken page. Stet keeps the model in the UI and generates the typed contract from it.',
+      'Changes cross the gap between the two teams as information, never as breakage. A deleted field arrives as a deprecation that still returns the last value it held, not a failed build, so each side migrates on its own schedule. The whole thing is open source: self-host it on your own Cloudflare account, or run it on our cloud.',
+    ],
+    features: [
+      {
+        name: 'Modelling in the UI',
+        description: 'Collections, maps, and typed fields, built by marketing. No ticket, no deploy.',
+      },
+      {
+        name: 'A generated client',
+        description: 'A Vite plugin keeps the typed client current as the model changes, and never fails your build.',
+      },
+      {
+        name: 'Deprecations, not breakage',
+        description: 'Deleted fields are struck through in the editor and keep returning their last value.',
+      },
+      {
+        name: 'Writing together',
+        description: 'Live cursors and presence on the same entry, backed by CRDTs rather than a lock.',
+      },
+      {
+        name: 'Analytics beside the words',
+        description: 'First-party and cookieless, routed through your own infrastructure. No consent banner.',
+      },
+      {
+        name: 'An assistant that asks first',
+        description: 'It drafts, rewrites, and takes whole tasks, but stops for a human before every write.',
+      },
+    ],
+    links: [
+      { label: 'stetcms.com', href: 'https://stetcms.com' },
+      { label: 'GitHub', href: 'https://github.com/jamiedavenport/stet' },
     ],
   },
 ]

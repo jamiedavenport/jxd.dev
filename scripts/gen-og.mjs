@@ -37,6 +37,22 @@ function gemSvg(name, size) {
   return `<svg viewBox="${gem.viewBox}" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">${polys}</svg>`
 }
 
+// Products with their own logo render it instead of a gem. The markup is
+// lifted from the component so the card cannot drift from the site.
+const productLogos = { stet: 'src/components/products/stet.tsx' }
+
+function productLogoSvg(name, width) {
+  const source = readFileSync(join(repoRoot, productLogos[name]), 'utf8')
+  const svg = source
+    .slice(source.indexOf('<svg'), source.indexOf('</svg>') + 6)
+    .replace('className={className}', '')
+  const [, w, h] = svg.match(/viewBox="0 0 (\d+) (\d+)"/)
+  return svg.replace(
+    '<svg',
+    `<svg width="${width}" height="${Math.round((width * h) / w)}"`,
+  )
+}
+
 const logo = `<svg viewBox="0 0 16 16" width="44" height="44" xmlns="http://www.w3.org/2000/svg"><path fill="#0a0a0a" d="M0 0h8v8H0zM0 8h16v8H0z"/><path fill="#dc2626" d="M8 0h8v8H8z"/></svg>`
 
 // One card per route. `name` is the file in public/og/ and must match the
@@ -52,6 +68,7 @@ const cards = [
   { name: 'products-garnet', eyebrow: 'Products / Data compliance framework', title: 'Garnet', path: '/products/garnet', gem: 'garnet' },
   { name: 'products-sapphire', eyebrow: 'Products / AI simulation engine', title: 'Sapphire', path: '/products/sapphire', gem: 'sapphire' },
   { name: 'products-amber', eyebrow: 'Products / REST client and test suite', title: 'Amber', path: '/products/amber', gem: 'amber' },
+  { name: 'products-stet', eyebrow: 'Products / Open-source CMS', title: 'Stet', path: '/products/stet', logo: 'stet' },
   { name: 'about', eyebrow: 'About', title: 'Small. On purpose.', path: '/about' },
   { name: 'contact', eyebrow: 'Contact', title: 'Start with a conversation.', path: '/contact' },
   { name: 'privacy', eyebrow: 'Legal', title: 'Privacy policy.', path: '/privacy' },
@@ -88,10 +105,15 @@ for (const file of readdirSync(postsDir).filter((f) => f.endsWith('.md'))) {
 function html(card) {
   const titleSize =
     card.size === 'sm' ? '64px' : card.size === 'md' ? '76px' : '96px'
-  const gem = card.gem
-    ? `<div style="position:absolute; right:72px; top:50%; transform:translateY(-50%);">${gemSvg(card.gem, 320)}</div>`
+  const mark = card.gem
+    ? gemSvg(card.gem, 320)
+    : card.logo
+      ? productLogoSvg(card.logo, 320)
+      : ''
+  const aside = mark
+    ? `<div style="position:absolute; right:72px; top:50%; transform:translateY(-50%);">${mark}</div>`
     : ''
-  const titleMax = card.gem ? '620px' : '860px'
+  const titleMax = mark ? '620px' : '860px'
   return `<!doctype html>
 <html>
 <head>
@@ -128,7 +150,7 @@ function html(card) {
     <p class="eyebrow">${card.eyebrow}</p>
     <h1 class="title">${card.title}</h1>
   </div>
-  ${gem}
+  ${aside}
   <div class="footer"><span>jxd.dev</span><span>${card.path === 'jxd.dev' ? 'London' : card.path}</span></div>
 </body>
 </html>`

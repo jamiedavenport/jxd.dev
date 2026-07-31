@@ -14,6 +14,7 @@ import {
   MonoLabel,
 } from './ui'
 import { GemMark } from './gems'
+import { ProductMark } from './products'
 import { products } from '../data/products'
 
 export const BOOKING_URL = 'https://cal.eu/jxd-dev/30min'
@@ -73,7 +74,7 @@ function ProductsNavItem() {
               onClick={() => setOpen(false)}
               className="flex items-center gap-3 border-t border-neutral-950/10 px-4 py-3 first:border-t-0 hover:bg-neutral-950/2"
             >
-              <GemMark name={product.slug} className="size-7 shrink-0" />
+              <ProductMark name={product.slug} className="size-7 shrink-0" compact />
               <span>
                 <span className="block font-medium text-neutral-950">
                   {product.name}
@@ -261,7 +262,7 @@ function SiteHeader() {
                         className="flex items-center gap-2.5 py-2 text-neutral-600 hover:text-neutral-950"
                         activeProps={{ className: 'text-neutral-950' }}
                       >
-                        <GemMark name={product.slug} className="size-5 shrink-0" />
+                        <ProductMark name={product.slug} className="size-5 shrink-0" compact />
                         {product.name}
                       </Link>
                     ))}
@@ -351,7 +352,7 @@ function SiteFooter() {
                     params={{ slug: product.slug }}
                     className={clsx('flex items-center gap-2', footerLink)}
                   >
-                    <GemMark name={product.slug} className="size-4 shrink-0" />
+                    <ProductMark name={product.slug} className="size-4 shrink-0" compact />
                     {product.name}
                   </Link>
                 </li>

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { CtaSection, LabeledSection, PageIntro, SiteShell } from '../components/site'
-import { GemMark } from '../components/gems'
+import { ProductMark } from '../components/products'
 import { ArrowLink, BodyText, DisplayHeading, MonoLabel } from '../components/ui'
 import { products } from '../data/products'
 import { openSourceProjects } from '../data/open-source'
@@ -11,7 +11,7 @@ export const Route = createFileRoute('/products/')({
     seo({
       title: 'Products · JXD',
       description:
-        'The in-house products behind JXD delivery speed: Onyx, a full-stack template; Quartz, a product management suite; Garnet, a data compliance framework; Sapphire, an AI simulation engine; and Amber, a Markdown REST client and test suite. Plus open source, including the Companies House SDK.',
+        'The in-house products behind JXD delivery speed: Onyx, a full-stack template; Quartz, a product management suite; Garnet, a data compliance framework; Sapphire, an AI simulation engine; Amber, a Markdown REST client and test suite; and Stet, an open-source CMS. Plus open source, including the Companies House SDK.',
       path: '/products',
     }),
   component: ProductsPage,
@@ -40,22 +40,27 @@ function ProductsPage() {
                 {product.status}
               </MonoLabel>
               <BodyText className="mt-6">{product.summary}</BodyText>
-              <p className="mt-8 text-base font-semibold sm:text-sm/6">
+              <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-base font-semibold sm:text-sm/6">
                 <ArrowLink
                   to="/products/$slug"
                   params={{ slug: product.slug }}
                 >
                   Explore {product.name}
                 </ArrowLink>
-              </p>
+                {product.links?.map((link) => (
+                  <ArrowLink key={link.href} href={link.href}>
+                    {link.label}
+                  </ArrowLink>
+                ))}
+              </div>
             </div>
             <div className="flex items-center justify-center max-lg:hidden">
-              <GemMark name={product.slug} className="w-40" />
+              <ProductMark name={product.slug} className="w-40" />
             </div>
           </div>
         </LabeledSection>
       ))}
-      <LabeledSection index="06" title="Open source">
+      <LabeledSection index="07" title="Open source">
         <DisplayHeading className="max-w-[24ch] text-3xl text-balance sm:text-4xl">
           Built for us, released for everyone.
         </DisplayHeading>
@@ -96,7 +101,7 @@ function ProductsPage() {
           ))}
         </dl>
       </LabeledSection>
-      <CtaSection index="07" />
+      <CtaSection index="08" />
     </SiteShell>
   )
 }

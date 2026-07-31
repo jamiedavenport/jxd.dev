@@ -1,7 +1,7 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { CtaSection, LabeledSection, PageIntro, SiteShell } from '../components/site'
-import { GemMark } from '../components/gems'
-import { BodyText, FeatureGrid, MonoLabel } from '../components/ui'
+import { ProductMark } from '../components/products'
+import { ArrowLink, BodyText, FeatureGrid, MonoLabel } from '../components/ui'
 import { products } from '../data/products'
 import { seo } from '../lib/seo'
 
@@ -33,7 +33,7 @@ function ProductPage() {
         eyebrow={`Products / ${product.role}`}
         title={`${product.name}.`}
         lede={product.lede}
-        aside={<GemMark name={product.slug} className="w-40" />}
+        aside={<ProductMark name={product.slug} className="w-40" />}
       />
 
       <LabeledSection index="01" title="What it is">
@@ -43,6 +43,15 @@ function ProductPage() {
             {paragraph}
           </BodyText>
         ))}
+        {product.links ? (
+          <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-base font-semibold sm:text-sm/6">
+            {product.links.map((link) => (
+              <ArrowLink key={link.href} href={link.href}>
+                {link.label}
+              </ArrowLink>
+            ))}
+          </div>
+        ) : null}
       </LabeledSection>
 
       <LabeledSection index="02" title="What's inside">
