@@ -7,7 +7,6 @@ import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
 import contentCollections from '@content-collections/vite'
-import { inmargin } from '@inmargin/vite'
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
@@ -21,7 +20,6 @@ const config = defineConfig({
     nitro({ rollupConfig: { external: [/^@sentry\//] } }),
     tailwindcss(),
     contentCollections(),
-    inmargin(),
     tanstackStart(),
     viteReact(),
   ],

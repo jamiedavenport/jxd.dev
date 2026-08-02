@@ -17,27 +17,24 @@ importers:
       '@content-collections/vite':
         specifier: ^0.3.0
         version: 0.3.0(@content-collections/core@0.15.0(typescript@6.0.3))(vite@8.0.10(@types/node@22.19.17)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))
-      '@inmargin/client':
-        specifier: ^0.3.0
-        version: 0.3.0
-      '@inmargin/server':
-        specifier: ^0.3.0
-        version: 0.3.0
       '@jxdltd/tanstack':
         specifier: ^0.0.1
         version: 0.0.1(@tanstack/react-router@1.169.1(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react@19.2.5)
       '@phosphor-icons/react':
         specifier: ^2.1.10
         version: 2.1.10(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      '@plainalpha/analytics':
-        specifier: ^0.0.1
-        version: 0.0.1(react@19.2.5)
       '@resvg/resvg-js':
         specifier: ^2.6.2
         version: 2.6.2
       '@shikijs/rehype':
         specifier: ^4.0.2
         version: 4.0.2
+      '@stetcms/analytics':
+        specifier: ^0.2.0
+        version: 0.2.0
+      '@stetcms/config':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.2.4(vite@8.0.10(@types/node@22.19.17)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))
@@ -96,9 +93,6 @@ importers:
       '@fontsource/plus-jakarta-sans':
         specifier: ^5.2.8
         version: 5.2.8
-      '@inmargin/vite':
-        specifier: ^0.3.0
-        version: 0.3.0(vite@8.0.10(@types/node@22.19.17)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))
       '@shikijs/types':
         specifier: ^4.0.2
         version: 4.0.2
@@ -575,18 +569,6 @@ packages:
   '@fontsource/plus-jakarta-sans@5.2.8':
     resolution: {integrity: sha512-P5qE49fqdeD+7DXH1KBxmMPlB17LTz1zvBhFH0tFzfnYTKVJVyb0pR6plh0ZGXxcB+Oayb54FZZw3V42/DawTw==}
 
-  '@inmargin/client@0.3.0':
-    resolution: {integrity: sha512-1qQHIuzRWHIySU4X4okLKLLCbiMvEndokbuIoJHiNIS8EknYBv4fEEYqqIOnA4GFAh7o0MNbGivUhhDj9b3cyw==}
-
-  '@inmargin/server@0.3.0':
-    resolution: {integrity: sha512-WRGASoANQAfINQJrJ0GXL9Dp0qP83DBGl2M804C5oGptwBFRP1G7+OpFj2oPinnP5e2hSpMHkEGefYpTqnOqTw==}
-
-  '@inmargin/vite@0.3.0':
-    resolution: {integrity: sha512-hPeshzY8WX54/1W4k1tIw25TbEi6VlnMGxV2/fSG50Fy6pP5WFmWUbX1no94YBb2I9i/aarbnDZ4L8VcNZElOw==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      vite: '>=6'
-
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
 
@@ -642,29 +624,6 @@ packages:
     resolution: {integrity: sha512-hAX0pT/73190NLqBPPWSdBVGtbY6VOhWYK3qqHqtXQ1gK7kS2yz4+ivsN07hpJ6I3aeMtKP6J6npsEKOAzuTLA==}
     engines: {node: '>=20.0'}
 
-  '@orpc/client@1.14.7':
-    resolution: {integrity: sha512-/yloM96/6Z3qlmEgW4/VMYUnhxXbCr6lIJiKSHmsvhgKcwrUPOPJrL3p0ZpItz5SKVtQSwXIhT5KcT/3va/Aew==}
-
-  '@orpc/contract@1.14.7':
-    resolution: {integrity: sha512-LVAzjOfwW+5L4z5hGOkGGsocFF4URLmQBujrvUr6/TLeDmiiY2kB89jyJ793U40ol9/Ba935g/b0pBajiQhPWA==}
-
-  '@orpc/shared@1.14.7':
-    resolution: {integrity: sha512-uEvbm+IGxUyQMpVYufU5mEPflyZoF1Nh2yFBqHgmu5QycXZ5GGb5GdwtMa+IE8WXZSHQ4wOgftBNtzGfX/rBIg==}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.9.0'
-    peerDependenciesMeta:
-      '@opentelemetry/api':
-        optional: true
-
-  '@orpc/standard-server-fetch@1.14.7':
-    resolution: {integrity: sha512-bkp9pDDX36enqVC5Q2+o4fofPFR9COI9FpdhLI3mGlQuV6NT9ZBjrscXv57hUPTc7g0aKDOzjiAo0NHoCfZc+g==}
-
-  '@orpc/standard-server-peer@1.14.7':
-    resolution: {integrity: sha512-5YzX7goqeg5cZv+R58SCZHKo0Jk9CiHgepzJYM5oQYoLbdqoxGC4yZG12sqwN/CTX7nZkE2nnbfk6l3+YD/reg==}
-
-  '@orpc/standard-server@1.14.7':
-    resolution: {integrity: sha512-N+7I4SzYoSVyf5lRbANGz9oBVmZSM/nm2JlxAP+UPSbWnqrjltSFFHVlSdp4wXSb39LVjT74uSLZ9Da1wOyLeg==}
-
   '@oxc-project/types@0.127.0':
     resolution: {integrity: sha512-aIYXQBo4lCbO4z0R3FHeucQHpF46l2LbMdxRvqvuRuW2OxdnSkcng5B8+K12spgLDj93rtN3+J2Vac/TIO+ciQ==}
 
@@ -677,14 +636,6 @@ packages:
     peerDependencies:
       react: '>= 16.8'
       react-dom: '>= 16.8'
-
-  '@plainalpha/analytics@0.0.1':
-    resolution: {integrity: sha512-TaIKn6H4xtG30PBvVeDPFnIsSfW5GqDHoMCyfApGPKiAYcSMZ5XMU5MQ6LEnjqh1ilH1yP7fsd3VAAFTqwE1dA==}
-    peerDependencies:
-      react: '>=18'
-    peerDependenciesMeta:
-      react:
-        optional: true
 
   '@resvg/resvg-js-android-arm-eabi@2.6.2':
     resolution: {integrity: sha512-FrJibrAk6v29eabIPgcTUMPXiEz8ssrAk7TXxsiZzww9UTQ1Z5KAbFJs+Z0Ez+VZTYgnE5IQJqBcoSiMebtPHA==}
@@ -1040,6 +991,14 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@stetcms/analytics@0.2.0':
+    resolution: {integrity: sha512-XhE1qixTykQN0YyT5sWIB2l1q+OOQWedF3TqY2X+a023hAB0PAka2+fj/PMEhZ6gX0u0azj12jY+KJI+wHLbqA==}
+    engines: {node: '>=20'}
+
+  '@stetcms/config@0.1.1':
+    resolution: {integrity: sha512-JB028LS9Trg6vjoyLSUlggK24NgA2i9Opr1ZKf9hjm/LeJyHDsIe4KWkRXw+rky4vl5CfIgrVxq23AyXcj+AXA==}
+    engines: {node: '>=20'}
 
   '@tailwindcss/node@4.2.4':
     resolution: {integrity: sha512-Ai7+yQPxz3ddrDQzFfBKdHEVBg0w3Zl83jnjuwxnZOsnH9pGn93QHQtpU0p/8rYWxvbFZHneni6p1BSLK4DkGA==}
@@ -2284,9 +2243,6 @@ packages:
   oniguruma-to-es@4.3.6:
     resolution: {integrity: sha512-csuQ9x3Yr0cEIs/Zgx/OEt9iBw9vqIunAPQkx19R/fiMq2oGVTgcMqO/V3Ybqefr1TBvosI6jU539ksaBULJyA==}
 
-  openapi-types@12.1.3:
-    resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
-
   p-limit@6.2.0:
     resolution: {integrity: sha512-kuUqqHNUqoIWp/c467RI4X6mmyuojY5jGutNU0wVTmEOOfcuwLqyMVoAi9MKi2Ak+5i9+nhmrK4ufZE8069kHA==}
     engines: {node: '>=18'}
@@ -2344,10 +2300,6 @@ packages:
 
   property-information@7.1.0:
     resolution: {integrity: sha512-TwEZ+X+yCJmYfL7TPUOcvBZ4QfoT5YenQiJuX//0th53DE6w0xxLEtfK3iyryQFddXuvkIk51EEgrJQ0WJkOmQ==}
-
-  radash@12.1.1:
-    resolution: {integrity: sha512-h36JMxKRqrAxVD8201FrCpyeNuUY9Y5zZwujr20fFO77tpUtGa6EZzfKw/3WaiBX95fq7+MpsuMLNdSnORAwSA==}
-    engines: {node: '>=14.18.0'}
 
   react-dom@19.2.5:
     resolution: {integrity: sha512-J5bAZz+DXMMwW/wV3xzKke59Af6CHY7G4uYLN1OvBcKEsWOs4pQExj86BBKamxl/Ik5bx9whOrvBlSDfWzgSag==}
@@ -2516,10 +2468,6 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  tagged-tag@1.0.0:
-    resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
-    engines: {node: '>=20'}
-
   tailwindcss@4.2.4:
     resolution: {integrity: sha512-HhKppgO81FQof5m6TEnuBWCZGgfRAWbaeOaGT00KOy/Pf/j6oUihdvBpA7ltCeAvZpFhW3j0PTclkxsd4IXYDA==}
 
@@ -2554,10 +2502,6 @@ packages:
     resolution: {integrity: sha512-5C1sg4USs1lfG0GFb2RLXsdpXqBSEhAaA/0kPL01wxzpMqLILNxIxIOKiILz+cdg/pLnOUxFYOR5yhHU666wbw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
-
-  type-fest@5.8.0:
-    resolution: {integrity: sha512-YGYEVz3Fm5iy/AybuA0oyNFq7H4CgQNfRp/qfe8nurE1kuCeNm3/vfm9X4Mtl+qLyaKJUh5xrFZwogr41SMjYA==}
-    engines: {node: '>=20'}
 
   typescript@6.0.3:
     resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
@@ -2800,9 +2744,6 @@ packages:
 
   zod@4.4.2:
     resolution: {integrity: sha512-IynmDyxsEsb9RKzO3J9+4SxXnl2FTFSzNBaKKaMV6tsSk0rw9gYw9gs+JFCq/qk2LCZ78KDwyj+Z289TijSkUw==}
-
-  zod@4.4.3:
-    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -3151,25 +3092,6 @@ snapshots:
 
   '@fontsource/plus-jakarta-sans@5.2.8': {}
 
-  '@inmargin/client@0.3.0': {}
-
-  '@inmargin/server@0.3.0':
-    dependencies:
-      '@orpc/client': 1.14.7
-      '@orpc/contract': 1.14.7
-      '@standard-schema/spec': 1.1.0
-      zod: 4.4.3
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@inmargin/vite@0.3.0(vite@8.0.10(@types/node@22.19.17)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))':
-    dependencies:
-      '@orpc/client': 1.14.7
-      jiti: 2.7.0
-      vite: 8.0.10(@types/node@22.19.17)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -3262,49 +3184,6 @@ snapshots:
 
   '@oozcitak/util@10.0.0': {}
 
-  '@orpc/client@1.14.7':
-    dependencies:
-      '@orpc/shared': 1.14.7
-      '@orpc/standard-server': 1.14.7
-      '@orpc/standard-server-fetch': 1.14.7
-      '@orpc/standard-server-peer': 1.14.7
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/contract@1.14.7':
-    dependencies:
-      '@orpc/client': 1.14.7
-      '@orpc/shared': 1.14.7
-      '@standard-schema/spec': 1.1.0
-      openapi-types: 12.1.3
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/shared@1.14.7':
-    dependencies:
-      radash: 12.1.1
-      type-fest: 5.8.0
-
-  '@orpc/standard-server-fetch@1.14.7':
-    dependencies:
-      '@orpc/shared': 1.14.7
-      '@orpc/standard-server': 1.14.7
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/standard-server-peer@1.14.7':
-    dependencies:
-      '@orpc/shared': 1.14.7
-      '@orpc/standard-server': 1.14.7
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/standard-server@1.14.7':
-    dependencies:
-      '@orpc/shared': 1.14.7
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
   '@oxc-project/types@0.127.0': {}
 
   '@oxc-project/types@0.128.0': {}
@@ -3313,10 +3192,6 @@ snapshots:
     dependencies:
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
-
-  '@plainalpha/analytics@0.0.1(react@19.2.5)':
-    optionalDependencies:
-      react: 19.2.5
 
   '@resvg/resvg-js-android-arm-eabi@2.6.2':
     optional: true
@@ -3564,6 +3439,13 @@ snapshots:
       solid-js: 1.9.12
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@stetcms/analytics@0.2.0':
+    dependencies:
+      '@standard-schema/spec': 1.1.0
+      '@stetcms/config': 0.1.1
+
+  '@stetcms/config@0.1.1': {}
 
   '@tailwindcss/node@4.2.4':
     dependencies:
@@ -4537,7 +4419,8 @@ snapshots:
 
   jiti@2.6.1: {}
 
-  jiti@2.7.0: {}
+  jiti@2.7.0:
+    optional: true
 
   js-tokens@4.0.0: {}
 
@@ -5066,8 +4949,6 @@ snapshots:
       regex: 6.1.0
       regex-recursion: 6.0.2
 
-  openapi-types@12.1.3: {}
-
   p-limit@6.2.0:
     dependencies:
       yocto-queue: 1.2.2
@@ -5125,8 +5006,6 @@ snapshots:
   prettier@3.8.3: {}
 
   property-information@7.1.0: {}
-
-  radash@12.1.1: {}
 
   react-dom@19.2.5(react@19.2.5):
     dependencies:
@@ -5382,8 +5261,6 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  tagged-tag@1.0.0: {}
-
   tailwindcss@4.2.4: {}
 
   tapable@2.3.3: {}
@@ -5413,10 +5290,6 @@ snapshots:
       get-tsconfig: 4.14.0
     optionalDependencies:
       fsevents: 2.3.3
-
-  type-fest@5.8.0:
-    dependencies:
-      tagged-tag: 1.0.0
 
   typescript@6.0.3: {}
 
@@ -5554,7 +5427,5 @@ snapshots:
   zod@3.25.76: {}
 
   zod@4.4.2: {}
-
-  zod@4.4.3: {}
 
   zwitch@2.0.4: {}

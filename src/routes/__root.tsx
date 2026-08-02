@@ -7,9 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { PlainAnalytics } from "@plainalpha/analytics/react";
-
-import "#/lib/analytics";
+import { usePageviews } from "#/lib/analytics";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -29,6 +27,12 @@ export const Route = createRootRoute({
   notFoundComponent: NotFound,
 });
 
+// Renders nothing: keeps navigation re-renders off the shell.
+function Analytics() {
+  usePageviews();
+  return null;
+}
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="antialiased">
@@ -36,10 +40,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <PlainAnalytics
-          publicKey="pa_pub_01KW04810A9G8KMKVZ69BWTDZF"
-          host="https://alpha.plain.jxd.dev"
-        />
+        <Analytics />
         <div id="app" className="isolate">
           <main>{children ?? <Outlet />}</main>
         </div>
