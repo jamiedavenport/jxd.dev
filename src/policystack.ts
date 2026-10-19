@@ -36,11 +36,16 @@ const config = defineConfig({
       purpose: 'Hosting and content delivery',
       policyUrl: 'https://www.cloudflare.com/privacypolicy/',
     },
+    {
+      name: 'OpenPanel',
+      purpose: 'Cookieless website analytics',
+      policyUrl: 'https://openpanel.dev/privacy',
+    },
   ],
   cookies: {
     used: {
       essential: true,
-      analytics: true,
+      analytics: false,
       functional: false,
       marketing: false,
     },

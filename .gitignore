@@ -9,3 +9,4 @@ src/routeTree.gen.ts
 .env
 .DS_Store
 .playwright-mcp/
+mise.local.toml

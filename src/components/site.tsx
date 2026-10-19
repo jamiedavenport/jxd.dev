@@ -120,8 +120,7 @@ function CookieBanner() {
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-8 gap-y-4 px-6 py-4 lg:px-8">
         <div className="text-sm/6 text-neutral-600">
           <p>
-            Essential cookies run this site. Analytics cookies are set only if
-            you allow them.{' '}
+            Essential cookies run this site. Analytics are cookieless.{' '}
             <Link
               to="/cookies"
               className="font-medium text-neutral-950 hover:text-red-600"
