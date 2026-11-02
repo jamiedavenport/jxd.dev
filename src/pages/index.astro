@@ -9,7 +9,7 @@ import { formatDate, getPosts, postURL } from "@/lib/content";
 const posts = await getPosts({ includeDrafts: import.meta.env.DEV });
 
 const buttonClass =
-  "inline-flex items-center gap-1.5 px-3 py-2 text-xs/5 font-medium text-zinc-800 no-underline transition-colors duration-180 ease-in-out hover:bg-zinc-950/5 hover:text-zinc-950 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-zinc-800";
+  "inline-flex flex-1 items-center justify-center gap-1.5 px-3 py-2 text-xs/5 font-medium text-zinc-800 no-underline transition-colors duration-180 ease-in-out hover:bg-zinc-950/5 hover:text-zinc-950 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-zinc-800";
 ---
 
 <Layout editorial>
@@ -38,7 +38,7 @@ const buttonClass =
         </p>
         <p>Tell us what you need. You’ll get a clear yes or no within days.</p>
         <div
-          class="flex w-fit divide-x divide-zinc-950/8 overflow-hidden rounded-xl border border-zinc-950/12 bg-white"
+          class="flex divide-x divide-zinc-950/8 overflow-hidden rounded-xl border border-zinc-950/12 bg-white"
         >
           <a class={buttonClass} href={`mailto:${site.email}`}>
             <EnvelopeIcon className="size-3.5 shrink-0" aria-hidden="true" />
