@@ -1,4 +1,5 @@
 ---
+import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/16/solid";
 import Layout from "@/layouts/Layout.astro";
 import Mark from "@/components/Mark.astro";
 import CaseStudies from "@/components/CaseStudies.astro";
@@ -6,6 +7,9 @@ import { site } from "@/lib/site";
 import { formatDate, getPosts, postURL } from "@/lib/content";
 
 const posts = await getPosts({ includeDrafts: import.meta.env.DEV });
+
+const buttonClass =
+  "inline-flex items-center gap-1.5 px-3 py-2 text-xs/5 font-medium text-zinc-800 no-underline transition-colors duration-180 ease-in-out hover:bg-zinc-950/5 hover:text-zinc-950 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-zinc-800";
 ---
 
 <Layout editorial>
@@ -26,19 +30,30 @@ const posts = await getPosts({ includeDrafts: import.meta.env.DEV });
           We build products from idea to production, rescue struggling
           projects, and embed senior engineers in your team.
         </p>
+        <CaseStudies />
         <p>
           We ship to production from day one and demo every week. You work
           directly with the engineer doing the work, and you own everything we
           build.
         </p>
-        <CaseStudies />
-        <p>
-          Email <a href={`mailto:${site.email}`}>{site.email}</a> or <a
+        <p>Tell us what you need. You’ll get a clear yes or no within days.</p>
+        <div
+          class="flex w-fit divide-x divide-zinc-950/8 overflow-hidden rounded-xl border border-zinc-950/12 bg-white"
+        >
+          <a class={buttonClass} href={`mailto:${site.email}`}>
+            <EnvelopeIcon className="size-3.5 shrink-0" aria-hidden="true" />
+            Email
+          </a>
+          <a
+            class={buttonClass}
+            href={site.bookingURL}
             target="_blank"
             rel="noopener noreferrer"
-            href={site.bookingURL}>book a call</a
-          >. You’ll get a clear yes or no within days.
-        </p>
+          >
+            <PhoneIcon className="size-3.5 shrink-0" aria-hidden="true" />
+            Book a call
+          </a>
+        </div>
       </div>
       <div id="writing" class="scroll-mt-12 outline-none" tabindex="-1">
         {
