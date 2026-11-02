@@ -5,4 +5,4 @@
 
 # VCS
 
-- Commit and push directly to the `next` branch.
+- Commit and push directly to the `main` branch.
