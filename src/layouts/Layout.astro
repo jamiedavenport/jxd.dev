@@ -66,7 +66,7 @@ const structuredData = {
       datePublished: article.publishedAt.toISOString(),
       dateModified: (article.updatedAt ?? article.publishedAt).toISOString(),
       inLanguage: "en-GB",
-      author: { "@id": `${homeURL}#organization` },
+      author: { "@type": "Person", name: site.author.name, url: site.author.url },
       publisher: { "@id": `${homeURL}#organization` },
       isPartOf: { "@id": `${homeURL}#website` },
       mainEntityOfPage: canonicalURL.href,
@@ -126,6 +126,8 @@ const structuredData = {
         )}
         {article && (
           <>
+            <meta name="author" content={site.author.name} />
+            <meta property="article:author" content={site.author.url} />
             <meta property="article:published_time" content={article.publishedAt.toISOString()} />
             {article.updatedAt && <meta property="article:modified_time" content={article.updatedAt.toISOString()} />}
           </>

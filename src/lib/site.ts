@@ -6,4 +6,8 @@ export const site = {
   email: "hello@jxd.dev",
   bookingURL: "https://cal.eu/jxd-dev/30min",
   mark: "/images/jxd.svg",
+  author: {
+    name: "Jamie Davenport",
+    url: "https://jamiedavenport.me/",
+  },
 };

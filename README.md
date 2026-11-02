@@ -57,4 +57,6 @@ draft: true # Optional; drafts only appear in development
 ---
 ```
 
+Jamie Davenport is the author of every post and case study (`site.author` in `src/lib/site.ts`).
+
 Case study frontmatter adds `client`, `summary` (the table line), `icon` (a square image in `public/images/`) and an optional `website`.
