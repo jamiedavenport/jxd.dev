@@ -1,0 +1,31 @@
+---
+import { render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import Article from "@/layouts/Article.astro";
+import ProseLink from "@/components/ProseLink.astro";
+import ProseTable from "@/components/ProseTable.astro";
+import { caseStudyURL, getCaseStudies } from "@/lib/content";
+
+export async function getStaticPaths() {
+  const studies = await getCaseStudies();
+  return studies.map((study) => ({ params: { slug: study.id }, props: { study } }));
+}
+
+interface Props {
+  study: CollectionEntry<"work">;
+}
+
+const { study } = Astro.props;
+const { title, description, client, publishedAt } = study.data;
+const { Content } = await render(study);
+---
+
+<Article
+  title={title}
+  description={description}
+  publishedAt={publishedAt}
+  eyebrow={`Case study · ${client}`}
+  canonicalPath={caseStudyURL(study.id)}
+>
+  <Content components={{ a: ProseLink, table: ProseTable }} />
+</Article>

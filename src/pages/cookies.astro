@@ -1,0 +1,10 @@
+---
+import { CookiePolicy } from "@policystack/react/policy";
+import Legal from "@/layouts/Legal.astro";
+import { policyComponents } from "@/components/policy";
+import policy from "@/lib/policystack";
+---
+
+<Legal title="Cookie policy" description="The cookies jxd.dev sets and why.">
+  <CookiePolicy config={policy} components={policyComponents} />
+</Legal>

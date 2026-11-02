@@ -1,0 +1,14 @@
+/about / 301
+/contact / 301
+/how-we-work / 301
+/products / 301
+/products/* / 301
+/work / 301
+/blog /#writing 301
+/rss.xml / 301
+/about/ / 301
+/contact/ / 301
+/how-we-work/ / 301
+/products/ / 301
+/work/ / 301
+/blog/ /#writing 301

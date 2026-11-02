@@ -1,12 +1,28 @@
-node_modules
-dist
-.output
-.nitro
-.wrangler
-.tanstack
-.content-collections
-src/routeTree.gen.ts
-.env
-.DS_Store
-.playwright-mcp/
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env*
+!.env.example
+.dev.vars*
 mise.local.toml
+.wrangler/
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+.playwright-mcp/

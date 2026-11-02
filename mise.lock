@@ -2,6 +2,11 @@
 
 lockfile_version = 2
 
+[[tools.bun]]
+version = "1.4.2"
+backend = "core:bun"
+specifiers = ["1.4.2"]
+
 [[tools.node]]
 version = "24.20.0"
 backend = "core:node"

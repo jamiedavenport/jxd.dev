@@ -1,40 +1,52 @@
 {
   "name": "jxd-dev",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "vite build && wrangler deploy"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "format": "oxfmt --check .",
+    "format:fix": "oxfmt --write .",
+    "lint": "oxlint --type-aware --deny-warnings .",
+    "lint:fix": "oxlint --type-aware --deny-warnings --fix .",
+    "deploy": "bun run check && bun run build && wrangler deploy",
+    "deploy:check": "bun run check && bun run build && wrangler deploy --dry-run",
+    "astro": "astro"
   },
   "dependencies": {
-    "@openpanel/web": "^1.4.1",
-    "@policystack/core": "^1.1.0",
+    "@astrojs/mdx": "^8.0.1",
+    "@astrojs/react": "6.0.5",
+    "@astrojs/sitemap": "^3.7.4",
+    "@heroicons/react": "^2.2.0",
+    "@openpanel/web": "1.4.1",
     "@policystack/react": "^1.1.0",
     "@policystack/sdk": "^1.1.0",
-    "@tanstack/react-router": "^1.170.17",
-    "@tanstack/react-start": "^1.168.27",
-    "clsx": "^2.1.1",
-    "motion": "^12.42.2",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "astro": "^7.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.44.0",
-    "@content-collections/core": "^0.15.2",
-    "@content-collections/markdown": "^0.1.4",
-    "@content-collections/vite": "^0.3.0",
-    "@shikijs/rehype": "^4.3.1",
-    "@tailwindcss/vite": "^4.3.2",
-    "@types/node": "^26.1.1",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.3",
-    "tailwindcss": "^4.3.2",
-    "typescript": "^7.0.2",
-    "vite": "^8.1.4",
-    "wrangler": "^4.110.0",
-    "zod": "^4.4.3"
+    "@astrojs/check": "^0.9.10",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "agentation": "^3.1.2",
+    "oxfmt": "0.59.0",
+    "oxlint": "1.74.0",
+    "oxlint-tsgolint": "0.24.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.0",
+    "wrangler": "^4.129.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "packageManager": "bun@1.4.2",
+  "allowScripts": {
+    "esbuild": true
   }
 }

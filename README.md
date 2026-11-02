@@ -1,44 +1,60 @@
-# JXD
+# jxd.dev
 
-JXD Ltd, `jxd.dev` is a London-based software engineering consultancy.
+The JXD Ltd website. Built with Astro and Tailwind CSS, managed with Bun, and deployed to Cloudflare Workers as static assets. It mirrors the setup of `jamiedavenport.me`.
 
-We build software properly: rigorous, polished, and built to be owned by your team after we're gone. AI-native, on today's best stacks — shipped in weeks, not quarters.
+## Setup
 
-We work with founders, startups, scale-ups, and established businesses: anyone who needs serious software without a big engineering org of their own.
+Install [mise](https://mise.jdx.dev/getting-started.html), then run:
 
-## What we do
+```sh
+mise trust
+mise install
+bun install --frozen-lockfile
+bun run dev
+```
 
-- **Build** — products and features, idea to production.
-- **Rescue** — unblock and accelerate struggling projects, vibe-coded apps included.
-- **Embed** — senior engineering presence inside your team.
+`mise.toml` pins Bun and Node.js. The development server runs at `http://localhost:4321`.
 
-## Our products
+## Commands
 
-We build on our own in-house products — an advantage most consultancies don't have:
+| Command                | Purpose                                         |
+| ---------------------- | ----------------------------------------------- |
+| `bun run dev`          | Start the Astro development server              |
+| `bun run check`        | Check Astro and TypeScript files                |
+| `bun run format`       | Check formatting                                |
+| `bun run format:fix`   | Fix formatting                                  |
+| `bun run lint`         | Run type-aware linting                          |
+| `bun run lint:fix`     | Apply lint fixes                                |
+| `bun run build`        | Build the static site into `dist/`              |
+| `bun run preview`      | Preview the production build locally            |
+| `bun run deploy:check` | Check, build, and dry-run Cloudflare deployment |
+| `bun run deploy`       | Check, build, and deploy to Cloudflare Workers  |
 
-- **Full-stack template** — a proven starting point, so client work begins at speed, not from scratch.
-- **Product management suite** — code, issues, documents, meetings, and CI in one place.
-- **PolicyStack** — a framework for data compliance.
+## Deployment
 
-## Values
+`wrangler.jsonc` deploys `dist/` to the Worker named `jxd-dev` with a custom 404 page. `jxd.dev` and `www.jxd.dev` are both custom domains and both serve the site. Canonical links use `https://jxd.dev`. `public/_redirects` sends retired URLs to the homepage.
 
-Held even when commercially inconvenient.
+For noninteractive deployment, set `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in `mise.local.toml` (gitignored) or the deployment environment.
 
-1. **Craft over volume.** Fewer things, done properly.
-2. **Modern by default.** AI-native delivery, current tools, no accumulated caution.
-3. **Radical transparency.** Real progress, real problems, real costs.
-4. **Honesty on scope.** No inflated estimates, no stretched engagements. Bad work gets declined.
-5. **You own everything.** Full handover of code, infra, and knowledge. No lock-in.
+## Editing
 
-## Practices
+- `src/pages/index.astro`: homepage
+- `src/content/blog/<slug>/index.mdx`: posts, served at `/blog/<slug>/`
+- `src/content/work/<slug>/index.mdx`: case studies, listed in the homepage table and served at `/work/<slug>/`
+- `src/lib/policystack.ts`: PolicyStack config for `/privacy/` and `/cookies/`
+- `src/layouts/Layout.astro`: shared document, metadata and analytics
+- `public/`: assets copied directly into the build
 
-- Ship continuously — progress is deploys, not decks.
-- Weekly demos and written notes.
-- Production-grade from day one: CI/CD, tests, monitoring, docs.
-- You talk to the engineer doing the work. No layers.
+Post frontmatter:
 
+```yaml
 ---
+title: "My article"
+description: "Shown in the header, search results and link previews."
+publishedAt: 2026-09-08
+updatedAt: 2026-09-10 # Optional
+draft: true # Optional; drafts only appear in development
+---
+```
 
-Founded by an engineer with 10+ years shipping production software. One engineer today, built to grow — this is the standard anyone working under the JXD name is held to.
-
-**[jxd.dev](https://jxd.dev)**
+Case study frontmatter adds `client`, `summary` (the table line), `icon` (a square image in `public/images/`) and an optional `website`.

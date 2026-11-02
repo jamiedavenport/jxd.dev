@@ -1,0 +1,10 @@
+---
+import { PrivacyPolicy } from "@policystack/react/policy";
+import Legal from "@/layouts/Legal.astro";
+import { policyComponents } from "@/components/policy";
+import policy from "@/lib/policystack";
+---
+
+<Legal title="Privacy policy" description="How JXD collects, uses and protects your data.">
+  <PrivacyPolicy config={policy} components={policyComponents} />
+</Legal>
